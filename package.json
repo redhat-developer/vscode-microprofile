@@ -1,0 +1,252 @@
+{
+  "name": "vscode-microprofile",
+  "displayName": "MicroProfile Language Support",
+  "description": "MicroProfile Language Support for Visual Studio Code",
+  "version": "0.1.0",
+  "icon": "icons/logo.png",
+  "author": "Red Hat",
+  "publisher": "redhat",
+  "preview": true,
+  "license": "Apache-2.0",
+  "bugs": "https://github.com/redhat-developer/vscode-microprofile/issues",
+  "engines": {
+    "vscode": "^1.37.0"
+  },
+  "galleryBanner": {
+    "color": "#1d2f42",
+    "theme": "dark"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redhat-developer/vscode-microprofile"
+  },
+  "keywords": [
+    "java",
+    "MicroProfile",
+    "maven"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/src/main/resources/application.properties",
+    "workspaceContains:**src/main/resources/META-INF/microprofile-config.properties",
+    "workspaceContains:**/src/main/resources/application.yaml",
+    "workspaceContains:**/src/main/resources/application.yml",
+    "onLanguage:microprofile-properties",
+    "onLanguage:quarkus-properties",
+    "onLanguage:java"
+  ],
+  "main": "./dist/extension",
+  "extensionDependencies": [
+    "redhat.java"
+  ],
+  "contributes": {
+    "javaExtensions": [
+      "./jars/org.eclipse.lsp4mp.jdt.core.jar"
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": "package.json",
+        "url": "./schemas/package.schema.json"
+      }
+    ],
+    "languages": [
+      {
+        "id": "microprofile-properties",
+        "aliases": [
+          "MicroProfile properties"
+        ],
+        "filenames": [
+          "microprofile-config.properties"
+        ],
+        "configuration": "./language-support/properties-support/language-configuration.json"
+      },
+      {
+        "id": "quarkus-properties",
+        "aliases": [
+          "Quarkus properties"
+        ],
+        "filenames": [
+          "application.properties"
+        ],
+        "configuration": "./language-support/properties-support/language-configuration.json"
+      }
+    ],
+    "commands": [],
+    "configuration": {
+      "title": "MicroProfile Tools",
+      "properties": {
+        "microprofile.tools.server.vmargs": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": "-Xmx64M -XX:+UseG1GC -XX:+UseStringDeduplication",
+          "description": "Specifies extra VM arguments used to launch the MicroProfile Language Server. Eg. use `-Xmx1G  -XX:+UseG1GC -XX:+UseStringDeduplication` to bypass class verification, increase the heap size to 1GB and enable String deduplication with the G1 Garbage collector.",
+          "scope": "window"
+        },
+        "microprofile.tools.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the MicroProfile language server.",
+          "scope": "window"
+        },
+        "microprofile.tools.formatting.surroundEqualsWithSpaces": {
+          "type": "boolean",
+          "default": false,
+          "description": "Insert spaces around the equals sign when formatting the microprofile properties file",
+          "scope": "window"
+        },
+        "microprofile.tools.symbols.showAsTree": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show MicroProfile properties as tree.",
+          "scope": "window"
+        },
+        "microprofile.tools.validation.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables MicroProfile validation",
+          "scope": "window"
+        },
+        "microprofile.tools.validation.duplicate.severity": {
+          "type": "string",
+          "enum": [
+            "none",
+            "warning",
+            "error"
+          ],
+          "default": "warning",
+          "markdownDescription": "Validation severity for duplicate properties for MicroProfile `*.properties` files.",
+          "scope": "window"
+        },
+        "microprofile.tools.validation.required.severity": {
+          "type": "string",
+          "enum": [
+            "none",
+            "warning",
+            "error"
+          ],
+          "default": "none",
+          "markdownDescription": "Validation severity for required properties for MicroProfile `*.properties` files.",
+          "scope": "window"
+        },
+        "microprofile.tools.validation.unknown.severity": {
+          "type": "string",
+          "enum": [
+            "none",
+            "warning",
+            "error"
+          ],
+          "default": "warning",
+          "markdownDescription": "Validation severity for unknown properties for MicroProfile `*.properties` files.",
+          "scope": "window"
+        },
+        "microprofile.tools.validation.syntax.severity": {
+          "type": "string",
+          "enum": [
+            "none",
+            "warning",
+            "error"
+          ],
+          "default": "error",
+          "markdownDescription": "Validation severity for property syntax checking for MicroProfile `*.properties` files",
+          "scope": "window"
+        },
+        "microprofile.tools.validation.value.severity": {
+          "type": "string",
+          "enum": [
+            "none",
+            "warning",
+            "error"
+          ],
+          "default": "error",
+          "markdownDescription": "Validation severity for property values for MicroProfile `*.properties` files.",
+          "scope": "window"
+        },
+        "microprofile.tools.validation.unknown.excluded": {
+          "type": "array",
+          "default": [
+            "*/mp-rest/providers/*/priority",
+            "mp.openapi.schema.*"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of properties to ignore for unknown MicroProfile properties validation. Patterns can be used ('*' = any string, '?' = any character)",
+          "scope": "window"
+        },
+        "microprofile.tools.codeLens.urlCodeLensEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable the URL code lenses for REST services.",
+          "scope": "window"
+        }
+      }
+    },
+    "grammars": [
+      {
+        "language": "microprofile-properties",
+        "scopeName": "source.java-properties",
+        "path": "./language-support/properties-support/java-properties.tmLanguage.json"
+      },
+      {
+        "language": "quarkus-properties",
+        "scopeName": "source.java-properties",
+        "path": "./language-support/properties-support/java-properties.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions",
+    "vscode:prepublish": "webpack --mode production",
+    "compile": "webpack --mode none",
+    "watch": "webpack --mode development --watch --info-verbosity verbose",
+    "test-compile": "tsc -p ./",
+    "pretest": "npm run test-compile",
+    "test": "node ./out/test/vscodeTest/runTest.js",
+    "tslint": "./node_modules/.bin/tslint -p .",
+    "build": "./node_modules/.bin/gulp build",
+    "build-server": "./node_modules/.bin/gulp buildServer",
+    "build-ext": "./node_modules/.bin/gulp buildExtension"
+  },
+  "resolutions": {
+    "minimist": "^1.2.5"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.3",
+    "@types/chai-fs": "^2.0.2",
+    "@types/fs-extra": "^7.0.0",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.14.16",
+    "@types/semver": "^6.2.0",
+    "@types/vscode": "^1.37.0",
+    "chai": "^4.2.0",
+    "chai-fs": "^2.0.0",
+    "gulp": "^4.0.2",
+    "gulp-rename": "^1.4.0",
+    "minimist": ">=1.2.5",
+    "mocha": "^6.2.1",
+    "ts-loader": "^6.0.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2",
+    "typescript-tslint-plugin": "^0.3.1",
+    "vscode-test": "^1.2.3",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
+  "dependencies": {
+    "ejs": "^2.7.1",
+    "expand-home-dir": "0.0.3",
+    "find-java-home": "^1.0.0",
+    "glob": "^7.1.4",
+    "vscode-languageclient": "^5.2.1"
+  }
+}

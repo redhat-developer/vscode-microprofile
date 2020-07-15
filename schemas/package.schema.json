@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "MicroProfile language server contributions to package.json",
+  "type": "object",
+  "properties": {
+    "contributes": {
+      "type": "object",
+      "properties": {
+        "microprofile": {
+          "type": "object",
+          "properties": {
+            "jarExtensions": {
+              "type": "array",
+              "markdownDescription": "MicroProfile language server extensions",
+              "items": {
+                "type": "string",
+                "description": "Relative path to a MicroProfile language server extension JAR file"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
