@@ -1,0 +1,20 @@
+{
+  "name": "fake-extension",
+  "displayName": "Dummy extension",
+  "version": "1.7.0",
+  "icon": "icons/logo.png",
+  "author": "fake author",
+  "publisher": "fakepublisher",
+  "preview": true,
+  "license": "Apache-2.0",
+  "engines": {
+    "vscode": "^1.37.0"
+  },
+  "main": "./dist/extension",
+  "extensionDependencies": [
+    "redhat.vscode-microprofile",
+    "redhat.java",
+    "vscjava.vscode-java-debug"
+  ],
+  "contributes": {}
+}

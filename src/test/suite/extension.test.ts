@@ -1,7 +1,5 @@
 import * as vscode from 'vscode';
-
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
 
 describe('VS Code extension tests', () => {
 

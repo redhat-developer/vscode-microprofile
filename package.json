@@ -212,7 +212,7 @@
     "watch": "webpack --mode development --watch --info-verbosity verbose",
     "test-compile": "tsc -p ./",
     "pretest": "npm run test-compile",
-    "test": "node ./out/test/vscodeTest/runTest.js",
+    "test": "node ./out/test/runTest.js",
     "tslint": "./node_modules/.bin/tslint -p .",
     "build": "./node_modules/.bin/gulp build",
     "build-server": "./node_modules/.bin/gulp buildServer",
