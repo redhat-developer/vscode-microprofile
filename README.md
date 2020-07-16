@@ -32,7 +32,7 @@ In `Java` files, you will benefit with:
 
 ## Requirements
 
-  * Java JDK (or JRE) 8 or more recent
+  * Java JDK (or JRE) 11 or more recent
   * [Language Support for Java(TM) by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java)
 
 ## Supported VS Code settings
