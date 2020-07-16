@@ -1,0 +1,45 @@
+{
+  "name": "fake-vscode-quarkus",
+  "displayName": "Quarkus",
+  "description": "Quarkus Tools for Visual Studio Code",
+  "version": "1.7.0",
+  "icon": "icons/logo.png",
+  "author": "Red Hat",
+  "publisher": "redhat",
+  "preview": true,
+  "license": "Apache-2.0",
+  "engines": {
+    "vscode": "^1.37.0"
+  },
+  "activationEvents": [
+    "onCommand:quarkusTools.createProject",
+    "onCommand:quarkusTools.welcome",
+    "workspaceContains:**/src/main/resources/application.properties",
+    "workspaceContains:**src/main/resources/META-INF/microprofile-config.properties",
+    "workspaceContains:**/src/main/resources/application.yaml",
+    "workspaceContains:**/src/main/resources/application.yml",
+    "onLanguage:microprofile-properties",
+    "onLanguage:quarkus-properties",
+    "onLanguage:java",
+    "onLanguage:qute-html",
+    "onLanguage:qute-json",
+    "onLanguage:qute-yaml",
+    "onLanguage:qute-txt"
+  ],
+  "main": "./dist/extension",
+  "extensionDependencies": [
+    "redhat.vscode-microprofile",
+    "redhat.java",
+    "vscjava.vscode-java-debug"
+  ],
+  "contributes": {
+    "javaExtensions": [
+      "./jars/com.redhat.microprofile.jdt.quarkus.jar"
+    ],
+    "microprofile": {
+      "jarExtensions": [
+        "./server/com.redhat.quarkus.ls.jar"
+      ]
+    }
+  }
+}
