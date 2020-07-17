@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/redhat-developer/vscode-microprofile.svg?branch=master)](https://travis-ci.org/github/redhat-developer/vscode-microprofile)
+[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/redhat.vscode-microprofile.svg "Current Release")](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-microprofile)
+
 # MicroProfile Tools for Visual Studio Code
 
 ## Description
