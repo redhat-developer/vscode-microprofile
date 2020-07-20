@@ -39,6 +39,12 @@
     "microprofile": {
       "jarExtensions": [
         "./server/com.redhat.quarkus.ls.jar"
+      ],
+      "documentSelector": [
+        {
+          "scheme": "file",
+          "language": "quarkus-properties"
+        }
       ]
     }
   }

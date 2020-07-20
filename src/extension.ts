@@ -16,12 +16,12 @@
 import * as requirements from './languageServer/requirements';
 
 import { MicroProfileLS } from './definitions/constants';
-import { DidChangeConfigurationNotification, LanguageClientOptions, LanguageClient } from 'vscode-languageclient';
+import { DidChangeConfigurationNotification, LanguageClientOptions, LanguageClient, DocumentSelector } from 'vscode-languageclient';
 import { ExtensionContext, commands, window, workspace, extensions } from 'vscode';
 import { prepareExecutable } from './languageServer/javaServerStarter';
 import { registerConfigurationUpdateCommand, registerOpenURICommand, CommandKind } from './lsp-commands';
 import { registerYamlSchemaSupport, MicroProfilePropertiesChangeEvent } from './yaml/YamlSchema';
-import { collectMicroProfileJavaExtensions, handleExtensionChange } from './languageServer/plugin';
+import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
 
 let languageClient: LanguageClient;
 
@@ -84,13 +84,10 @@ function registerVSCodeCommands(context: ExtensionContext) {
 }
 
 function connectToLS(context: ExtensionContext) {
+  const microprofileContributions: MicroProfileContribution[] = collectMicroProfileJavaExtensions(extensions.all);
   return requirements.resolveRequirements().then(requirements => {
     const clientOptions: LanguageClientOptions = {
-      documentSelector: [
-        { scheme: 'file', language: 'microprofile-properties' },
-        { scheme: 'file', language: 'quarkus-properties' },
-        { scheme: 'file', language: 'java' }
-      ],
+      documentSelector: getDocumentSelector(microprofileContributions),
       // wrap with key 'settings' so it can be handled same a DidChangeConfiguration
       initializationOptions: {
         settings: getVSCodeMicroProfileSettings(),
@@ -118,8 +115,7 @@ function connectToLS(context: ExtensionContext) {
       }
     };
 
-    const microprofileJavaExtensions = collectMicroProfileJavaExtensions(extensions.all);
-    const serverOptions = prepareExecutable(requirements, microprofileJavaExtensions);
+    const serverOptions = prepareExecutable(requirements, getMicroProfileJarExtensions(microprofileContributions));
 
     languageClient = new LanguageClient('microprofile.tools', 'MicroProfile Tools', serverOptions, clientOptions);
     context.subscriptions.push(languageClient.start());
@@ -135,6 +131,25 @@ function connectToLS(context: ExtensionContext) {
   });
 
   /**
+   * Returns the document selector.
+   *
+   * The returned document selector contains the microprofile-properties and java document selectors
+   * and all document selectors contained in `microProfileContributions`.
+   *
+   * @param microProfileContributions MicroProfile language server contributions from other VS Code extensions
+   */
+  function getDocumentSelector(microProfileContributions: MicroProfileContribution[]): DocumentSelector {
+    let documentSelector: DocumentSelector = [
+      { scheme: 'file', language: 'microprofile-properties' },
+      { scheme: 'file', language: 'java' }
+    ];
+    microProfileContributions.forEach((contribution: MicroProfileContribution) => {
+        documentSelector = documentSelector.concat(contribution.documentSelector);
+    });
+    return documentSelector;
+  }
+
+  /**
    * Returns a json object with key 'microprofile' and a json object value that
    * holds all microprofile settings.
    */
@@ -146,5 +161,20 @@ function connectToLS(context: ExtensionContext) {
     return {
       microprofile: microprofileSettings,
     };
+  }
+
+  /**
+   * Returns an array of paths to MicroProfileLS extension jars within `microProfileContributions`
+   *
+   * @param microProfileContributions MicroProfile language server contributions from other VS Code extensions
+   */
+  function getMicroProfileJarExtensions(microProfileContributions: MicroProfileContribution[]): string[] {
+    let jarPaths: string[] = [];
+    microProfileContributions.forEach((contribution: MicroProfileContribution) => {
+      if (contribution.jarExtensions && contribution.jarExtensions.length > 0) {
+        jarPaths = jarPaths.concat(contribution.jarExtensions);
+      }
+    });
+    return jarPaths;
   }
 }
