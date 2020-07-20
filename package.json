@@ -36,7 +36,6 @@
     "workspaceContains:**/src/main/resources/application.yaml",
     "workspaceContains:**/src/main/resources/application.yml",
     "onLanguage:microprofile-properties",
-    "onLanguage:quarkus-properties",
     "onLanguage:java"
   ],
   "main": "./dist/extension",
@@ -61,16 +60,6 @@
         ],
         "filenames": [
           "microprofile-config.properties"
-        ],
-        "configuration": "./language-support/properties-support/language-configuration.json"
-      },
-      {
-        "id": "quarkus-properties",
-        "aliases": [
-          "Quarkus properties"
-        ],
-        "filenames": [
-          "application.properties"
         ],
         "configuration": "./language-support/properties-support/language-configuration.json"
       }
@@ -195,11 +184,6 @@
     "grammars": [
       {
         "language": "microprofile-properties",
-        "scopeName": "source.java-properties",
-        "path": "./language-support/properties-support/java-properties.tmLanguage.json"
-      },
-      {
-        "language": "quarkus-properties",
         "scopeName": "source.java-properties",
         "path": "./language-support/properties-support/java-properties.tmLanguage.json"
       }

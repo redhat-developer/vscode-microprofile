@@ -25,7 +25,6 @@ function prepareParams(microprofileJavaExtensions: string[]): string[] {
   const params: string[] = [];
   if (DEBUG) {
     if (process.env.SUSPEND_SERVER === 'true') {
-      // suspend=y is the default. Waits for debugger on startup to help debug the server startup code
       params.push(`-agentlib:jdwp=transport=dt_socket,server=y,address=${DEBUG_PORT}`);
     } else {
       params.push(`-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${DEBUG_PORT},quiet=y`);

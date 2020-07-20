@@ -16,6 +16,35 @@
                 "type": "string",
                 "description": "Relative path to a MicroProfile language server extension JAR file"
               }
+            },
+            "documentSelector": {
+              "type": "array",
+              "description": "Combination of one or many document filters. Specifies what documents to register to the MicroProfile language server.",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "scheme": {
+                        "type": "string",
+                        "markdownDescription": "A Uri scheme, like `file` or `untitled`"
+                      },
+                      "language": {
+                        "type": "string",
+                        "markdownDescription": "A language id, like `microprofile-properties`"
+                      },
+                      "pattern": {
+                        "type": "string",
+                        "markdownDescription": "A glob pattern, like `**/*.properties`"
+                      }
+                    },
+                    "minProperties": 1
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
             }
           }
         }

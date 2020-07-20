@@ -1,20 +1,37 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { Commands } from '../definitions/constants';
+import { DocumentFilter, DocumentSelector } from 'vscode-languageclient';
 
-let existingExtensions: Array<string>;
+let existingExtensions: MicroProfileContribution[];
 
-export function collectMicroProfileJavaExtensions(extensions: readonly vscode.Extension<any>[]): string[] {
-  const result = [];
+/**
+ * MicroProfile language server contribution
+ */
+export interface MicroProfileContribution {
+  jarExtensions: string[];
+  documentSelector: DocumentSelector;
+}
+
+/**
+ * Returns all MicroProfile language server contributions from package.json
+ *
+ * @param extensions array of extensions to search contributions from
+ */
+export function collectMicroProfileJavaExtensions(extensions: readonly vscode.Extension<any>[]): MicroProfileContribution[] {
+  const result: MicroProfileContribution[] = [];
   if (extensions && extensions.length) {
     for (const extension of extensions) {
       const contributesSection = extension.packageJSON.contributes;
-      if (contributesSection) {
+      if (contributesSection && contributesSection.microprofile) {
         const microprofileSection = contributesSection.microprofile;
-        if (microprofileSection && Array.isArray(microprofileSection.jarExtensions)) {
-          for (const microprofileJavaExtensionPath of microprofileSection.jarExtensions) {
-            result.push(path.resolve(extension.extensionPath, microprofileJavaExtensionPath));
-          }
+        const contributes: MicroProfileContribution = {jarExtensions: [], documentSelector: []};
+
+        setJarExtensionsIfExists(contributes, microprofileSection, extension.extensionPath);
+        setDocumentSelectorIfExists(contributes, microprofileSection);
+
+        if (contributes.jarExtensions || contributes.documentSelector) {
+          result.push(contributes);
         }
       }
     }
@@ -49,4 +66,39 @@ export function handleExtensionChange(extensions: readonly vscode.Extension<any>
       }
     });
   }
+}
+
+function setJarExtensionsIfExists(obj: MicroProfileContribution, section: any, extensionPath: string): void {
+  if (Array.isArray(section.jarExtensions)) {
+    for (const microprofileJavaExtensionPath of section.jarExtensions) {
+      obj.jarExtensions.push(path.resolve(extensionPath, microprofileJavaExtensionPath));
+    }
+  }
+}
+
+function setDocumentSelectorIfExists(obj: MicroProfileContribution, section: any): void {
+  if (!Array.isArray(section.documentSelector)) {
+    return;
+  }
+  const documentSelector: DocumentSelector = [];
+  section.documentSelector.forEach((selector: any) => {
+    if (typeof selector === 'string') {
+      documentSelector.push(selector);
+    } else if (selector) {
+      const documentFilter: {[key: string]: string} = {};
+      if (typeof selector.language === 'string') {
+        documentFilter.language = selector.language;
+      }
+      if (typeof selector.scheme === 'string') {
+        documentFilter.scheme = selector.scheme;
+      }
+      if (typeof selector.pattern === 'string') {
+        documentFilter.pattern = selector.pattern;
+      }
+      if (documentFilter.language || documentFilter.scheme || documentFilter.pattern) {
+        documentSelector.push(documentFilter as DocumentFilter);
+      }
+    }
+  });
+  obj.documentSelector = obj.documentSelector.concat(documentSelector);
 }
