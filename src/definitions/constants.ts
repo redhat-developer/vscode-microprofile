@@ -31,4 +31,4 @@ export namespace MicroProfileLS {
 
 export namespace Commands {
   export const RELOAD_WINDOW = 'workbench.action.reloadWindow';
- }
+}
