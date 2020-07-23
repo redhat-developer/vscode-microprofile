@@ -5,7 +5,7 @@
 
 ## Description
 
-This Visual Studio Code extension provides support for [MicroProfile](https://github.com/eclipse/microprofile) development via:
+This Visual Studio Code extension provides support for [MicroProfile](https://microprofile.io/) development via:
 
  * a [MicroProfile language server](https://github.com/eclipse/lsp4mp/tree/master/microprofile.ls).
  * a [MicroProfile jdt.ls extension](https://github.com/eclipse/lsp4mp/tree/master/microprofile.jdt).
@@ -90,7 +90,7 @@ CI builds can be installed manually by following these instructions:
 
 ## Feedback
 
-File a bug in [GitHub Issues](https://github.com/redhat-developer/vscode-microprofile/issues).
+Please report bugs, issues and feature requests by creating a [GitHub Issue](https://github.com/redhat-developer/vscode-microprofile/issues).
 
 ## License
 
