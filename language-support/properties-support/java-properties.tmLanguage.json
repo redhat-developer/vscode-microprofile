@@ -8,7 +8,7 @@
   "patterns": [
     {
       "comment": "Matching for comments that start with #",
-      "begin": "(^[ \\t]+)?(?=#)",
+      "begin": "^([ \\t]+)?(?=#)",
       "beginCaptures": {
         "1": {
           "name": "punctuation.whitespace.comment.leading.java-properties"
@@ -33,35 +33,24 @@
       "captures": {
         "1": {
           "name": "keyword.other.definition.java-properties"
-        },
-        "4": {
-          "name": "punctuation.separator.key-value.java-properties"
         }
       },
-      "match": "^\\s*([\\/a-zA-Z0-9%_.-]+)\\s*(?=[=\\\\])"
+      "match": "^\\s*([\\/a-zA-Z0-9%_.\\[\\]#-]+)\\s*(?=[=\\\\])"
     },
     {
       "comment": "Matching the equals sign and property value",
-      "begin": "=",
+      "begin": "(=)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.operator.assignment.java-properties"
+        }
+      },
       "end": "(?<!\\\\)\\n",
       "patterns": [
         {
           "include": "#numbers"
         }
       ]
-    },
-    {
-      "comment": "Matching for section (text enclosed between square brackets [])",
-      "captures": {
-        "1": {
-          "name": "punctuation.definition.entity.java-properties"
-        },
-        "4": {
-          "name": "punctuation.definition.entity.java-properties"
-        }
-      },
-      "match": "^(\\[)(.*?)(\\])",
-      "name": "entity.name.section.group-title.java-properties"
     }
   ],
   "repository": {
