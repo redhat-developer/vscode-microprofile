@@ -72,6 +72,69 @@ To avoid having this error, you must configure the following in `settings.json`:
 
 This settings is set by default.
 
+
+## Extending MicroProfile Tools for VSCode
+
+By default MicroProfile Tools for VSCode provides:
+
+* Support for the `microprofile-config.properties` file (completion, validation, etc.) for the properties of MicroProfile specs (config, health, fault tolerance, etc.).
+* Support in java files (diagnostics, codelens, etc.) taking into account the API of each of the MicroProfile specs.
+
+The support for properties and java files can be extended with:
+
+* Additional language features (diagnostics, quick fixes, etc.) in Java files for modules other than MicroProfile specs.
+* Additional properties support for properties other than those defined by MicroProfile specs (Ex. Quarkus properties)
+* Additional language / document selectors to allow MicroProfile language features in files other than `microprofile-config.properties` (Ex. the `application.properties` file for Quarkus)
+
+To contribute these features, you must create a vscode-extension that declares the `microprofile` contributions in its package.json. These contributions will be picked up automatically by vscode-microprofile when it starts up the language server.
+
+```json
+"contributes": {
+  "microprofile": {
+    "jarExtensions": [...],
+    "documentSelector": [...],
+  }
+}
+```
+
+### Contributing to properties and Java support
+
+LSP4MP can be [extended](https://github.com/eclipse/lsp4mp#extensions) to support custom completion, hover, validation, etc by using the [Java Service Provider Interface (SPI)](https://www.baeldung.com/java-spi). vscode-microprofile provides the ability to use your custom lsp4mp extension by contributing external JARs to the classpath of lsp4mp.
+
+To contribute an external JAR you must create a vscode extension which embeds your lsp4mp extension JAR and declares the path to your JAR in the extensions package.json
+
+```json
+"contributes": {
+  "microprofile": {
+    "jarExtensions": [
+      "./jar/com.demo.custom-lsp4mp-extension.jar"
+    ]
+  }
+}
+```
+
+For an example of how this can be used you can look at [vscode-quarkus](https://github.com/redhat-developer/vscode-quarkus) and the [quarkus-ls](https://github.com/redhat-developer/quarkus-ls) lsp4mp extension. vscode-quarkus [contributes an external jar](https://github.com/redhat-developer/vscode-quarkus/blob/f38f4caaf218cf9c6ce91e64a0d9cd632314a483/package.json#L59) which provides additional language support for quarkus properties and java files.
+
+### Contributing to MicroProfile Language / Document Selector support
+
+It is also possible to contribute additional document selectors which are used to register additional file types / languages with the lsp4mp language server
+
+```json
+"contributes": {
+  "microprofile": {
+    "documentSelector": [
+      {
+        "scheme": "file",
+        "language": "my-custom-properties"
+      }
+    ]
+  }
+}
+```
+
+For an example of how this can be used you can look at [vscode-quarkus](https://github.com/redhat-developer/vscode-quarkus) which [contributes a document selector](https://github.com/redhat-developer/vscode-quarkus/blob/f38f4caaf218cf9c6ce91e64a0d9cd632314a483/package.json#L62) for Quarkus's `application.properties` file in order to provide MicroProfile/Quarkus properties support in this file.
+
+
 ## Contributing
 
 This is an open source project open to anyone. Contributions are extremely welcome!
