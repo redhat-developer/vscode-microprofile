@@ -73,6 +73,7 @@ export function activate(context: ExtensionContext) {
 }
 
 export function deactivate() {
+  languageClient.stop();
 }
 
 function registerVSCodeCommands(context: ExtensionContext) {
