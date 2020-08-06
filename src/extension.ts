@@ -22,15 +22,23 @@ import { prepareExecutable } from './languageServer/javaServerStarter';
 import { registerConfigurationUpdateCommand, registerOpenURICommand, CommandKind } from './lsp-commands';
 import { registerYamlSchemaSupport, MicroProfilePropertiesChangeEvent } from './yaml/YamlSchema';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
+import { waitForStandardMode } from './util/javaServerMode';
 
 let languageClient: LanguageClient;
 
-export function activate(context: ExtensionContext) {
+export async function activate(context: ExtensionContext) {
 
   /**
    * Register Yaml Schema support to manage application.yaml
    */
   const yamlSchemaCache = registerYamlSchemaSupport();
+
+  /**
+   * Waits for the java language server to launch in standard mode
+   * Before activating MicroProfile tools.
+   * If java ls was started in lightweight mode, It will prompt user to switch
+   */
+  await waitForStandardMode();
 
   connectToLS(context).then(() => {
     yamlSchemaCache.then(cache => { if (cache) { cache.languageClient = languageClient; } });
@@ -73,7 +81,11 @@ export function activate(context: ExtensionContext) {
 }
 
 export function deactivate() {
-  languageClient.stop();
+  // language client may not have been started
+  // if java language server was never launched in standard mode.
+  if (languageClient) {
+    languageClient.stop();
+  }
 }
 
 function registerVSCodeCommands(context: ExtensionContext) {
@@ -145,7 +157,7 @@ function connectToLS(context: ExtensionContext) {
       { scheme: 'file', language: 'java' }
     ];
     microProfileContributions.forEach((contribution: MicroProfileContribution) => {
-        documentSelector = documentSelector.concat(contribution.documentSelector);
+      documentSelector = documentSelector.concat(contribution.documentSelector);
     });
     return documentSelector;
   }
