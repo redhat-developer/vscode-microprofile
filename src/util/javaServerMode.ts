@@ -38,7 +38,7 @@ export async function waitForStandardMode() {
     // since standard mode switch can be triggered other ways.
   } else if (api.serverMode === ServerMode.LIGHTWEIGHT) {
     window.showInformationMessage(
-        `MicroProfile Tools requires the Java language server to run in Standard mode.` +
+        "MicroProfile Tools requires the Java language server to run in Standard mode. " +
         "Do you want to switch it to Standard mode now?",
         "Yes",
         "Later"
