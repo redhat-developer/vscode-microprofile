@@ -52,6 +52,8 @@ Default is `warning`.
 Default is `error`.
 * `microprofile.tools.validation.required.severity` : Validation severity for required properties for MicroProfile `*.properties` files.
 Default is `none`.
+* `microprofile.tools.validation.expression.severity` : Validation severity for property expressions for MicroProfile `*.properties` files.
+Default is `error`.
 * `microprofile.tools.validation.unknown.severity` : Validation severity for unknown properties for MicroProfile `*.properties` files. Default is `warning`.
 * `microprofile.tools.validation.unknown.excluded` : Array of properties to ignore for unknown properties validation. Patterns can be used ('*' = any string, '?' = any character).
 Default is `["*/mp-rest/providers/*/priority", "mp.openapi.schema.*"]`.

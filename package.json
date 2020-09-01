@@ -161,6 +161,17 @@
           "markdownDescription": "Validation severity for property values for MicroProfile `*.properties` files.",
           "scope": "window"
         },
+        "microprofile.tools.validation.expression.severity": {
+          "type": "string",
+          "enum": [
+            "none",
+            "warning",
+            "error"
+          ],
+          "default": "error",
+          "markdownDescription": "Validation severity for property expressions for MicroProfile `*.properties` files.",
+          "scope": "window"
+        },
         "microprofile.tools.validation.unknown.excluded": {
           "type": "array",
           "default": [
