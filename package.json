@@ -2,7 +2,7 @@
   "name": "vscode-microprofile",
   "displayName": "MicroProfile Tools",
   "description": "MicroProfile Tools for Visual Studio Code",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "icon": "icons/logo.png",
   "author": "Red Hat",
   "publisher": "redhat",
