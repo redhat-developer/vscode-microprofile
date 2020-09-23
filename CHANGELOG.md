@@ -1,4 +1,7 @@
-# MicroProfile Tools for Visual Studio Code Changelog
+# Tools for MicroProfile Changelog
+
+## [0.1.1] (September 23, 2020)
+* Update name to "Tools for MicroProfile". See [#23](https://github.com/redhat-developer/vscode-microprofile/issues/23)
 
 ## [0.1.0](https://github.com/redhat-developer/vscode-microprofile/milestone/1?closed=1) (September 21, 2020)
 

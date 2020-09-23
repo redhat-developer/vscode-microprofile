@@ -35,7 +35,7 @@ export async function activate(context: ExtensionContext) {
 
   /**
    * Waits for the java language server to launch in standard mode
-   * Before activating MicroProfile tools.
+   * Before activating Tools for MicroProfile.
    * If java ls was started in lightweight mode, It will prompt user to switch
    */
   await waitForStandardMode();
@@ -130,7 +130,7 @@ function connectToLS(context: ExtensionContext) {
 
     const serverOptions = prepareExecutable(requirements, getMicroProfileJarExtensions(microprofileContributions));
 
-    languageClient = new LanguageClient('microprofile.tools', 'MicroProfile Tools', serverOptions, clientOptions);
+    languageClient = new LanguageClient('microprofile.tools', 'Tools for MicroProfile', serverOptions, clientOptions);
     context.subscriptions.push(languageClient.start());
 
     if (extensions.onDidChange) {// Theia doesn't support this API yet

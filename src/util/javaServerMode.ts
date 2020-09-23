@@ -10,7 +10,7 @@ export enum ServerMode {
 
 /**
  * Waits for the java language server to launch in standard mode
- * Before activating MicroProfile tools.
+ * Before activating Tools for MicroProfile.
  * If java ls was started in lightweight mode, It will prompt user to switch
  */
 export async function waitForStandardMode() {
@@ -38,7 +38,7 @@ export async function waitForStandardMode() {
     // since standard mode switch can be triggered other ways.
   } else if (api.serverMode === ServerMode.LIGHTWEIGHT) {
     window.showInformationMessage(
-        "MicroProfile Tools requires the Java language server to run in Standard mode. " +
+        "Tools for MicroProfile requires the Java language server to run in Standard mode. " +
         "Do you want to switch it to Standard mode now?",
         "Yes",
         "Later"
