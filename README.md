@@ -2,11 +2,11 @@
 [![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/redhat.vscode-microprofile.svg "Current Release")](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-microprofile)
 [![Gitter chat for vscode-microprofile](https://badges.gitter.im/redhat-developer/vscode-microprofile.svg)](https://gitter.im/redhat-developer/vscode-microprofile)
 
-# MicroProfile Tools for Visual Studio Code
+# Tools for MicroProfile
 
 ## Description
 
-This Visual Studio Code extension provides support for [MicroProfile](https://microprofile.io/) development via:
+This Visual Studio Code extension provides support for the development of [MicroProfile®](https://microprofile.io/)-based applications, via:
 
  * a [MicroProfile language server](https://github.com/eclipse/lsp4mp/tree/master/microprofile.ls).
  * a [MicroProfile jdt.ls extension](https://github.com/eclipse/lsp4mp/tree/master/microprofile.jdt).
@@ -76,9 +76,9 @@ To avoid having this error, you must configure the following in `settings.json`:
 This settings is set by default.
 
 
-## Extending MicroProfile Tools for VSCode
+## Extending Tools for MicroProfile
 
-By default MicroProfile Tools for VSCode provides:
+By default, Tools for MicroProfile provides:
 
 * Support for the `microprofile-config.properties` file (completion, validation, etc.) for the properties of MicroProfile specs (config, health, fault tolerance, etc.).
 * Support in java files (diagnostics, codelens, etc.) taking into account the API of each of the MicroProfile specs.
@@ -162,3 +162,6 @@ Please report bugs, issues and feature requests by creating a [GitHub Issue](htt
 
 Apache License 2.0.
 See [LICENSE](LICENSE) file.
+
+
+MicroProfile® and the MicroProfile logo are trademarks of the Eclipse Foundation
