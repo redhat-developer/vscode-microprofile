@@ -8,7 +8,8 @@ node('rhel8'){
             sh 'mkdir lsp4mp'
         }
         dir ('lsp4mp') {
-            git url: 'https://github.com/eclipse/lsp4mp.git' branch:"${params.LSP4MP_TAG}"
+            git url: 'https://github.com/eclipse/lsp4mp.git' 
+                branch: "${params.LSP4MP_TAG}"
         }
         def hasClientDir = fileExists 'vscode-microprofile'
         if (!hasClientDir) {
