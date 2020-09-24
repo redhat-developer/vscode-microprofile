@@ -6,10 +6,10 @@
 
 ## Description
 
-This Visual Studio Code extension provides support for the development of [MicroProfile®](https://microprofile.io/)-based applications, via:
+This Visual Studio Code extension provides support for the development of [MicroProfile®](https://microprofile.io/)-based applications, via the [LSP4MP project](https://github.com/eclipse/lsp4mp), which consists of:
 
- * a [MicroProfile language server](https://github.com/eclipse/lsp4mp/tree/master/microprofile.ls).
- * a [MicroProfile jdt.ls extension](https://github.com/eclipse/lsp4mp/tree/master/microprofile.jdt).
+ * a [language server for MicroProfile](https://github.com/eclipse/lsp4mp/tree/master/microprofile.ls).
+ * a [jdt.ls extension for MicroProfile](https://github.com/eclipse/lsp4mp/tree/master/microprofile.jdt).
 
 ![](images/propertiesSupport.png)
 
