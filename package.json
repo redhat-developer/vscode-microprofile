@@ -176,7 +176,8 @@
           "type": "array",
           "default": [
             "*/mp-rest/providers/*/priority",
-            "mp.openapi.schema.*"
+            "mp.openapi.schema.*",
+            "kafka-streams.*"
           ],
           "items": {
             "type": "string"
