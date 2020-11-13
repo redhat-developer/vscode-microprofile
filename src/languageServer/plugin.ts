@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { Commands } from '../definitions/constants';
 import { DocumentFilter, DocumentSelector } from 'vscode-languageclient';
+import { isDeepStrictEqual } from 'util';
 
 let existingExtensions: MicroProfileContribution[];
 
@@ -50,7 +51,16 @@ export function handleExtensionChange(extensions: readonly vscode.Extension<any>
   let hasChanged = (oldExtensions.size !== newExtensions.length);
   if (!hasChanged) {
     for (const newExtension of newExtensions) {
-      if (!oldExtensions.has(newExtension)) {
+      let found = false;
+      for (const oldExtension of oldExtensions) {
+        if (isDeepStrictEqual(oldExtension, newExtension)) {
+          found = true;
+          break;
+        }
+      }
+      if (found) {
+        continue;
+      } else {
         hasChanged = true;
         break;
       }
