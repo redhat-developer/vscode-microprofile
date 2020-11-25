@@ -9,7 +9,7 @@ node('rhel8'){
         }
         dir ('lsp4mp') {
             echo "Checking out LSP4MP ${params.LSP4MP_TAG}"
-            git url: 'https://github.com/eclipse/lsp4mp.git' 
+            git url: 'https://github.com/eclipse/lsp4mp.git'
             sh "git checkout ${params.LSP4MP_TAG}"
         }
         def hasClientDir = fileExists 'vscode-microprofile'
@@ -22,7 +22,7 @@ node('rhel8'){
     }
 
     stage('Install requirements') {
-        def nodeHome = tool 'nodejs-10.9.0'
+        def nodeHome = tool 'nodejs-12.13.1'
         env.PATH="${env.PATH}:${nodeHome}/bin"
         sh "npm install -g typescript vsce"
     }
