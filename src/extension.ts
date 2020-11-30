@@ -51,6 +51,7 @@ export async function activate(context: ExtensionContext) {
     bindRequest(MicroProfileLS.JAVA_CODEACTION_REQUEST);
     bindRequest(MicroProfileLS.JAVA_CODELENS_REQUEST);
     bindRequest(MicroProfileLS.JAVA_COMPLETION_REQUEST);
+    bindRequest(MicroProfileLS.JAVA_DEFINITION_REQUEST);
     bindRequest(MicroProfileLS.JAVA_DIAGNOSTICS_REQUEST);
     bindRequest(MicroProfileLS.JAVA_HOVER_REQUEST);
     bindRequest(MicroProfileLS.JAVA_FILE_INFO_REQUEST);

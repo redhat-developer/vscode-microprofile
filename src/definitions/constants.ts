@@ -22,6 +22,7 @@ export namespace MicroProfileLS {
   export const JAVA_CODEACTION_REQUEST = 'microprofile/java/codeAction';
   export const JAVA_CODELENS_REQUEST = 'microprofile/java/codeLens';
   export const JAVA_COMPLETION_REQUEST = 'microprofile/java/completion';
+  export const JAVA_DEFINITION_REQUEST = 'microprofile/java/definition';
   export const JAVA_DIAGNOSTICS_REQUEST = 'microprofile/java/diagnostics';
   export const JAVA_HOVER_REQUEST = 'microprofile/java/hover';
   export const JAVA_FILE_INFO_REQUEST = 'microprofile/java/fileInfo';
