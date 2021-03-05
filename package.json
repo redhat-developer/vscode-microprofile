@@ -216,7 +216,7 @@
     "build-ext": "./node_modules/.bin/gulp buildExtension"
   },
   "resolutions": {
-    "minimist": "^1.2.5"
+    "minimist": "1.2.5"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",
