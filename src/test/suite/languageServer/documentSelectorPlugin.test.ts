@@ -171,6 +171,7 @@ describe("Document selector collection from language server plugins", () => {
     const fakePlugin: vscode.Extension<any> = {
       id: "fake-no-plugin-extension",
       extensionPath: "",
+      extensionUri: vscode.Uri.parse("http://example.org"),
       isActive: true,
       packageJSON: {
         contributes: {
