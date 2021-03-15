@@ -81,11 +81,11 @@ export async function activate(context: ExtensionContext) {
   registerVSCodeCommands(context);
 }
 
-export function deactivate() {
+export async function deactivate() {
   // language client may not have been started
   // if java language server was never launched in standard mode.
   if (languageClient) {
-    languageClient.stop();
+    await languageClient.stop();
   }
 }
 
