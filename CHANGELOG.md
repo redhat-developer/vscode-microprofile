@@ -1,5 +1,26 @@
 # Tools for MicroProfile Changelog
 
+## [0.2.0](https://github.com/redhat-developer/vscode-microprofile/milestone/2?closed=1) (April 7, 2021)
+
+### Enhancements
+
+ * Support arbitrary number of member values in `PropertiesHoverParticipant`. See [eclipse/lsp4mp#124](https://github.com/eclipse/lsp4mp/pull/124).
+ * Add extension point to contribute properties to exclude from validation. See [eclipse/lsp4mp#95](https://github.com/eclipse/lsp4mp/issues/95).
+ * Definition support from Java to properties for `ConfigProperty/name`. See [eclipse/lsp4mp#88](https://github.com/eclipse/lsp4mp/issues/88).
+ * Automatically infer package names when inserting class snippets. See [eclipse/lsp4mp#60](https://github.com/eclipse/lsp4mp/issues/60).
+ * Support `handle-as` for metadata properties. See [eclipse/lsp4mp#39](https://github.com/eclipse/lsp4mp/issues/39).
+ * Display the different values for the different profiles in Java `@ConfigProperty` Hover. See [eclipse/lsp4mp#98](https://github.com/eclipse/lsp4mp/issues/98).
+
+### Bug Fixes
+
+ * Wait for the language server to stop before exiting. See [#39](https://github.com/redhat-developer/vscode-microprofile/issues/39).
+ * Trailing tab causes infinite loop in parser. See [eclipse/lsp4mp#112](https://github.com/eclipse/lsp4mp/issues/112).
+ * Prevent NPEs when working with MP 4.0 features. See [eclipse/lsp4mp#119](https://github.com/eclipse/lsp4mp/issues/119).
+ * Enhance the error message when out of bounds is detected. See [eclipse/lsp4mp#114](https://github.com/eclipse/lsp4mp/pull/114).
+ * Use `kill -0` instead of `ps -p` in `ParentProcessWatcher`. See [eclipse/lsp4mp#110](https://github.com/eclipse/lsp4mp/issues/110).
+ * Wrong/Missing Log Levels in property files. See [eclipse/lsp4mp#15](https://github.com/eclipse/lsp4mp/pull/105).
+ * `mp.messaging` properties now work for Emitters. See [eclipse/lsp4mp#127](https://github.com/eclipse/lsp4mp/pull/127).
+
 ## [0.1.1] (September 23, 2020)
 * Update name to "Tools for MicroProfile". See [#23](https://github.com/redhat-developer/vscode-microprofile/issues/23)
 
