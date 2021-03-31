@@ -18,6 +18,7 @@ describe("Language server plugin", () => {
     const fakeVscodeQuarkus: vscode.Extension<any> = {
       id: "fake-vscode-quarkus",
       extensionPath: "",
+      extensionUri: vscode.Uri.parse("https://example.org"),
       isActive: true,
       packageJSON: quarkusPackageJSON,
       exports: "",
@@ -34,6 +35,7 @@ describe("Language server plugin", () => {
 
     const fakeNoPluginExtension: vscode.Extension<any> = {
       id: "fake-no-plugin-extension",
+      extensionUri: vscode.Uri.parse("https://example.org"),
       extensionPath: "",
       isActive: true,
       packageJSON: noPluginPackageJSON,
