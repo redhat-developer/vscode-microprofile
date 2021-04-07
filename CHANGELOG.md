@@ -10,6 +10,7 @@
  * Automatically infer package names when inserting class snippets. See [eclipse/lsp4mp#60](https://github.com/eclipse/lsp4mp/issues/60).
  * Support `handle-as` for metadata properties. See [eclipse/lsp4mp#39](https://github.com/eclipse/lsp4mp/issues/39).
  * Display the different values for the different profiles in Java `@ConfigProperty` Hover. See [eclipse/lsp4mp#98](https://github.com/eclipse/lsp4mp/issues/98).
+ * Add startup and shutdown telemetry. See [#46](https://github.com/redhat-developer/vscode-microprofile/issues/46)
 
 ### Bug Fixes
 
