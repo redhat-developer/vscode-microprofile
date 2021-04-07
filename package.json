@@ -40,7 +40,8 @@
   ],
   "main": "./dist/extension",
   "extensionDependencies": [
-    "redhat.java"
+    "redhat.java",
+    "redhat.vscode-commons"
   ],
   "contributes": {
     "javaExtensions": [
@@ -241,6 +242,7 @@
     "webpack-cli": "^4.6.0"
   },
   "dependencies": {
+    "@redhat-developer/vscode-redhat-telemetry": "0.0.15",
     "ejs": "^2.7.1",
     "expand-home-dir": "0.0.3",
     "find-java-home": "^1.0.0",

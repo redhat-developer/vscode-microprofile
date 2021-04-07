@@ -137,6 +137,11 @@ It is also possible to contribute additional document selectors which are used t
 
 For an example of how this can be used you can look at [vscode-quarkus](https://github.com/redhat-developer/vscode-quarkus) which [contributes a document selector](https://github.com/redhat-developer/vscode-quarkus/blob/f38f4caaf218cf9c6ce91e64a0d9cd632314a483/package.json#L62) for Quarkus's `application.properties` file in order to provide MicroProfile/Quarkus properties support in this file.
 
+## Telemetry
+
+With your approval, vscode-microprofile extension collects anonymous [usage data](USAGE_DATA.md) and sends it to Red Hat servers to help improve our products and services.
+Read our [privacy statement](https://developers.redhat.com/article/tool-data-collection) to learn more.
+This extension respects the `redhat.telemetry.enabled` setting, which you can learn more about at https://github.com/redhat-developer/vscode-commons#how-to-disable-telemetry-reporting
 
 ## Contributing
 

@@ -13,20 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as requirements from './languageServer/requirements';
-
+import { getTelemetryService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
+import { commands, ExtensionContext, extensions, window, workspace } from 'vscode';
+import { DidChangeConfigurationNotification, DocumentSelector, LanguageClient, LanguageClientOptions } from 'vscode-languageclient';
 import { MicroProfileLS } from './definitions/constants';
-import { DidChangeConfigurationNotification, LanguageClientOptions, LanguageClient, DocumentSelector } from 'vscode-languageclient';
-import { ExtensionContext, commands, window, workspace, extensions } from 'vscode';
 import { prepareExecutable } from './languageServer/javaServerStarter';
-import { registerConfigurationUpdateCommand, registerOpenURICommand, CommandKind } from './lsp-commands';
-import { registerYamlSchemaSupport, MicroProfilePropertiesChangeEvent } from './yaml/YamlSchema';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
+import * as requirements from './languageServer/requirements';
+import { CommandKind, registerConfigurationUpdateCommand, registerOpenURICommand } from './lsp-commands';
 import { waitForStandardMode } from './util/javaServerMode';
+import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './yaml/YamlSchema';
 
 let languageClient: LanguageClient;
 
 export async function activate(context: ExtensionContext) {
+
+  const telemetryService: TelemetryService = await getTelemetryService("redhat.vscode-microprofile");
+  await telemetryService.sendStartupEvent();
 
   /**
    * Register Yaml Schema support to manage application.yaml
