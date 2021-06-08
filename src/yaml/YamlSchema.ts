@@ -203,8 +203,8 @@ function createInstallListener(message: string): vscode.Disposable {
 }
 
 async function askInstallVSCodeYaml(message: string): Promise<void> {
-  const INSTALL: string = 'Install';
-  const RELOAD: string = 'Reload';
+  const INSTALL = 'Install';
+  const RELOAD = 'Reload';
 
   const response: string|undefined = await vscode.window.showWarningMessage(message, INSTALL);
   if (response === INSTALL) {

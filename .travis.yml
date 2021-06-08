@@ -32,5 +32,5 @@ install:
   - vsce package
 
 script:
-  - npm run tslint
+  - npm run eslint
   - npm run test --silent
