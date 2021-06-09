@@ -16,7 +16,7 @@
 import { getTelemetryService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { commands, ExtensionContext, extensions, window, workspace } from 'vscode';
 import { DidChangeConfigurationNotification, DocumentSelector, LanguageClient, LanguageClientOptions } from 'vscode-languageclient';
-import { MicroProfileLS } from './definitions/constants';
+import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
 import { prepareExecutable } from './languageServer/javaServerStarter';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
 import * as requirements from './languageServer/requirements';

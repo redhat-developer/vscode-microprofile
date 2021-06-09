@@ -13,7 +13,7 @@ export enum ServerMode {
  * Before activating Tools for MicroProfile.
  * If java ls was started in lightweight mode, It will prompt user to switch
  */
-export async function waitForStandardMode() {
+export async function waitForStandardMode(): Promise<void>  {
   const vscodeJava = extensions.getExtension(JAVA_EXTENSION_ID);
   if (!vscodeJava) {
     throw new Error("VSCode java is not installed");

@@ -30,7 +30,7 @@ import {
 
 import { Uri } from 'vscode';
 import { LanguageClient } from 'vscode-languageclient';
-import { MicroProfileLS } from '../definitions/constants';
+import * as MicroProfileLS from '../definitions/microProfileLSRequestNames';
 
 // The function signature exposed by vscode-yaml:
 // 1. the requestSchema api will be called by vscode-yaml extension to decide whether the schema can be handled by this
@@ -96,7 +96,7 @@ export class YamlSchemaCache {
    *
    * @param event the properties change event
    */
-  public evict(event: MicroProfilePropertiesChangeEvent) {
+  public evict(event: MicroProfilePropertiesChangeEvent): void  {
     // collect all application.yaml uris which belong to the event project URIs
     // and evict them from the cache.
     this.cache.forEach((jsonSchema: JsonSchemaForProjectInfo, uri: string) => {
