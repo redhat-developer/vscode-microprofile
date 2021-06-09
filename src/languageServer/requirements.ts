@@ -3,10 +3,10 @@
 import * as cp from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Uri, workspace, env } from 'vscode';
+import { Uri, workspace } from 'vscode';
 
-const expandHomeDir = require('expand-home-dir');
-const findJavaHome = require('find-java-home');
+import * as expandHomeDir from 'expand-home-dir';
+import * as findJavaHome from 'find-java-home';
 const isWindows = process.platform.indexOf('win') === 0;
 const JAVA_FILENAME = 'java' + (isWindows?'.exe': '');
 

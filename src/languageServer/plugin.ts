@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { Commands } from '../definitions/constants';
+import * as Commands from '../definitions/commands';
 import { DocumentFilter, DocumentSelector } from 'vscode-languageclient';
 import { isDeepStrictEqual } from 'util';
 
@@ -42,7 +42,7 @@ export function collectMicroProfileJavaExtensions(extensions: readonly vscode.Ex
   return result;
 }
 
-export function handleExtensionChange(extensions: readonly vscode.Extension<any>[]) {
+export function handleExtensionChange(extensions: readonly vscode.Extension<any>[]): void  {
   if (!existingExtensions) {
     return;
   }

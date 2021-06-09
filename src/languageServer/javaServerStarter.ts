@@ -3,7 +3,7 @@ import * as path from 'path';
 import { workspace } from 'vscode';
 import { Executable, ExecutableOptions } from 'vscode-languageclient';
 import { RequirementsData } from './requirements';
-const glob = require('glob');
+import * as glob from 'glob';
 
 const DEBUG = startedInDebugMode();
 const DEBUG_PORT = 1064;
@@ -71,7 +71,7 @@ function startedInDebugMode(): boolean {
 }
 
 // exported for tests
-export function parseVMargs(params: any[], vmargsLine: string) {
+export function parseVMargs(params: string[], vmargsLine: string): void {
   if (!vmargsLine) {
     return;
   }
