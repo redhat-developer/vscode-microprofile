@@ -40,8 +40,7 @@
   ],
   "main": "./dist/extension",
   "extensionDependencies": [
-    "redhat.java",
-    "redhat.vscode-commons"
+    "redhat.java"
   ],
   "contributes": {
     "javaExtensions": [
@@ -69,6 +68,12 @@
     "configuration": {
       "title": "Tools for MicroProfile",
       "properties": {
+        "redhat.telemetry.enabled": {
+          "type": "boolean",
+          "default": null,
+          "markdownDescription": "Enable usage data and errors to be sent to Red Hat servers. Read our [privacy statement](https://developers.redhat.com/article/tool-data-collection).",
+          "scope": "window"
+        },
         "microprofile.tools.server.vmargs": {
           "type": [
             "string",
@@ -243,7 +248,7 @@
     "webpack-cli": "^4.6.0"
   },
   "dependencies": {
-    "@redhat-developer/vscode-redhat-telemetry": "0.0.15",
+    "@redhat-developer/vscode-redhat-telemetry": "^0.2.0",
     "ejs": "^2.7.1",
     "expand-home-dir": "0.0.3",
     "find-java-home": "^1.0.0",
