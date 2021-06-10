@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getTelemetryService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
+import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
+import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry/lib/interfaces/redhatService';
 import { commands, ExtensionContext, extensions, window, workspace } from 'vscode';
 import { DidChangeConfigurationNotification, DocumentSelector, LanguageClient, LanguageClientOptions } from 'vscode-languageclient';
 import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
@@ -26,9 +27,10 @@ import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './
 
 let languageClient: LanguageClient;
 
-export async function activate(context: ExtensionContext) {
+export async function activate(context: ExtensionContext): Promise<void> {
 
-  const telemetryService: TelemetryService = await getTelemetryService("redhat.vscode-microprofile");
+  const redHatService: RedHatService = await getRedHatService(context);
+  const telemetryService: TelemetryService = await redHatService.getTelemetryService();
   await telemetryService.sendStartupEvent();
 
   /**
@@ -84,7 +86,7 @@ export async function activate(context: ExtensionContext) {
   registerVSCodeCommands(context);
 }
 
-export async function deactivate() {
+export async function deactivate(): Promise<void> {
   // language client may not have been started
   // if java language server was never launched in standard mode.
   if (languageClient) {

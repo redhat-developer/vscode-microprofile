@@ -141,7 +141,7 @@ For an example of how this can be used you can look at [vscode-quarkus](https://
 
 With your approval, vscode-microprofile extension collects anonymous [usage data](USAGE_DATA.md) and sends it to Red Hat servers to help improve our products and services.
 Read our [privacy statement](https://developers.redhat.com/article/tool-data-collection) to learn more.
-This extension respects the `redhat.telemetry.enabled` setting, which you can learn more about at https://github.com/redhat-developer/vscode-commons#how-to-disable-telemetry-reporting
+This extension respects the `redhat.telemetry.enabled` setting, which you can learn more about at https://github.com/redhat-developer/vscode-redhat-telemetry#how-to-disable-telemetry-reporting
 
 ## Contributing
 
