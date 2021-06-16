@@ -21,12 +21,13 @@ import { prepareExecutable } from './languageServer/javaServerStarter';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
 import * as requirements from './languageServer/requirements';
 import { CommandKind, registerConfigurationUpdateCommand, registerOpenURICommand } from './lsp-commands';
+import { registerProviders } from './providers/microProfileProviders';
 import { waitForStandardMode } from './util/javaServerMode';
 import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './yaml/YamlSchema';
 
 let languageClient: LanguageClient;
 
-export async function activate(context: ExtensionContext) {
+export async function activate(context: ExtensionContext): Promise<void> {
 
   const telemetryService: TelemetryService = await getTelemetryService("redhat.vscode-microprofile");
   await telemetryService.sendStartupEvent();
@@ -82,9 +83,11 @@ export async function activate(context: ExtensionContext) {
   }
 
   registerVSCodeCommands(context);
+  registerProviders();
+
 }
 
-export async function deactivate() {
+export async function deactivate(): Promise<void> {
   // language client may not have been started
   // if java language server was never launched in standard mode.
   if (languageClient) {
@@ -116,6 +119,9 @@ function connectToLS(context: ExtensionContext) {
                 CommandKind.COMMAND_OPEN_URI
               ]
             }
+          },
+          completion: {
+            skipSendingJavaCompletionThroughLanguageServer: true
           }
         }
       },
