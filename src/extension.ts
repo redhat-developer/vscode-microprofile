@@ -22,6 +22,7 @@ import { prepareExecutable } from './languageServer/javaServerStarter';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
 import * as requirements from './languageServer/requirements';
 import { CommandKind, registerConfigurationUpdateCommand, registerOpenURICommand } from './lsp-commands';
+import { registerProviders } from './providers/microProfileProviders';
 import { waitForStandardMode } from './util/javaServerMode';
 import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './yaml/YamlSchema';
 
@@ -84,6 +85,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   registerVSCodeCommands(context);
+  registerProviders();
+
 }
 
 export async function deactivate(): Promise<void> {
@@ -118,6 +121,9 @@ function connectToLS(context: ExtensionContext) {
                 CommandKind.COMMAND_OPEN_URI
               ]
             }
+          },
+          completion: {
+            skipSendingJavaCompletionThroughLanguageServer: true
           }
         }
       },
