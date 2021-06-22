@@ -17,6 +17,8 @@ import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-red
 import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry/lib/interfaces/redhatService';
 import { commands, ExtensionContext, extensions, window, workspace } from 'vscode';
 import { DidChangeConfigurationNotification, DocumentSelector, LanguageClient, LanguageClientOptions } from 'vscode-languageclient';
+import { ToolsForMicroProfileAPI } from './api/toolsForMicroProfileAPI';
+import { ToolsForMicroProfileAPIImpl } from './api/toolsForMicroProfileAPIImpl';
 import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
 import { prepareExecutable } from './languageServer/javaServerStarter';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
@@ -27,7 +29,7 @@ import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './
 
 let languageClient: LanguageClient;
 
-export async function activate(context: ExtensionContext): Promise<void> {
+export async function activate(context: ExtensionContext): Promise<ToolsForMicroProfileAPI> {
 
   const redHatService: RedHatService = await getRedHatService(context);
   const telemetryService: TelemetryService = await redHatService.getTelemetryService();
@@ -38,44 +40,43 @@ export async function activate(context: ExtensionContext): Promise<void> {
    */
   const yamlSchemaCache = registerYamlSchemaSupport();
 
-  /**
-   * Waits for the java language server to launch in standard mode
-   * Before activating Tools for MicroProfile.
-   * If java ls was started in lightweight mode, It will prompt user to switch
-   */
-  await waitForStandardMode();
+  const languageServerStarted: Promise<void> = //
+    waitForStandardMode() //
+    .then(() => {
+      return connectToLS(context);
+    }) //
+    .then(() => {
+      yamlSchemaCache.then(cache => { if (cache) { cache.languageClient = languageClient; } });
 
-  connectToLS(context).then(() => {
-    yamlSchemaCache.then(cache => { if (cache) { cache.languageClient = languageClient; } });
+      /**
+       * Delegate requests from MicroProfile LS to the Java JDT LS
+       */
+      bindRequest(MicroProfileLS.PROJECT_INFO_REQUEST);
+      bindRequest(MicroProfileLS.PROPERTY_DEFINITION_REQUEST);
+      bindRequest(MicroProfileLS.JAVA_CODEACTION_REQUEST);
+      bindRequest(MicroProfileLS.JAVA_CODELENS_REQUEST);
+      bindRequest(MicroProfileLS.JAVA_COMPLETION_REQUEST);
+      bindRequest(MicroProfileLS.JAVA_DEFINITION_REQUEST);
+      bindRequest(MicroProfileLS.JAVA_DIAGNOSTICS_REQUEST);
+      bindRequest(MicroProfileLS.JAVA_HOVER_REQUEST);
+      bindRequest(MicroProfileLS.JAVA_FILE_INFO_REQUEST);
+      bindRequest(MicroProfileLS.JAVA_PROJECT_LABELS_REQUEST);
 
-    /**
-     * Delegate requests from MicroProfile LS to the Java JDT LS
-     */
-    bindRequest(MicroProfileLS.PROJECT_INFO_REQUEST);
-    bindRequest(MicroProfileLS.PROPERTY_DEFINITION_REQUEST);
-    bindRequest(MicroProfileLS.JAVA_CODEACTION_REQUEST);
-    bindRequest(MicroProfileLS.JAVA_CODELENS_REQUEST);
-    bindRequest(MicroProfileLS.JAVA_COMPLETION_REQUEST);
-    bindRequest(MicroProfileLS.JAVA_DEFINITION_REQUEST);
-    bindRequest(MicroProfileLS.JAVA_DIAGNOSTICS_REQUEST);
-    bindRequest(MicroProfileLS.JAVA_HOVER_REQUEST);
-    bindRequest(MicroProfileLS.JAVA_FILE_INFO_REQUEST);
-    bindRequest(MicroProfileLS.JAVA_PROJECT_LABELS_REQUEST);
-
-    /**
-     * Delegate notifications from Java JDT LS to the MicroProfile LS
-     */
-    context.subscriptions.push(commands.registerCommand(MicroProfileLS.PROPERTIES_CHANGED_NOTIFICATION, (event: MicroProfilePropertiesChangeEvent) => {
-      languageClient.sendNotification(MicroProfileLS.PROPERTIES_CHANGED_NOTIFICATION, event);
-      yamlSchemaCache.then(cache => { if (cache) cache.evict(event); });
-    }));
-  }).catch((error) => {
-    window.showErrorMessage(error.message, error.label).then((selection) => {
-      if (error.label && error.label === selection && error.openUrl) {
-        commands.executeCommand('vscode.open', error.openUrl);
-      }
+      /**
+       * Delegate notifications from Java JDT LS to the MicroProfile LS
+       */
+      context.subscriptions.push(commands.registerCommand(MicroProfileLS.PROPERTIES_CHANGED_NOTIFICATION, (event: MicroProfilePropertiesChangeEvent) => {
+        languageClient.sendNotification(MicroProfileLS.PROPERTIES_CHANGED_NOTIFICATION, event);
+        yamlSchemaCache.then(cache => { if (cache) cache.evict(event); });
+      }));
+    }) //
+    .catch((error) => {
+      window.showErrorMessage(error.message, error.label).then((selection) => {
+        if (error.label && error.label === selection && error.openUrl) {
+          commands.executeCommand('vscode.open', error.openUrl);
+        }
+      });
     });
-  });
 
   function bindRequest(request: string) {
     languageClient.onRequest(request, async (params: any) =>
@@ -84,6 +85,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   registerVSCodeCommands(context);
+
+  return new ToolsForMicroProfileAPIImpl(languageServerStarted);
 }
 
 export async function deactivate(): Promise<void> {

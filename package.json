@@ -39,9 +39,7 @@
     "onLanguage:java"
   ],
   "main": "./dist/extension",
-  "extensionDependencies": [
-    "redhat.java"
-  ],
+  "extensionDependencies": [],
   "contributes": {
     "javaExtensions": [
       "./jars/org.eclipse.lsp4mp.jdt.core.jar"

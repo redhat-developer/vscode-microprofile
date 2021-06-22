@@ -16,7 +16,7 @@ export enum ServerMode {
 export async function waitForStandardMode(): Promise<void>  {
   const vscodeJava = extensions.getExtension(JAVA_EXTENSION_ID);
   if (!vscodeJava) {
-    throw new Error("VSCode java is not installed");
+    await promptToInstallJava();
   }
 
   const api = await vscodeJava.activate();
@@ -55,5 +55,16 @@ export async function waitForStandardMode(): Promise<void>  {
         }
       });
     });
+  }
+}
+
+async function promptToInstallJava(): Promise<void> {
+  const YES = 'Install vscode-java';
+  const NO = 'Don\'t install';
+  const choice = await window.showErrorMessage("vscode-java is needed in order for vscode-microprofile to work. Install it now?", YES, NO);
+  if (choice === YES) {
+    await commands.executeCommand('workbench.extensions.installExtension', JAVA_EXTENSION_ID);
+  } else {
+    throw new Error("vscode-microprofile cannot work without vscode-java installed");
   }
 }
