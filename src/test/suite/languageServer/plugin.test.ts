@@ -1,10 +1,10 @@
+import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
-import * as plugin from "../../../languageServer/plugin";
-import { expect } from "chai";
-import { MicroProfileContribution } from "../../../languageServer/plugin";
 import { DocumentFilter } from "vscode-languageclient";
+import * as plugin from "../../../languageServer/plugin";
+import { MicroProfileContribution } from "../../../languageServer/plugin";
 
 describe("Language server plugin", () => {
   it('Should collect lsp4mp extensions', () => {
@@ -50,7 +50,7 @@ describe("Language server plugin", () => {
 
     expect(result[0].jarExtensions).to.have.length(1);
 
-    const expectedPath: string = './server/com.redhat.quarkus.ls.jar';
+    const expectedPath: string = path.join('server', 'com.redhat.quarkus.ls.jar').replace("\\", "\\\\");
     expect(result[0].jarExtensions[0]).to.be.a("string").and.match(new RegExp(`${expectedPath}$`), `String should end with "${expectedPath}".`);
 
     expect(result[0].documentSelector).to.have.length(1);

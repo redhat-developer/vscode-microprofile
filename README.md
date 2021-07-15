@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/redhat-developer/vscode-microprofile.svg?branch=master)](https://travis-ci.org/github/redhat-developer/vscode-microprofile)
+[![Tests workflow](https://github.com/redhat-developer/vscode-microprofile/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/redhat-developer/vscode-microprofile/actions)
 [![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/redhat.vscode-microprofile.svg "Current Release")](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-microprofile)
 [![Gitter chat for vscode-microprofile](https://badges.gitter.im/redhat-developer/vscode-microprofile.svg)](https://gitter.im/redhat-developer/vscode-microprofile)
 

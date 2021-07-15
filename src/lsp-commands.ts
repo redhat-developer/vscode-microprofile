@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-import { ConfigurationTarget, Disposable, commands, workspace, Uri } from 'vscode';
-
-export namespace CommandKind {
-  export const COMMAND_REFERENCES = 'microprofile.command.references';
-  export const COMMAND_IMPLEMENTATIONS = 'microprofile.command.implementations';
-  export const COMMAND_OPEN_URI = 'microprofile.command.open.uri';
-  export const COMMAND_CONFIGURATION_UPDATE = 'microprofile.command.configuration.update';
-}
+import { commands, ConfigurationTarget, Disposable, Uri, workspace } from 'vscode';
+import * as CommandKind from './definitions/lspCommandKind';
 
 /**
  * Registers the `CommandKind.COMMAND_CONFIGURATION_UPDATE` command
@@ -45,7 +39,7 @@ export function registerOpenURICommand(): Disposable {
  */
 export function registerImplementationsCommand(): Disposable {
   return commands.registerCommand(CommandKind.COMMAND_IMPLEMENTATIONS, () => {
-
+    // not yet implemented
   });
 }
 
@@ -54,7 +48,7 @@ export function registerImplementationsCommand(): Disposable {
  */
 export function registerReferencesCommand(): Disposable {
   return commands.registerCommand(CommandKind.COMMAND_REFERENCES, () => {
-
+    // not yet implemented
   });
 }
 
