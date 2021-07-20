@@ -1,5 +1,18 @@
 # Tools for MicroProfile Changelog
 
+## [0.3.0](https://github.com/redhat-developer/vscode-microprofile/milestone/3?closed=1) (July 22, 2021)
+
+### Enhancements
+
+ * Completion for `fallbackMethod` in `@Fallback` annotation. See [eclipse/lsp4mp#34](https://github.com/eclipse/lsp4mp/issues/34).
+ * Remove dependency on vscode-commons. See [#55](https://github.com/redhat-developer/vscode-microprofile/issues/55).
+
+### Build
+
+ * Migrate to eslint from tslint. See [#53](https://github.com/redhat-developer/vscode-microprofile/issues/53).
+ * Use registry.npmjs.com in `package-lock.json`. See [#50](https://github.com/redhat-developer/vscode-microprofile/pull/50).
+ * Migrate to GitHub Actions from travis-ci.org. See [#59](https://github.com/redhat-developer/vscode-microprofile/issues/59).
+
 ## [0.2.0](https://github.com/redhat-developer/vscode-microprofile/milestone/2?closed=1) (April 7, 2021)
 
 ### Enhancements
