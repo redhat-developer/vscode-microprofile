@@ -2,7 +2,7 @@
   "name": "vscode-microprofile",
   "displayName": "Tools for MicroProfile",
   "description": "Language Support for Eclipse MicroProfile",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "icon": "icons/logo.png",
   "author": "Red Hat",
   "publisher": "redhat",
@@ -190,6 +190,16 @@
             "type": "string"
           },
           "description": "Array of properties to ignore for unknown MicroProfile properties validation. Patterns can be used ('*' = any string, '?' = any character)",
+          "scope": "window"
+        },
+        "microprofile.tools.validation.unassigned.excluded": {
+          "type": "array",
+          "default": [
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of properties to ignore for unassigned MicroProfile properties validation. Patterns can be used ('*' = any string, '?' = any character)",
           "scope": "window"
         },
         "microprofile.tools.codeLens.urlCodeLensEnabled": {
