@@ -194,8 +194,7 @@
         },
         "microprofile.tools.validation.unassigned.excluded": {
           "type": "array",
-          "default": [
-          ],
+          "default": [],
           "items": {
             "type": "string"
           },
