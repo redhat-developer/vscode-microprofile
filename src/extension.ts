@@ -126,7 +126,8 @@ function connectToLS(context: ExtensionContext) {
           },
           completion: {
             skipSendingJavaCompletionThroughLanguageServer: true
-          }
+          },
+          shouldLanguageServerExitOnShutdown: true
         }
       },
       synchronize: {
