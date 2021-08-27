@@ -29,7 +29,7 @@ import {
 } from "./YamlConstants";
 
 import { Uri } from 'vscode';
-import { LanguageClient } from 'vscode-languageclient';
+import { LanguageClient } from 'vscode-languageclient/node';
 import * as MicroProfileLS from '../definitions/microProfileLSRequestNames';
 
 // The function signature exposed by vscode-yaml:
@@ -88,6 +88,7 @@ export class YamlSchemaCache {
         return jsonSchema;
       }, (err) => {
         console.error(`Error while consumming '${MicroProfileLS.JSON_SCHEMA_FOR_PROJECT_INFO_REQUEST}' request: ${err.message}`);
+        return null;
       });
   }
 
