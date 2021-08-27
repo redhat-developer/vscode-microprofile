@@ -262,6 +262,6 @@
     "expand-home-dir": "0.0.3",
     "find-java-home": "^1.0.0",
     "glob": "^7.1.4",
-    "vscode-languageclient": "^5.2.1"
+    "vscode-languageclient": "^7.0.0"
   }
 }

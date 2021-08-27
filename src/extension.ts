@@ -16,7 +16,8 @@
 import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry/lib/interfaces/redhatService';
 import { commands, ExtensionContext, extensions, window, workspace } from 'vscode';
-import { DidChangeConfigurationNotification, DocumentSelector, LanguageClient, LanguageClientOptions } from 'vscode-languageclient';
+import { DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions } from 'vscode-languageclient';
+import { LanguageClient } from 'vscode-languageclient/node';
 import * as CommandKind from './definitions/lspCommandKind';
 import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
 import { prepareExecutable } from './languageServer/javaServerStarter';
