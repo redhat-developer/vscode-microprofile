@@ -201,6 +201,15 @@
           "description": "Array of properties to ignore for unassigned MicroProfile properties validation. Patterns can be used ('*' = any string, '?' = any character)",
           "scope": "window"
         },
+        "microprofile.tools.validation.expression.excluded": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of properties to ignore for expression MicroProfile properties validation. Patterns can be used ('*' = any string, '?' = any character)",
+          "scope": "window"
+        },
         "microprofile.tools.codeLens.urlCodeLensEnabled": {
           "type": "boolean",
           "default": true,
