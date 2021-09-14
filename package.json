@@ -58,8 +58,9 @@
         "aliases": [
           "MicroProfile properties"
         ],
-        "filenames": [
-          "microprofile-config.properties"
+        "filenamePatterns": [
+          "microprofile-config.properties",
+          "microprofile-config-?*.properties"
         ],
         "configuration": "./language-support/properties-support/language-configuration.json"
       }
