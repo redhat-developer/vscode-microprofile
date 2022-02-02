@@ -1,6 +1,7 @@
-import { extensions, window, commands } from "vscode";
+import { window, commands } from "vscode";
+import { JavaExtensionAPI } from "../extension";
 
-const JAVA_EXTENSION_ID = "redhat.java";
+export const JAVA_EXTENSION_ID = "redhat.java";
 
 export enum ServerMode {
   STANDARD = "Standard",
@@ -13,17 +14,7 @@ export enum ServerMode {
  * Before activating Tools for MicroProfile.
  * If java ls was started in lightweight mode, It will prompt user to switch
  */
-export async function waitForStandardMode(): Promise<void>  {
-  const vscodeJava = extensions.getExtension(JAVA_EXTENSION_ID);
-  if (!vscodeJava) {
-    throw new Error("VSCode java is not installed");
-  }
-
-  const api = await vscodeJava.activate();
-  if (!api) {
-    throw new Error("VSCode java api not found");
-  }
-
+export async function waitForStandardMode(api: JavaExtensionAPI): Promise<void>  {
   // If hybrid, standard mode is being launched. Wait for standard mode then resolve.
   if (api.serverMode === ServerMode.HYBRID) {
     return new Promise((resolve) => {
