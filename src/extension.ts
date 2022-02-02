@@ -25,10 +25,13 @@ import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileC
 import * as requirements from './languageServer/requirements';
 import { registerConfigurationUpdateCommand, registerOpenURICommand } from './lsp-commands';
 import { registerProviders } from './providers/microProfileProviders';
-import { waitForStandardMode } from './util/javaServerMode';
+import { JAVA_EXTENSION_ID, waitForStandardMode } from './util/javaServerMode';
 import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './yaml/YamlSchema';
 
 let languageClient: LanguageClient;
+
+// alias for vscode-java's ExtensionAPI
+export type JavaExtensionAPI = any;
 
 export async function activate(context: ExtensionContext): Promise<void> {
 
@@ -46,9 +49,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
    * Before activating Tools for MicroProfile.
    * If java ls was started in lightweight mode, It will prompt user to switch
    */
-  await waitForStandardMode();
+  const api: JavaExtensionAPI = await getJavaExtensionAPI();
+  await waitForStandardMode(api);
 
-  connectToLS(context).then(() => {
+  connectToLS(context, api).then(() => {
     yamlSchemaCache.then(cache => { if (cache) { cache.languageClient = languageClient; } });
 
     /**
@@ -107,9 +111,9 @@ function registerVSCodeCommands(context: ExtensionContext) {
   context.subscriptions.push(registerOpenURICommand());
 }
 
-function connectToLS(context: ExtensionContext) {
+function connectToLS(context: ExtensionContext, api: JavaExtensionAPI) {
   const microprofileContributions: MicroProfileContribution[] = collectMicroProfileJavaExtensions(extensions.all);
-  return requirements.resolveRequirements().then(requirements => {
+  return requirements.resolveRequirements(api).then(requirements => {
     const clientOptions: LanguageClientOptions = {
       documentSelector: getDocumentSelector(microprofileContributions),
       // wrap with key 'settings' so it can be handled same a DidChangeConfiguration
@@ -206,3 +210,18 @@ function connectToLS(context: ExtensionContext) {
     return jarPaths;
   }
 }
+
+async function getJavaExtensionAPI() : Promise<JavaExtensionAPI> {
+  const vscodeJava = extensions.getExtension(JAVA_EXTENSION_ID);
+  if (!vscodeJava) {
+    throw new Error("VSCode java is not installed");
+  }
+
+  const api = await vscodeJava.activate();
+  if (!api) {
+    throw new Error("VSCode java api not found");
+  }
+
+  return Promise.resolve(api);
+}
+
