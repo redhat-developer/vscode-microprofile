@@ -1,5 +1,46 @@
 # Tools for MicroProfile Changelog
 
+## [0.4.0](https://github.com/redhat-developer/vscode-microprofile/milestone/4?closed=1) (March 16, 2022)
+
+### Enhancements
+
+ * Support validation and code actions for `@ConfigProperty`. See [eclipse/lsp4mp#90](https://github.com/eclipse/lsp4mp/issues/90), [eclipse/lsp4mp#176](https://github.com/eclipse/lsp4mp/issues/176) and [eclipse/lsp4mp#147](https://github.com/eclipse/lsp4mp/issues/147).
+ * Completion for properties defined using `@ConfigProperties`. See [eclipse/lsp4mp#80](https://github.com/eclipse/lsp4mp/issues/80).
+ * Support validation for `@Retry` annotation and its member values. See [eclipse/lsp4mp#191](https://github.com/eclipse/lsp4mp/pull/191) and [eclipse/lsp4mp#196](https://github.com/eclipse/lsp4mp/issues/196).
+ * Diagnostics for `@Asynchronous`, `@Bulkhead` & `@Timeout` annotations. See [eclipse/lsp4mp#74](https://github.com/eclipse/lsp4mp/issues/74), [eclipse/lsp4mp#184](https://github.com/eclipse/lsp4mp/pull/184), [eclipse/lsp4mp#185](https://github.com/eclipse/lsp4mp/pull/185).
+ * Support the `@ApplicationPath` annotation to handle the project URL. See [eclipse/lsp4mp#179](https://github.com/eclipse/lsp4mp/issues/179).
+ * Diagnostics for invalid annotation parameter values. See [eclipse/lsp4mp#77](https://github.com/eclipse/lsp4mp/issues/77).
+ * Reference only property declared in properties file in property expression. See [eclipse/lsp4mp#205](https://github.com/eclipse/lsp4mp/issues/205).
+ * Support for default value inside properties expression. See [eclipse/lsp4mp#201](https://github.com/eclipse/lsp4mp/issues/201).
+ * Use redhat.java embedded JRE to launch the MicroProfile language server. See [#84](https://github.com/redhat-developer/vscode-microprofile/issues/84).
+ * Add settings and code action to ignore unassigned property warnings. See [#65](https://github.com/redhat-developer/vscode-microprofile/pull/65) and [eclipse/lsp4mp#187](https://github.com/eclipse/lsp4mp/pull/187).
+ * Binary dynamic properties should be generated after an update. See [eclipse/lsp4mp#159](https://github.com/eclipse/lsp4mp/pull/159).
+ * Support for config profiles. See [#73](https://github.com/redhat-developer/vscode-microprofile/pull/73).
+
+### Bug Fixes
+
+ * Provide API to configure root path of JAX RS resources. See [eclipse/lsp4mp#174](https://github.com/eclipse/lsp4mp/pull/174).
+ * Fix bug with missing definition hover for multiple annotation members. See [eclipse/lsp4mp#216](https://github.com/eclipse/lsp4mp/pull/216).
+ * Support optional property reference hover for annotation members. See [eclipse/lsp4mp#211](https://github.com/eclipse/lsp4mp/pull/211).
+ * Do not rebuild list of configuration properties when MicroProfile config sources are updated in the build directory. See [eclipse/lsp4mp#162](https://github.com/eclipse/lsp4mp/issues/162).
+ * Deadlock when client is sending burst of request. See [eclipse/lsp4mp#177](https://github.com/eclipse/lsp4mp/issues/177).
+ * Exclude the method that's being annotated when showing completion for fallback method. See [eclipse/lsp4mp#148](https://github.com/eclipse/lsp4mp/issues/148).
+ * SingleMemberAnnotation diagnostics not supported by annotationValidator. See [eclipse/lsp4mp#188](https://github.com/eclipse/lsp4mp/issues/188).
+ * Add 'shouldLanguageServerExitOnShutdown' to ExtendedClientCapabilities. See [eclipse/lsp4mp#172](https://github.com/eclipse/lsp4mp/pull/172).
+ * Update find-java-home to correctly detect java binary where it is symbolically linked. See [#81](https://github.com/redhat-developer/vscode-microprofile/issues/81).
+
+### Build
+
+ * Use ovsx<0.3.0 to ensure we build with Node v12. See [#87](https://github.com/redhat-developer/vscode-microprofile/pull/87).
+
+### Other
+
+ * Add features documentation for properties/java files. See [#64](https://github.com/redhat-developer/vscode-microprofile/issues/64).
+ * Move to vscode-languageclient 7.0.0. See [#68](https://github.com/redhat-developer/vscode-microprofile/pull/68).
+ * Add support for `shouldServerExitOnShutdown` capability. See [#69](https://github.com/redhat-developer/vscode-microprofile/issues/69).
+ * Update vscode-redhat-telemetry to 0.4.2. See [#74](https://github.com/redhat-developer/vscode-microprofile/pull/74).
+ * Update follow-redirects and mocha. See [#86](https://github.com/redhat-developer/vscode-microprofile/pull/86).
+
 ## [0.3.0](https://github.com/redhat-developer/vscode-microprofile/milestone/3?closed=1) (July 22, 2021)
 
 ### Enhancements
