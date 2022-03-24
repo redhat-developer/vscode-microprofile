@@ -1,6 +1,6 @@
 # Tools for MicroProfile Changelog
 
-## [0.4.0](https://github.com/redhat-developer/vscode-microprofile/milestone/4?closed=1) (March 16, 2022)
+## [0.4.0](https://github.com/redhat-developer/vscode-microprofile/milestone/4?closed=1) (March 24, 2022)
 
 ### Enhancements
 
