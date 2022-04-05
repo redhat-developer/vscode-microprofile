@@ -60,11 +60,11 @@ node('rhel8'){
     if(params.UPLOAD_LOCATION) {
         stage('Snapshot') {
             def filesToPush = findFiles(glob: '**.vsix')
-            sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${filesToPush[0].path} ${UPLOAD_LOCATION}/snapshots/vscode-microprofile/"
+            sh "sftp -C ${UPLOAD_LOCATION}/snapshots/vscode-microprofile/ <<< \$'put -p ${filesToPush[0].path}'"
             stash name:'vsix', includes:filesToPush[0].path
             def tgzFilesToPush = findFiles(glob: '**.tgz')
             stash name:'tgz', includes:tgzFilesToPush[0].path
-            sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${tgzFilesToPush[0].path} ${UPLOAD_LOCATION}/snapshots/vscode-microprofile/"
+            sh "sftp -C ${UPLOAD_LOCATION}/snapshots/vscode-microprofile/ <<< \$'put -p ${tgzFilesToPush[0].path}'"
         }
     }
 
@@ -91,9 +91,9 @@ node('rhel8'){
             archiveArtifacts artifacts:"**.vsix,**.tgz"
 
             stage "Promote the build to stable"
-            sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${vsix[0].path} ${UPLOAD_LOCATION}/stable/vscode-microprofile/"
+            sh "sftp -C ${UPLOAD_LOCATION}/stable/vscode-microprofile/ <<< \$'put -p ${vsix[0].path}'"
             def tgz = findFiles(glob: '**.tgz')
-            sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${tgz[0].path} ${UPLOAD_LOCATION}/stable/vscode-microprofile/"
+            sh "sftp -C ${UPLOAD_LOCATION}/stable/vscode-microprofile/ <<< \$'put -p ${tgz[0].path}'"
         }
     }
 }
