@@ -7,6 +7,17 @@
   "scopeName": "source.java-properties",
   "patterns": [
     {
+      "include": "#comments"
+    },
+    {
+      "include": "#property-key"
+    },
+    {
+      "include": "#property-value"
+    }
+  ],
+  "repository": {
+    "comments":{
       "comment": "Matching for comments that start with #",
       "begin": "^([ \\t]+)?(?=#)",
       "beginCaptures": {
@@ -28,7 +39,7 @@
         }
       ]
     },
-    {
+    "property-key":{
       "comment": "Matching for property keys",
       "captures": {
         "1": {
@@ -37,7 +48,7 @@
       },
       "match": "^\\s*([\\/a-zA-Z0-9%_.\\[\\]#-]+)\\s*(?=[=\\\\])"
     },
-    {
+    "property-value":{
       "comment": "Matching the equals sign and property value",
       "begin": "(=)",
       "beginCaptures": {
@@ -49,12 +60,13 @@
       "patterns": [
         {
           "include": "#numbers"
+        },
+        {
+          "include": "#expression"
         }
       ]
-    }
-  ],
-  "repository": {
-    "numbers": {
+    },
+      "numbers": {
       "patterns": [
         {
           "match": "(?x)\n\\b(?<!\\$)\n0(x|X)\n(\n  (?<!\\.)[0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?[Ll]?(?!\\.)\n  |\n  (\n    [0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?\\.?\n    |\n    ([0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?)?\\.[0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?\n  )\n  [Pp][+-]?[0-9]([0-9_]*[0-9])?[FfDd]?\n)\n\\b(?!\\$)",
@@ -71,6 +83,38 @@
         {
           "match": "(?x)\n(?<!\\$)\n(\n  \\b[0-9]([0-9_]*[0-9])?\\.\\B(?!\\.)\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([0-9]([0-9_]*[0-9])?)([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  (?<!\\.)\\B\\.[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b(0|[1-9]([0-9_]*[0-9])?)(?!\\.)[Ll]?\\b\n)\n(?!\\$)",
           "name": "constant.numeric.decimal.java-properties"
+        }
+      ]
+    },
+    "expression":{
+      "comment": "Matching for expression. Ex : ${expression:value} ${my.prop${compose}} ${my.prop}${my.prop}",
+      "begin": "(\\$\\{)",
+      "beginCaptures": {
+        "1": {
+          "name": "support.constant.handlebars.java-properties"
+        }
+      },
+      "end": "(\\})",
+      "endCaptures": {
+        "1": {
+          "name": "support.constant.handlebars.java-properties"
+        }
+      },
+      "patterns": [
+        {
+          "match": "(?<=\\{)([a-zA-z.]+)",
+          "name": "variable.parameter.java-properties"
+        },
+        {
+          "match": "(:)",
+          "name": "keyword.operator.assign.value.java-properties"
+        },
+        {
+          "match": "(?<=\\:)([a-zA-z0-9]+)",
+          "name": "constant.numeric.default.value.java-properties"
+        },
+        {
+          "include": "#expression"
         }
       ]
     }
