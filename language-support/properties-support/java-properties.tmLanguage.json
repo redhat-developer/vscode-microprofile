@@ -91,19 +91,19 @@
       "begin": "(\\$\\{)",
       "beginCaptures": {
         "1": {
-          "name": "support.constant.handlebars.java-properties"
+          "name": "support.function.java-properties"
         }
       },
       "end": "(\\})",
       "endCaptures": {
         "1": {
-          "name": "support.constant.handlebars.java-properties"
+          "name": "support.function.java-properties"
         }
       },
       "patterns": [
         {
           "match": "(?<=\\{)([a-zA-z.]+)",
-          "name": "variable.parameter.java-properties"
+          "name": "support.type.name.java-properties"
         },
         {
           "match": "(:)",
@@ -111,7 +111,7 @@
         },
         {
           "match": "(?<=\\:)([a-zA-z0-9]+)",
-          "name": "constant.numeric.default.value.java-properties"
+          "name": "variable.other.value.java-properties"
         },
         {
           "include": "#expression"
