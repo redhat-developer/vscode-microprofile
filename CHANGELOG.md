@@ -1,5 +1,33 @@
 # Tools for MicroProfile Changelog
 
+## [0.5.0](https://github.com/redhat-developer/vscode-microprofile/milestone/5?closed=1) (July 25, 2022)
+
+### Enhancements
+
+ * Colorize profile part in properties. See [#96](https://github.com/redhat-developer/vscode-microprofile/issues/96).
+ * Added textmate grammar support for property expressions. See [#95](https://github.com/redhat-developer/vscode-microprofile/pull/95).
+ * Delay revalidation and handle validation cancellation correctly. See [eclipse/lsp4mp#252](https://github.com/eclipse/lsp4mp/pull/252).
+ * Property file with property expressions (without default value) are flagged as wrong. See [eclipse/lsp4mp#225](https://github.com/eclipse/lsp4mp/issues/225), [eclipse/lsp4mp#227](https://github.com/eclipse/lsp4mp/issues/227).
+ * Improved MicroProfile property value expression diagnostic message. See [eclipse/lsp4mp#242](https://github.com/eclipse/lsp4mp/pull/242).
+
+### Bug Fixes
+
+ * Language Server attempts to calculate code actions for stale diagnostics. See [eclipse/lsp4mp#272](https://github.com/eclipse/lsp4mp/issues/272).
+ * Hovering property value fails with NPE. See [eclipse/lsp4mp#265](https://github.com/eclipse/lsp4mp/issues/265).
+ * Completing property name with existing value will replace current value with default value. See [eclipse/lsp4mp#264](https://github.com/eclipse/lsp4mp/issues/264).
+ * Empty completion when completion is triggered before the assign `=`. See [eclipse/lsp4mp#255](https://github.com/eclipse/lsp4mp/issues/255).
+ * Improve validation by handling some known corner cases. [eclipse/lsp4mp#249](https://github.com/eclipse/lsp4mp/issues/249), [eclipse/lsp4mp#235](https://github.com/eclipse/lsp4mp/issues/235), [eclipse/lsp4mp#233](https://github.com/eclipse/lsp4mp/issues/233), [eclipse/lsp4mp#232](https://github.com/eclipse/lsp4mp/issues/232), [eclipse/lsp4mp#228](https://github.com/eclipse/lsp4mp/issues/228).
+
+### Build
+
+ * Bump terser from 5.6.1 to 5.14.2. See [#102](https://github.com/redhat-developer/vscode-microprofile/pull/102).
+ * Remove ejs dependency. See [#97](https://github.com/redhat-developer/vscode-microprofile/pull/97).
+
+### Documentation
+
+ * Add DCO information to `CONTRIBUTING.md`. See [#99](https://github.com/redhat-developer/vscode-microprofile/issues/99).
+
+
 ## [0.4.0](https://github.com/redhat-developer/vscode-microprofile/milestone/4?closed=1) (March 24, 2022)
 
 ### Enhancements
