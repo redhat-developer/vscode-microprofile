@@ -1,8 +1,10 @@
-[![Tests workflow](https://github.com/redhat-developer/vscode-microprofile/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/redhat-developer/vscode-microprofile/actions)
-[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/redhat.vscode-microprofile.svg "Current Release")](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-microprofile)
-[![Gitter chat for vscode-microprofile](https://badges.gitter.im/redhat-developer/vscode-microprofile.svg)](https://gitter.im/redhat-developer/vscode-microprofile)
-
 # Tools for MicroProfile
+
+[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/redhat.vscode-microprofile?style=for-the-badge&label=VS%20Marketplace&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-microprofile)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/redhat.vscode-microprofile?style=for-the-badge)](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-microprofile)
+[![Chat](https://img.shields.io/gitter/room/redhat-developer/vscode-microprofile?style=for-the-badge&logo=gitter)](https://gitter.im/redhat-developer/vscode-microprofile)
+[![Build Status](https://img.shields.io/github/workflow/status/redhat-developer/vscode-microprofile/Tests/master?style=for-the-badge&logo=github)](https://github.com/redhat-developer/vscode-microprofile/actions?query=branch%3Amaster)
+[![License](https://img.shields.io/github/license/redhat-developer/vscode-microprofile?style=for-the-badge)](https://github.com/redhat-developer/vscode-microprofile/blob/master/LICENSE)
 
 ## Description
 
