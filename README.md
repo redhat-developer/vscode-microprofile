@@ -63,6 +63,7 @@ Default is `["*/mp-rest/providers/*/priority", "mp.openapi.schema.*", "kafka-str
 * `microprofile.tools.codeLens.urlCodeLensEnabled` : Enable/disable the URL code lenses for REST services. Default is`true`.
 * `microprofile.tools.validation.value.severity`: Validation severity for property values for MicroProfile `*.properties` files. Default is `error`.
 * `microprofile.tools.validation.unassigned.excluded`: Array of properties to ignore for unassigned properties validation in Java files. Patterns can be used ('\*' = any string, '?' = any character).
+* `microprofile.tools.inlayHint.enabled`: Enable/disable the inlay hint support. Default is `false`.
 
 ### **Note for MicroProfile Rest Client properties**:
 

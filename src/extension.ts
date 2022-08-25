@@ -52,7 +52,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const api: JavaExtensionAPI = await getJavaExtensionAPI();
   await waitForStandardMode(api);
 
-  connectToLS(context, api).then(() => {
+  const microprofileContributions: MicroProfileContribution[] = collectMicroProfileJavaExtensions(extensions.all);
+  const documentSelector = getDocumentSelector(microprofileContributions);
+  connectToLS(context, api, documentSelector, microprofileContributions).then(() => {
     yamlSchemaCache.then(cache => { if (cache) { cache.languageClient = languageClient; } });
 
     /**
@@ -76,6 +78,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
       languageClient.sendNotification(MicroProfileLS.PROPERTIES_CHANGED_NOTIFICATION, event);
       yamlSchemaCache.then(cache => { if (cache) cache.evict(event); });
     }));
+
+    registerProviders(languageClient, documentSelector);
+
   }).catch((error) => {
     window.showErrorMessage(error.message, error.label).then((selection) => {
       if (error.label && error.label === selection && error.openUrl) {
@@ -91,7 +96,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   registerVSCodeCommands(context);
-  registerProviders();
 
 }
 
@@ -111,11 +115,10 @@ function registerVSCodeCommands(context: ExtensionContext) {
   context.subscriptions.push(registerOpenURICommand());
 }
 
-function connectToLS(context: ExtensionContext, api: JavaExtensionAPI) {
-  const microprofileContributions: MicroProfileContribution[] = collectMicroProfileJavaExtensions(extensions.all);
+function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, documentSelector: DocumentSelector, microprofileContributions: MicroProfileContribution[]) {
   return requirements.resolveRequirements(api).then(requirements => {
     const clientOptions: LanguageClientOptions = {
-      documentSelector: getDocumentSelector(microprofileContributions),
+      documentSelector: documentSelector,
       // wrap with key 'settings' so it can be handled same a DidChangeConfiguration
       initializationOptions: {
         settings: getVSCodeMicroProfileSettings(),
@@ -163,25 +166,6 @@ function connectToLS(context: ExtensionContext, api: JavaExtensionAPI) {
   });
 
   /**
-   * Returns the document selector.
-   *
-   * The returned document selector contains the microprofile-properties and java document selectors
-   * and all document selectors contained in `microProfileContributions`.
-   *
-   * @param microProfileContributions MicroProfile language server contributions from other VS Code extensions
-   */
-  function getDocumentSelector(microProfileContributions: MicroProfileContribution[]): DocumentSelector {
-    let documentSelector: DocumentSelector = [
-      { scheme: 'file', language: 'microprofile-properties' },
-      { scheme: 'file', language: 'java' }
-    ];
-    microProfileContributions.forEach((contribution: MicroProfileContribution) => {
-      documentSelector = documentSelector.concat(contribution.documentSelector);
-    });
-    return documentSelector;
-  }
-
-  /**
    * Returns a json object with key 'microprofile' and a json object value that
    * holds all microprofile settings.
    */
@@ -211,7 +195,7 @@ function connectToLS(context: ExtensionContext, api: JavaExtensionAPI) {
   }
 }
 
-async function getJavaExtensionAPI() : Promise<JavaExtensionAPI> {
+async function getJavaExtensionAPI(): Promise<JavaExtensionAPI> {
   const vscodeJava = extensions.getExtension(JAVA_EXTENSION_ID);
   if (!vscodeJava) {
     throw new Error("VSCode java is not installed");
@@ -225,3 +209,22 @@ async function getJavaExtensionAPI() : Promise<JavaExtensionAPI> {
   return Promise.resolve(api);
 }
 
+
+/**
+ * Returns the document selector.
+ *
+ * The returned document selector contains the microprofile-properties and java document selectors
+ * and all document selectors contained in `microProfileContributions`.
+ *
+ * @param microProfileContributions MicroProfile language server contributions from other VS Code extensions
+ */
+function getDocumentSelector(microProfileContributions: MicroProfileContribution[]): DocumentSelector {
+  let documentSelector: DocumentSelector = [
+    { scheme: 'file', language: 'java' },
+    { scheme: 'file', language: 'microprofile-properties' }
+  ];
+  microProfileContributions.forEach((contribution: MicroProfileContribution) => {
+    documentSelector = documentSelector.concat(contribution.documentSelector);
+  });
+  return documentSelector;
+}

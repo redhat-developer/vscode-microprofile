@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "bugs": "https://github.com/redhat-developer/vscode-microprofile/issues",
   "engines": {
-    "vscode": "^1.37.0"
+    "vscode": "^1.65.0"
   },
   "galleryBanner": {
     "color": "#1d2f42",
@@ -216,6 +216,12 @@
           "default": true,
           "description": "Enable/disable the URL code lenses for REST services.",
           "scope": "window"
+        },
+        "microprofile.tools.inlayHint.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/disable the inlay hint support.",
+          "scope": "window"
         }
       }
     },
@@ -250,7 +256,7 @@
     "@types/mocha": "^5.2.6",
     "@types/node": "^10.14.16",
     "@types/semver": "^6.2.0",
-    "@types/vscode": "^1.37.0",
+    "@types/vscode": "^1.65.0",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "chai": "^4.2.0",
@@ -260,11 +266,11 @@
     "gulp-rename": "^1.4.0",
     "minimist": ">=1.2.6",
     "mocha": "^9.2.0",
-    "ts-loader": "^6.0.1",
-    "typescript": "^3.7.2",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
     "vscode-test": "^1.2.3",
     "webpack": "^5.28.0",
-    "webpack-cli": "^4.6.0"
+    "webpack-cli": "^4.9.1"
   },
   "dependencies": {
     "@redhat-developer/vscode-redhat-telemetry": "^0.4.2",
