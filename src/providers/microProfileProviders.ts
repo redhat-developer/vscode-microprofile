@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-import { languages } from "vscode";
+import { DocumentSelector, languages } from "vscode";
+import { DocumentFilter, LanguageClient } from "vscode-languageclient/node";
 import { MicroProfileCompletionItemProvider } from "./microProfileCompletionItemProvider";
+import { MicroprofileInlayHintsProvider } from "./microprofileInlayHintsProvider";
 
 /**
  * Register language feature providers that are not provided directly by lsp4mp
  */
-export function registerProviders(): void {
-  languages.registerCompletionItemProvider('java', new MicroProfileCompletionItemProvider(), //
-      "\"");
+export function registerProviders(languageClient: LanguageClient, documentSelector: DocumentSelector): void {
+  const javaDocumentFilter = (<DocumentFilter[]>documentSelector)[0];
+  languages.registerCompletionItemProvider(javaDocumentFilter, new MicroProfileCompletionItemProvider(), //
+    "\"");
+  const supportRegisterInlayHintsProvider = (languages as any).registerInlayHintsProvider;
+  if (supportRegisterInlayHintsProvider) {
+    const mpDocumentFilter = (<DocumentFilter[]>documentSelector).slice(1);
+    (languages.registerInlayHintsProvider(mpDocumentFilter, new MicroprofileInlayHintsProvider(languageClient)));
+  }
 }
