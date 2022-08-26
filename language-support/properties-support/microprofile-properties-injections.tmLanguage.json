@@ -1,79 +1,16 @@
 {
-  "information_for_contributors": [
-    "This file was referenced from https://github.com/microsoft/vscode/blob/master/extensions/ini/syntaxes/ini.tmLanguage.json",
-    "This file has been edited to fit the needs for java.properties syntax highlighting"
-  ],
-  "name": "Java Properties",
-  "scopeName": "source.java-properties",
+  "scopeName": "microprofile-value.injection",
+  "injectionSelector": "L:string.unquoted.java-properties",
   "patterns": [
     {
-      "include": "#comments"
+      "include": "#numbers"
     },
     {
-      "include": "#property-key"
-    },
-    {
-      "include": "#property-value"
+      "include": "#expression"
     }
   ],
   "repository": {
-    "comments":{
-      "comment": "Matching for comments that start with #",
-      "begin": "^([ \\t]+)?(?=#)",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.whitespace.comment.leading.java-properties"
-        }
-      },
-      "end": "(?!\\G)",
-      "patterns": [
-        {
-          "begin": "#",
-          "beginCaptures": {
-            "0": {
-              "name": "punctuation.definition.comment.java-properties"
-            }
-          },
-          "end": "\\n",
-          "name": "comment.line.number-sign.java-properties"
-        }
-      ]
-    },
-    "property-key":{
-      "comment": "Matching for property keys",
-      "begin": "^(%[\\/a-zA-Z0-9_\\[\\]#-]+)?(\\.)?([\\/a-zA-Z0-9_.\\[\\]#-]+)?",
-      "beginCaptures": {
-        "1": {
-          "name": "entity.other.attribute.profile.java-properties"
-        },
-        "2": {
-          "name": "keyword.other.definition.java-properties"
-        },
-        "3": {
-          "name": "keyword.other.definition.java-properties"
-        }
-      },
-      "end": "\\s||="
-    },
-    "property-value":{
-      "comment": "Matching the equals sign and property value",
-      "begin": "(=)",
-      "beginCaptures": {
-        "1": {
-          "name": "keyword.operator.assignment.java-properties"
-        }
-      },
-      "end": "(?<!\\\\)\\n",
-      "patterns": [
-        {
-          "include": "#numbers"
-        },
-        {
-          "include": "#expression"
-        }
-      ]
-    },
-      "numbers": {
+    "numbers": {
       "patterns": [
         {
           "match": "(?x)\n\\b(?<!\\$)\n0(x|X)\n(\n  (?<!\\.)[0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?[Ll]?(?!\\.)\n  |\n  (\n    [0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?\\.?\n    |\n    ([0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?)?\\.[0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?\n  )\n  [Pp][+-]?[0-9]([0-9_]*[0-9])?[FfDd]?\n)\n\\b(?!\\$)",
@@ -93,7 +30,7 @@
         }
       ]
     },
-    "expression":{
+    "expression": {
       "comment": "Matching for expression. Ex : ${expression:value} ${my.prop${compose}} ${my.prop}${my.prop}",
       "begin": "(\\$\\{)",
       "beginCaptures": {
