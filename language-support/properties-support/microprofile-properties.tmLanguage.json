@@ -1,0 +1,10 @@
+{
+  "name": "MicroProfile Properties",
+  "scopeName": "source.microprofile-properties",
+  "patterns": [
+    {
+      "comment": "source.java-properties is defined in vscode-java",
+      "include": "source.java-properties"
+    }
+  ]
+}

@@ -222,8 +222,15 @@
     "grammars": [
       {
         "language": "microprofile-properties",
-        "scopeName": "source.java-properties",
-        "path": "./language-support/properties-support/java-properties.tmLanguage.json"
+        "scopeName": "source.microprofile-properties",
+        "path": "./language-support/properties-support/microprofile-properties.tmLanguage.json"
+      },
+      {
+        "injectTo": [
+          "source.microprofile-properties"
+        ],
+        "scopeName": "microprofile-value.injection",
+        "path": "./language-support/properties-support/microprofile-properties-injections.tmLanguage.json"
       }
     ]
   },
