@@ -23,14 +23,14 @@ const microprofileExtension = 'org.eclipse.lsp4mp.jdt.core';
 const microprofileSite = 'org.eclipse.lsp4mp.jdt.site';
 
 gulp.task('buildServer', (done) => {
-  cp.execSync(mvnw() + ' clean install -DskipTests', { cwd: microprofileServerDir , stdio: 'inherit' });
+  cp.execSync(mvnw() + ' clean install -B -DskipTests', { cwd: microprofileServerDir , stdio: 'inherit' });
   gulp.src(microprofileServerDir + '/target/' + microprofileServerName)
     .pipe(gulp.dest('./server'));
   done();
 });
 
 gulp.task('buildExtension', (done) => {
-  cp.execSync(mvnw() + ' clean verify -DskipTests', { cwd: microprofileExtensionDir, stdio: 'inherit' });
+  cp.execSync(mvnw() + ' clean verify -B -DskipTests', { cwd: microprofileExtensionDir, stdio: 'inherit' });
   gulp.src(microprofileExtensionDir + '/' + microprofileExtension + '/target/' + microprofileExtension + '-!(*sources).jar')
     .pipe(rename(microprofileExtension + '.jar'))
     .pipe(gulp.dest('./jars'));
