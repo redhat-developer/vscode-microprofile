@@ -14,6 +14,7 @@
 const gulp = require('gulp');
 const rename = require('gulp-rename');
 const cp = require('child_process');
+const fse = require('fs-extra');
 
 const microprofileServerName = 'org.eclipse.lsp4mp.ls-uber.jar';
 const microprofileServerDir = '../lsp4mp/microprofile.ls/org.eclipse.lsp4mp.ls';
@@ -53,10 +54,34 @@ gulp.task('buildExtension', (done) => {
 
 gulp.task('build', gulp.series('buildServer', 'buildExtension'));
 
+gulp.task('prepare_pre_release', function (done) {
+  const json = JSON.parse(fse.readFileSync("./package.json").toString());
+  const stableVersion = json.version.match(/(\d+)\.(\d+)\.(\d+)/);
+  const major = stableVersion[1];
+  const minor = stableVersion[2];
+  const date = new Date();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hours = date.getHours();
+  const patch = `${date.getFullYear()}${prependZero(month)}${prependZero(day)}${prependZero(hours)}`;
+  const insiderPackageJson = Object.assign(json, {
+    version: `${major}.${minor}.${patch}`,
+  });
+  fse.writeFileSync("./package.json", JSON.stringify(insiderPackageJson, null, 2));
+  done();
+});
+
 function mvnw() {
 	return isWin() ? 'mvnw.cmd' : './mvnw';
 }
 
 function isWin() {
 	return /^win/.test(process.platform);
+}
+
+function prependZero(number) {
+  if (number > 99) {
+    throw "Unexpected value to prepend with zero";
+  }
+  return `${number < 10 ? "0" : ""}${number}`;
 }
