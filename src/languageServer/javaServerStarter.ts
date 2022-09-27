@@ -37,6 +37,12 @@ function prepareParams(microprofileJavaExtensions: string[]): string[] {
       params.push(watchParentProcess + 'false');
     }
   }
+  // Disable logging unless the user specifically sets it to a different value.
+  // Logging can cause issues, since sometimes it writes to standard out.
+  // See https://github.com/redhat-developer/vscode-java/issues/2577.
+  if (vmargs.indexOf("-Xlog:") < 0) {
+    params.push("-Xlog:disable");
+  }
   parseVMargs(params, vmargs);
   const serverHome: string = path.resolve(__dirname, '../server');
   const microprofileServerFound: Array<string> = glob.sync(`**/${MICROPROFILE_SERVER_NAME}`, { cwd: serverHome });
