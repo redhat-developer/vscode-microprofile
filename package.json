@@ -86,7 +86,7 @@
           ],
           "default": "-Xmx64M -XX:+UseG1GC -XX:+UseStringDeduplication -Xlog:disable",
           "description": "Specifies extra VM arguments used to launch the MicroProfile Language Server. Eg. use `-Xmx1G  -XX:+UseG1GC -XX:+UseStringDeduplication` to increase the heap size to 1GB and enable String deduplication with the G1 Garbage collector.",
-          "scope": "window"
+          "scope": "application"
         },
         "microprofile.tools.trace.server": {
           "type": "string",
