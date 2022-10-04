@@ -18,6 +18,7 @@
 export const PROJECT_INFO_REQUEST = 'microprofile/projectInfo';
 export const PROPERTY_DEFINITION_REQUEST = 'microprofile/propertyDefinition';
 export const JSON_SCHEMA_FOR_PROJECT_INFO_REQUEST = 'microprofile/jsonSchemaForProjectInfo';
+export const JAVA_CODEACTION_RESOLVE_REQUEST = 'microprofile/java/codeActionResolve';
 export const JAVA_CODEACTION_REQUEST = 'microprofile/java/codeAction';
 export const JAVA_CODELENS_REQUEST = 'microprofile/java/codeLens';
 export const JAVA_COMPLETION_REQUEST = 'microprofile/java/completion';

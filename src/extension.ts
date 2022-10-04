@@ -63,6 +63,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     bindRequest(MicroProfileLS.PROJECT_INFO_REQUEST);
     bindRequest(MicroProfileLS.PROPERTY_DEFINITION_REQUEST);
     bindRequest(MicroProfileLS.JAVA_CODEACTION_REQUEST);
+    bindRequest(MicroProfileLS.JAVA_CODEACTION_RESOLVE_REQUEST);
     bindRequest(MicroProfileLS.JAVA_CODELENS_REQUEST);
     bindRequest(MicroProfileLS.JAVA_COMPLETION_REQUEST);
     bindRequest(MicroProfileLS.JAVA_DEFINITION_REQUEST);
