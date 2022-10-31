@@ -35,6 +35,33 @@ In `Java` files, you will benefit with:
   * Validation and Quick Fix support for MicroProfile
   * Code Lens support for MicroProfile
   * Code snippets
+      *  `jaxrc`: Create a new JAX-RS resource class
+      *  `jaxrm`: Create a new JAX-RS resource method
+      *  `mpreadiness`: Create a readiness check class
+      *  `mpliveness`: Create a liveness check class
+      *  `mpnrc`: Create a new MicroProfile REST client
+      *  `mpirc`: Inject a MicroProfile REST client
+      *  Snippets to help fill out the parameters for annotations that are introduced by MicroProfile:
+           *  `@Timeout`
+           *  `@Retry`
+           *  `@Fallback`
+           *  `@CircuitBreaker`
+           *  `@Bulkhead`
+           *  `@Metric`
+           *  `@Counted`
+           *  `@Gauge`
+           *  `@ConcurrentGauge`
+           *  `@Metered`
+           *  `@Timed`
+           *  `@SimplyTimed`
+           *  `@RegistryType`
+           *  `@Operation`
+           *  `@Content`
+           *  `@Schema`
+           *  `@Parameters`
+           *  `@Parameter`
+           *  `@APIResponses`
+           *  `@APIResponse`
 
 ## Requirements
 
