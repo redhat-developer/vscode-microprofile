@@ -8,6 +8,43 @@ As a main component of development with MicroProfile, annotations are used to ex
 
 ![MP Java Completion](./res/MPJavaCompletion.gif)
 
+## Snippets support
+
+In Java files in a MicroProfile project, vscode-microprofile provides the following snippets:
+
+*  `rest_class`: Create a new JAX-RS/Jakarta REST resource class
+*  `rest_get`: Create a new JAX-RS/Jakarta REST GET resource method
+*  `mpreadiness`: Create a readiness check class
+*  `mpliveness`: Create a liveness check class
+*  `mpnrc`: Create a new MicroProfile REST client
+*  `mpirc`: Inject a MicroProfile REST client
+*  Snippets to help fill out the parameters for annotations that are introduced by MicroProfile:
+    *  `@Timeout`
+    *  `@Retry`
+    *  `@Fallback`
+    *  `@CircuitBreaker`
+    *  `@Bulkhead`
+    *  `@Metric`
+    *  `@Counted`
+    *  `@Gauge`
+    *  `@ConcurrentGauge`
+    *  `@Metered`
+    *  `@Timed`
+    *  `@SimplyTimed`
+    *  `@RegistryType`
+    *  `@Operation`
+    *  `@Content`
+    *  `@Schema`
+    *  `@Parameters`
+    *  `@Parameter`
+    *  `@APIResponses`
+    *  `@APIResponse`
+
+Only snippets relevant to the context are shown.
+That means that if the cursor is in a place where it doesn't make sense to add the snippet content,
+or if the classes that the snippet references are on the classpath of the project,
+then the snippets won't be shown.
+
 ## Hover support
 
 Given any MicroProfile annotation, hover support is available for more info on usage, interface, etc..
@@ -37,3 +74,14 @@ Diagnostics are supported for MicroProfile annotations which targets errors and 
 On debug, a Quarkus application run with MicroProfile sources supports a URL CodeLens that routes to the endpoint debug path.
 
 ![MP Java Code Lens](./res/MPJavaCodeLens.png)
+
+## Workspace Symbols support
+
+vscode-microprofile provides workspace symbols for:
+
+### Jakarta/JAX-RS REST methods
+
+Workspace Symbols with the prefix `@` refer to Jakarta/JAX-RS REST methods.
+vscode-microprofile lists the URL and the HTTP method for each method.
+
+![Workspace Symbols for Jakarta/JAX-RS REST](./res/WorkspaceSymbolsJakartaREST.gif)

@@ -76,8 +76,10 @@ async function doActivate(context: ExtensionContext) {
     bindRequest(MicroProfileLS.JAVA_DEFINITION_REQUEST);
     bindRequest(MicroProfileLS.JAVA_DIAGNOSTICS_REQUEST);
     bindRequest(MicroProfileLS.JAVA_HOVER_REQUEST);
+    bindRequest(MicroProfileLS.JAVA_WORKSPACE_SYMBOLS_REQUEST);
     bindRequest(MicroProfileLS.JAVA_FILE_INFO_REQUEST);
     bindRequest(MicroProfileLS.JAVA_PROJECT_LABELS_REQUEST);
+    bindRequest(MicroProfileLS.JAVA_WORKSPACE_LABELS_REQUEST);
 
     /**
      * Delegate notifications from Java JDT LS to the MicroProfile LS
@@ -101,8 +103,15 @@ async function doActivate(context: ExtensionContext) {
   });
 
   function bindRequest(request: string) {
-    languageClient.onRequest(request, async (params: any) => <any>await commands.executeCommand("java.execute.workspaceCommand", request, params)
-    );
+    languageClient.onRequest(request, async (params: any) => {
+      return <any>(
+        await commands.executeCommand(
+          "java.execute.workspaceCommand",
+          request,
+          params
+        )
+      );
+    });
   }
 
   registerVSCodeCommands(context);
