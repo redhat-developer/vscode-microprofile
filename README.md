@@ -19,49 +19,23 @@ This Visual Studio Code extension provides support for the development of [Micro
 
 In `microprofile-config.properties` files, you will benefit with:
 
-  * Completion support for MicroProfile properties
-  * Hover support for MicroProfile properties
-  * Definition support for MicroProfile properties
-  * Format support for MicroProfile properties
-  * Validation and Quick Fix support for MicroProfile properties
-  * Outline support (flat or tree view)
+  * [Completion support for MicroProfile properties](./docs/PropertiesFeatures.md#completion-support)
+  * [Hover support for MicroProfile properties](./docs/PropertiesFeatures.md#hover-support)
+  * [Definition support for MicroProfile properties](./docs/PropertiesFeatures.md#definition-support)
+  * [Format support for MicroProfile properties](./docs/PropertiesFeatures.md#format-support)
+  * [Validation and Quick Fix support for MicroProfile properties](./docs/PropertiesFeatures.md#validation-and-quick-fix-support)
+  * [Outline support (flat or tree view)](./docs/PropertiesFeatures.md#outline-support)
 
 ## MicroProfile `Java` Features
 
 In `Java` files, you will benefit with:
 
-  * Completion support for MicroProfile
-  * Hover support for MicroProfile
-  * Validation and Quick Fix support for MicroProfile
-  * Code Lens support for MicroProfile
-  * Code snippets
-      *  `rest_class`: Create a new JAX-RS/Jakarta REST resource class
-      *  `rest_get`: Create a new JAX-RS/Jakarta REST GET resource method
-      *  `mpreadiness`: Create a readiness check class
-      *  `mpliveness`: Create a liveness check class
-      *  `mpnrc`: Create a new MicroProfile REST client
-      *  `mpirc`: Inject a MicroProfile REST client
-      *  Snippets to help fill out the parameters for annotations that are introduced by MicroProfile:
-           *  `@Timeout`
-           *  `@Retry`
-           *  `@Fallback`
-           *  `@CircuitBreaker`
-           *  `@Bulkhead`
-           *  `@Metric`
-           *  `@Counted`
-           *  `@Gauge`
-           *  `@ConcurrentGauge`
-           *  `@Metered`
-           *  `@Timed`
-           *  `@SimplyTimed`
-           *  `@RegistryType`
-           *  `@Operation`
-           *  `@Content`
-           *  `@Schema`
-           *  `@Parameters`
-           *  `@Parameter`
-           *  `@APIResponses`
-           *  `@APIResponse`
+  * [Completion support for MicroProfile](./docs/JavaFeatures.md#completion-support)
+  * [Hover support for MicroProfile](./docs/JavaFeatures.md#hover-support)
+  * [Validation and Quick Fix support for MicroProfile](./docs/JavaFeatures.md#validation-and-quick-fix-support)
+  * [Code Lens support for MicroProfile](./docs/JavaFeatures.md#codelens-support)
+  * [Workspace symbols](./docs/JavaFeatures.md#workspace-symbols-support)
+  * [Code snippets](./docs/JavaFeatures.md#snippets-support)
 
 ## Requirements
 

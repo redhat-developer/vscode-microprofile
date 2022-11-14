@@ -41,7 +41,7 @@ If a property value is defined using a [property expression](https://download.ec
 
 ## Format support
 
-A "Microprofile properties" file sets the default formatter to "Tools for MicroProfile", so the formatting shortcut for a `microprofile-config.properties` file is `Ctrl + Shift + I`. The formatter can also be accessed from the command pallette and right-click dropdown.
+A "Microprofile properties" file sets the default formatter to "Tools for MicroProfile", so the formatting shortcut for a `microprofile-config.properties` file is `Ctrl + Shift + I`. The formatter can also be accessed from the command palette and right-click dropdown.
 
 ![Property Formatter](./res/MPFormatter.gif)
 
