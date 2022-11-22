@@ -26,6 +26,7 @@ import * as requirements from './languageServer/requirements';
 import { registerConfigurationUpdateCommand, registerOpenURICommand } from './lsp-commands';
 import { registerProviders } from './providers/microProfileProviders';
 import { JAVA_EXTENSION_ID, waitForStandardMode } from './util/javaServerMode';
+import { getFilePathsFromWorkspace } from './util/workspaceUtils';
 import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './yaml/YamlSchema';
 
 let languageClient: LanguageClient;
@@ -34,7 +35,12 @@ let languageClient: LanguageClient;
 export type JavaExtensionAPI = any;
 
 export async function activate(context: ExtensionContext): Promise<void> {
+  if (await isJavaProject()) {
+    await doActivate(context);
+  }
+}
 
+async function doActivate(context: ExtensionContext) {
   const redHatService: RedHatService = await getRedHatService(context);
   const telemetryService: TelemetryService = await redHatService.getTelemetryService();
   await telemetryService.sendStartupEvent();
@@ -77,7 +83,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
      */
     context.subscriptions.push(commands.registerCommand(MicroProfileLS.PROPERTIES_CHANGED_NOTIFICATION, (event: MicroProfilePropertiesChangeEvent) => {
       languageClient.sendNotification(MicroProfileLS.PROPERTIES_CHANGED_NOTIFICATION, event);
-      yamlSchemaCache.then(cache => { if (cache) cache.evict(event); });
+      yamlSchemaCache.then(cache => {
+        if (cache)
+          cache.evict(event);
+      });
     }));
 
     registerProviders(languageClient, documentSelector);
@@ -91,13 +100,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
   });
 
   function bindRequest(request: string) {
-    languageClient.onRequest(request, async (params: any) =>
-      <any>await commands.executeCommand("java.execute.workspaceCommand", request, params)
+    languageClient.onRequest(request, async (params: any) => <any>await commands.executeCommand("java.execute.workspaceCommand", request, params)
     );
   }
 
   registerVSCodeCommands(context);
-
 }
 
 export async function deactivate(): Promise<void> {
@@ -228,4 +235,22 @@ function getDocumentSelector(microProfileContributions: MicroProfileContribution
     documentSelector = documentSelector.concat(contribution.documentSelector);
   });
   return documentSelector;
+}
+
+/**
+ * Returns if any workspace folder contains a build.gradle, pom.xml, or .project.
+ *
+ * @returns true if any workspace folder contains a build.gradle, pom.xml, or .project
+ */
+async function isJavaProject(): Promise<boolean> {
+  for (const ws of workspace.workspaceFolders) {
+    const buildFileUris = await getFilePathsFromWorkspace(
+      ws,
+      "**/{pom.xml,build.gradle,.project}"
+    );
+    if (buildFileUris.length) {
+      return true;
+    }
+  }
+  return false;
 }
