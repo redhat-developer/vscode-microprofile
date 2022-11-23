@@ -1,5 +1,42 @@
 # Tools for MicroProfile Changelog
 
+## [0.6.0](https://github.com/redhat-developer/vscode-microprofile/milestone/6?closed=1) (December 1, 2022)
+
+### Enhancements
+ * Display property value as inlay hint. See [#108](https://github.com/redhat-developer/vscode-microprofile/pull/108).
+ * Property evaluation should support the environment variable default value notation. See [eclipse/lsp4mp#241](https://github.com/eclipse/lsp4mp/issues/241).
+ * Manage static properties using a `staticProvider` extension point. See [eclipse/lsp4mp#44](https://github.com/eclipse/lsp4mp/issues/44).
+ * Improve code action performance with `CodeAction#data` & `resolveCodeAction`. See [#124](https://github.com/redhat-developer/vscode-microprofile/pull/124), [eclipse/lsp4mp#171](https://github.com/eclipse/lsp4mp/issues/171).
+ * Diagnostics for mp-reactive-messaging `@Incoming`/`@Outgoing` annotation. See [eclipse/lsp4mp#58](https://github.com/eclipse/lsp4mp/issues/58).
+ * Only activate extension if Java project is present. See [#114](https://github.com/redhat-developer/vscode-microprofile/issues/114).
+
+### Bug Fixes
+ * Don't throw an error popup when MicroProfile LS cancels the inlay hint process. See [#123](https://github.com/redhat-developer/vscode-microprofile/pull/123).
+ * Java source code not validated upon start. See [eclipse/lsp4mp#301](https://github.com/eclipse/lsp4mp/issues/301).
+ * `ClassCastException` thrown (and caught) when using invalid `@ConfigProperty` default value. See [eclipse/lsp4mp#295](https://github.com/eclipse/lsp4mp/issues/295).
+ * Improve handling of `@ConfigProperties` for validation. See [eclipse/lsp4mp#304](https://github.com/eclipse/lsp4mp/issues/304).
+ * Support for the `config_ordinal` property in `microprofile-config.properties`. See [eclipse/lsp4mp#289](https://github.com/eclipse/lsp4mp/issues/289).
+ * Display property value when hovering over a key that isn't defined in the application. See [eclipse/lsp4mp#285](https://github.com/eclipse/lsp4mp/issues/285).
+ * REST client code lens only shows up for `GET` annotations. See [eclipse/lsp4mp#94](https://github.com/eclipse/lsp4mp/issues/94).
+ * JAXRS code lens URL should always appear above method declaration. See [eclipse/lsp4mp#194](https://github.com/eclipse/lsp4mp/issues/194).
+ * Support `microprofile-health` 3.0 and later. See [eclipse/lsp4mp#314](https://github.com/eclipse/lsp4mp/issues/314).
+ * Make `microprofile.tools.server.vmargs` setting application scoped. See [#121](https://github.com/redhat-developer/vscode-microprofile/pull/121).
+ * Disable JVM logging to avoid language server failure. See [#118](https://github.com/redhat-developer/vscode-microprofile/issues/118).
+ * Fix inlay hints & definitions when project returns empty properties. See [eclipse/lsp4mp#311](https://github.com/eclipse/lsp4mp/pull/311).
+ * Fix code lens when no configuration sources available. See [eclipse/lsp4mp#315](https://github.com/eclipse/lsp4mp/issues/315).
+ * `@ConfigProperties` validation should check the annotation's fully qualified name. See [eclipse/lsp4mp#304](https://github.com/eclipse/lsp4mp/issues/304).
+ * Fix typo in `mpirc` snippet. See [eclipse/lsp4mp#325](https://github.com/eclipse/lsp4mp/issues/325).
+
+### Build
+ * Add support for pre-releases. See [#113](https://github.com/redhat-developer/vscode-microprofile/pull/113).
+ * Update node in CI and CD to 14. See [#106](https://github.com/redhat-developer/vscode-microprofile/pull/106).
+ * Update Jenkinsfile to use Java 17. See [#111](https://github.com/redhat-developer/vscode-microprofile/pull/111).
+ * Update vscode-redhat-telemetry to 0.5.2. See [#131](https://github.com/redhat-developer/vscode-microprofile/pull/131).
+ * Update Target Platform to 1.16.0-SNAPSHOT version of JDT-LS target. See [eclipse/lsp4mp#288](https://github.com/eclipse/lsp4mp/pull/288).
+ * JDT.LS dependency on tests should be optional. See [eclipse/lsp4mp#286](https://github.com/eclipse/lsp4mp/issues/286).
+ * Copy over `ModelTextDocuments#computeModelAsyncCompose` from quarkus-ls into commons package. See [eclipse/lsp4mp#257](https://github.com/eclipse/lsp4mp/issues/257).
+ * Move VS Code workspace configuration into correct folder. See [eclipse/lsp4mp#145](https://github.com/eclipse/lsp4mp/pull/145).
+
 ## [0.5.0](https://github.com/redhat-developer/vscode-microprofile/milestone/5?closed=1) (July 25, 2022)
 
 ### Enhancements
