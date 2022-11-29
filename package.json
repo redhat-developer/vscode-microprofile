@@ -76,6 +76,10 @@
         "redhat.telemetry.enabled": {
           "type": "boolean",
           "default": null,
+          "tags": [
+            "usesOnlineServices",
+            "telemetry"
+          ],
           "markdownDescription": "Enable usage data and errors to be sent to Red Hat servers. Read our [privacy statement](https://developers.redhat.com/article/tool-data-collection).",
           "scope": "window"
         },
@@ -286,7 +290,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@redhat-developer/vscode-redhat-telemetry": "^0.4.2",
+    "@redhat-developer/vscode-redhat-telemetry": "^0.5.2",
     "expand-home-dir": "0.0.3",
     "find-java-home": "^1.2.2",
     "glob": "^7.1.4",
