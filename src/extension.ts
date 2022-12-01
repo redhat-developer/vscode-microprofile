@@ -243,6 +243,9 @@ function getDocumentSelector(microProfileContributions: MicroProfileContribution
  * @returns true if any workspace folder contains a build.gradle, pom.xml, or .project
  */
 async function isJavaProject(): Promise<boolean> {
+  if (!workspace.workspaceFolders) {
+    return false;
+  }
   for (const ws of workspace.workspaceFolders) {
     const buildFileUris = await getFilePathsFromWorkspace(
       ws,
