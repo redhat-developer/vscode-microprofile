@@ -17,6 +17,7 @@
 // MicroProfile language server request and notifications
 export const PROJECT_INFO_REQUEST = 'microprofile/projectInfo';
 export const PROPERTY_DEFINITION_REQUEST = 'microprofile/propertyDefinition';
+export const PROPERTY_DOCUMENTATION_REQUEST = 'microprofile/propertyDocumentation';
 export const JSON_SCHEMA_FOR_PROJECT_INFO_REQUEST = 'microprofile/jsonSchemaForProjectInfo';
 export const JAVA_CODEACTION_RESOLVE_REQUEST = 'microprofile/java/codeActionResolve';
 export const JAVA_CODEACTION_REQUEST = 'microprofile/java/codeAction';
