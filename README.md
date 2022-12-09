@@ -35,8 +35,8 @@ In `Java` files, you will benefit with:
   * Validation and Quick Fix support for MicroProfile
   * Code Lens support for MicroProfile
   * Code snippets
-      *  `jaxrc`: Create a new JAX-RS resource class
-      *  `jaxrm`: Create a new JAX-RS resource method
+      *  `rest_class`: Create a new JAX-RS/Jakarta REST resource class
+      *  `rest_get`: Create a new JAX-RS/Jakarta REST GET resource method
       *  `mpreadiness`: Create a readiness check class
       *  `mpliveness`: Create a liveness check class
       *  `mpnrc`: Create a new MicroProfile REST client
