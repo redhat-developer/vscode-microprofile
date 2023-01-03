@@ -3,7 +3,7 @@
 [![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/redhat.vscode-microprofile?style=for-the-badge&label=VS%20Marketplace&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-microprofile)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/redhat.vscode-microprofile?style=for-the-badge)](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-microprofile)
 [![Chat](https://img.shields.io/gitter/room/redhat-developer/vscode-microprofile?style=for-the-badge&logo=gitter)](https://gitter.im/redhat-developer/vscode-microprofile)
-[![Build Status](https://img.shields.io/github/workflow/status/redhat-developer/vscode-microprofile/Tests/master?style=for-the-badge&logo=github)](https://github.com/redhat-developer/vscode-microprofile/actions?query=branch%3Amaster)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/redhat-developer/vscode-microprofile/tests.yml?branch=master&style=for-the-badge&logo=github)](https://github.com/redhat-developer/vscode-microprofile/actions?query=branch%3Amaster)
 [![License](https://img.shields.io/github/license/redhat-developer/vscode-microprofile?style=for-the-badge)](https://github.com/redhat-developer/vscode-microprofile/blob/master/LICENSE)
 
 ## Description
