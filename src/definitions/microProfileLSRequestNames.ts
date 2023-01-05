@@ -26,6 +26,7 @@ export const JAVA_COMPLETION_REQUEST = 'microprofile/java/completion';
 export const JAVA_DEFINITION_REQUEST = 'microprofile/java/definition';
 export const JAVA_DIAGNOSTICS_REQUEST = 'microprofile/java/diagnostics';
 export const JAVA_HOVER_REQUEST = 'microprofile/java/hover';
+export const JAVA_CURSOR_CONTEXT_REQUEST = 'microprofile/java/javaCursorContext';
 export const JAVA_FILE_INFO_REQUEST = 'microprofile/java/fileInfo';
 export const JAVA_PROJECT_LABELS_REQUEST = 'microprofile/java/projectLabels';
 export const PROPERTIES_CHANGED_NOTIFICATION = 'microprofile/propertiesChanged';

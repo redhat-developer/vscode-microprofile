@@ -76,6 +76,7 @@ async function doActivate(context: ExtensionContext) {
     bindRequest(MicroProfileLS.JAVA_DEFINITION_REQUEST);
     bindRequest(MicroProfileLS.JAVA_DIAGNOSTICS_REQUEST);
     bindRequest(MicroProfileLS.JAVA_HOVER_REQUEST);
+    bindRequest(MicroProfileLS.JAVA_CURSOR_CONTEXT_REQUEST);
     bindRequest(MicroProfileLS.JAVA_FILE_INFO_REQUEST);
     bindRequest(MicroProfileLS.JAVA_PROJECT_LABELS_REQUEST);
 
