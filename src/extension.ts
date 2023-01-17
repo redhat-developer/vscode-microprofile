@@ -141,7 +141,7 @@ function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, documentS
             }
           },
           completion: {
-            skipSendingJavaCompletionThroughLanguageServer: true
+            skipSendingJavaCompletionThroughLanguageServer: false
           },
           shouldLanguageServerExitOnShutdown: true
         }
