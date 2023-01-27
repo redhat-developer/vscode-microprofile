@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as vscode from "vscode";
-import * as plugin from "../../../languageServer/plugin";
 import { expect } from "chai";
+import * as vscode from "vscode";
+import { DocumentSelector, TextDocumentFilter } from "vscode-languageclient";
+import * as plugin from "../../../languageServer/plugin";
 import { MicroProfileContribution } from "../../../languageServer/plugin";
-import { DocumentFilter, DocumentSelector } from "vscode-languageclient";
 
 /**
  * This file ensures that DocumentSelectors contributed by other VS Code extensions
@@ -30,46 +30,46 @@ describe("Document selector collection from language server plugins", () => {
     const selector: DocumentSelector = collectDocumentSelectors([{ scheme: "file", language: "quarkus-properties", pattern: "**/*.properties" }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["scheme", "language", "pattern"]);
-    expect((selector[0] as DocumentFilter).scheme).to.equal("file");
-    expect((selector[0] as DocumentFilter).language).to.equal("quarkus-properties");
-    expect((selector[0] as DocumentFilter).pattern).to.equal("**/*.properties");
+    expect((selector[0] as TextDocumentFilter).scheme).to.equal("file");
+    expect((selector[0] as TextDocumentFilter).language).to.equal("quarkus-properties");
+    expect((selector[0] as TextDocumentFilter).pattern).to.equal("**/*.properties");
   });
 
   it ('Should collect all document selector when two keys exist', () => {
     let selector: DocumentSelector = collectDocumentSelectors([{ scheme: "file", language: "quarkus-properties" }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["scheme", "language"]);
-    expect((selector[0] as DocumentFilter).scheme).to.equal("file");
-    expect((selector[0] as DocumentFilter).language).to.equal("quarkus-properties");
+    expect((selector[0] as TextDocumentFilter).scheme).to.equal("file");
+    expect((selector[0] as TextDocumentFilter).language).to.equal("quarkus-properties");
 
     selector = collectDocumentSelectors([{ language: "quarkus-properties", pattern: "**/*.properties" }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["language", "pattern"]);
-    expect((selector[0] as DocumentFilter).language).to.equal("quarkus-properties");
-    expect((selector[0] as DocumentFilter).pattern).to.equal("**/*.properties");
+    expect((selector[0] as TextDocumentFilter).language).to.equal("quarkus-properties");
+    expect((selector[0] as TextDocumentFilter).pattern).to.equal("**/*.properties");
 
     selector = collectDocumentSelectors([{ pattern: "**/*.properties", scheme: "file" }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["pattern", "scheme"]);
-    expect((selector[0] as DocumentFilter).pattern).to.equal("**/*.properties");
-    expect((selector[0] as DocumentFilter).scheme).to.equal("file");
+    expect((selector[0] as TextDocumentFilter).pattern).to.equal("**/*.properties");
+    expect((selector[0] as TextDocumentFilter).scheme).to.equal("file");
   });
 
   it ('Should collect document selector when one key exist', () => {
     let selector: DocumentSelector = collectDocumentSelectors([{ scheme: "file" }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["scheme"]);
-    expect((selector[0] as DocumentFilter).scheme).to.equal("file");
+    expect((selector[0] as TextDocumentFilter).scheme).to.equal("file");
 
     selector = collectDocumentSelectors([{ language: "quarkus-properties" }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["language"]);
-    expect((selector[0] as DocumentFilter).language).to.equal("quarkus-properties");
+    expect((selector[0] as TextDocumentFilter).language).to.equal("quarkus-properties");
 
     selector = collectDocumentSelectors([{ pattern: "**/*.properties" }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["pattern"]);
-    expect((selector[0] as DocumentFilter).pattern).to.equal("**/*.properties");
+    expect((selector[0] as TextDocumentFilter).pattern).to.equal("**/*.properties");
   });
 
   it ('Should collect document selector when a valid key and an invalid key exists', () => {
@@ -77,13 +77,13 @@ describe("Document selector collection from language server plugins", () => {
     let selector: DocumentSelector = collectDocumentSelectors([{ scheme: "file", invalid: "file" }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["scheme"]);
-    expect((selector[0] as DocumentFilter).scheme).to.equal("file");
+    expect((selector[0] as TextDocumentFilter).scheme).to.equal("file");
 
     // valid, but the "language" key is ignored since the value has the wrong type
     selector = collectDocumentSelectors([{ scheme: "file", language: 12 }]);
     expect(selector).to.have.length(1);
     expect(selector[0]).to.have.all.keys(["scheme"]);
-    expect((selector[0] as DocumentFilter).scheme).to.equal("file");
+    expect((selector[0] as TextDocumentFilter).scheme).to.equal("file");
   });
 
   it ('Should collect document selector strings', () => {
@@ -148,12 +148,12 @@ describe("Document selector collection from language server plugins", () => {
     expect(selector).to.have.length(3);
 
     expect(selector[0]).to.have.all.keys(["scheme", "language", "pattern"]);
-    expect((selector[0] as DocumentFilter).scheme).to.equal("file");
-    expect((selector[0] as DocumentFilter).language).to.equal("quarkus-properties");
-    expect((selector[0] as DocumentFilter).pattern).to.equal("**/*.properties");
+    expect((selector[0] as TextDocumentFilter).scheme).to.equal("file");
+    expect((selector[0] as TextDocumentFilter).language).to.equal("quarkus-properties");
+    expect((selector[0] as TextDocumentFilter).pattern).to.equal("**/*.properties");
 
     expect(selector[1]).to.have.all.keys(["language"]);
-    expect((selector[1] as DocumentFilter).language).to.equal("my-properties");
+    expect((selector[1] as TextDocumentFilter).language).to.equal("my-properties");
 
     expect(selector[2]).to.be.a('string');
     expect(selector[2]).to.equal("document-selector-string");

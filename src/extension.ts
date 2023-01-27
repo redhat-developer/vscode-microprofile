@@ -22,9 +22,8 @@ import * as CommandKind from './definitions/lspCommandKind';
 import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
 import { prepareExecutable } from './languageServer/javaServerStarter';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
-import * as requirements from './languageServer/requirements';
+import { resolveRequirements } from './languageServer/requirements';
 import { registerConfigurationUpdateCommand, registerOpenURICommand } from './lsp-commands';
-import { registerProviders } from './providers/microProfileProviders';
 import { JAVA_EXTENSION_ID, waitForStandardMode } from './util/javaServerMode';
 import { getFilePathsFromWorkspace } from './util/workspaceUtils';
 import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './yaml/YamlSchema';
@@ -92,8 +91,6 @@ async function doActivate(context: ExtensionContext) {
       });
     }));
 
-    registerProviders(languageClient, documentSelector);
-
   }).catch((error) => {
     window.showErrorMessage(error.message, error.label).then((selection) => {
       if (error.label && error.label === selection && error.openUrl) {
@@ -133,84 +130,79 @@ function registerVSCodeCommands(context: ExtensionContext) {
   context.subscriptions.push(registerOpenURICommand());
 }
 
-function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, documentSelector: DocumentSelector, microprofileContributions: MicroProfileContribution[]) {
-  return requirements.resolveRequirements(api).then(requirements => {
-    const clientOptions: LanguageClientOptions = {
-      documentSelector: documentSelector,
-      // wrap with key 'settings' so it can be handled same a DidChangeConfiguration
-      initializationOptions: {
-        settings: getVSCodeMicroProfileSettings(),
-        extendedClientCapabilities: {
-          commands: {
-            commandsKind: {
-              valueSet: [
-                CommandKind.COMMAND_CONFIGURATION_UPDATE,
-                CommandKind.COMMAND_OPEN_URI
-              ]
-            }
-          },
-          completion: {
-            skipSendingJavaCompletionThroughLanguageServer: false
-          },
-          shouldLanguageServerExitOnShutdown: true
-        }
-      },
-      synchronize: {
-        // preferences starting with these will trigger didChangeConfiguration
-        configurationSection: ['microprofile', '[microprofile]']
-      },
-      middleware: {
-        workspace: {
-          didChangeConfiguration: () => {
-            languageClient.sendNotification(DidChangeConfigurationNotification.type, { settings: getVSCodeMicroProfileSettings() });
+async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, documentSelector: DocumentSelector, microprofileContributions: MicroProfileContribution[]) {
+  const requirements = await resolveRequirements(api);
+  const clientOptions: LanguageClientOptions = {
+    documentSelector: documentSelector,
+    // wrap with key 'settings' so it can be handled same a DidChangeConfiguration
+    initializationOptions: {
+      settings: getVSCodeMicroProfileSettings(),
+      extendedClientCapabilities: {
+        commands: {
+          commandsKind: {
+            valueSet: [
+              CommandKind.COMMAND_CONFIGURATION_UPDATE,
+              CommandKind.COMMAND_OPEN_URI
+            ]
           }
-        }
+        },
+        completion: {
+          skipSendingJavaCompletionThroughLanguageServer: false
+        },
+        shouldLanguageServerExitOnShutdown: true
       }
-    };
-
-    const serverOptions = prepareExecutable(requirements, getMicroProfileJarExtensions(microprofileContributions));
-
-    languageClient = new LanguageClient('microprofile.tools', 'Tools for MicroProfile', serverOptions, clientOptions);
-    context.subscriptions.push(languageClient.start());
-
-    if (extensions.onDidChange) {// Theia doesn't support this API yet
-      context.subscriptions.push(extensions.onDidChange(() => {
-        // if extensions that contribute mp java extensions change we need to reload the window
-        handleExtensionChange(extensions.all);
-      }));
+    },
+    synchronize: {
+      // preferences starting with these will trigger didChangeConfiguration
+      configurationSection: ['microprofile', '[microprofile]']
+    },
+    middleware: {
+      workspace: {
+        didChangeConfiguration: () => languageClient.sendNotification(DidChangeConfigurationNotification.type, { settings: getVSCodeMicroProfileSettings() })
+      }
     }
+  };
+  const serverOptions = prepareExecutable(requirements, getMicroProfileJarExtensions(microprofileContributions));
+  languageClient = new LanguageClient('microprofile.tools', 'Tools for MicroProfile', serverOptions, clientOptions);
+  const languageServerReady = languageClient.start();
 
-    return languageClient.onReady();
+  if (extensions.onDidChange) { // Theia doesn't support this API yet
+    context.subscriptions.push(extensions.onDidChange(() => {
+      // if extensions that contribute mp java extensions change we need to reload the window
+      handleExtensionChange(extensions.all);
+    }));
+  }
+
+  return languageServerReady;
+}
+
+/**
+ * Returns a json object with key 'microprofile' and a json object value that
+ * holds all microprofile settings.
+ */
+function getVSCodeMicroProfileSettings(): { microprofile: any } {
+  const defaultMicroProfileSettings = {};
+  const configMicroProfile = workspace.getConfiguration().get('microprofile');
+  const microprofileSettings = configMicroProfile ? configMicroProfile : defaultMicroProfileSettings;
+
+  return {
+    microprofile: microprofileSettings,
+  };
+}
+
+/**
+ * Returns an array of paths to MicroProfileLS extension jars within `microProfileContributions`
+ *
+ * @param microProfileContributions MicroProfile language server contributions from other VS Code extensions
+ */
+function getMicroProfileJarExtensions(microProfileContributions: MicroProfileContribution[]): string[] {
+  let jarPaths: string[] = [];
+  microProfileContributions.forEach((contribution: MicroProfileContribution) => {
+    if (contribution.jarExtensions && contribution.jarExtensions.length > 0) {
+      jarPaths = jarPaths.concat(contribution.jarExtensions);
+    }
   });
-
-  /**
-   * Returns a json object with key 'microprofile' and a json object value that
-   * holds all microprofile settings.
-   */
-  function getVSCodeMicroProfileSettings(): { microprofile: any } {
-    const defaultMicroProfileSettings = {};
-    const configMicroProfile = workspace.getConfiguration().get('microprofile');
-    const microprofileSettings = configMicroProfile ? configMicroProfile : defaultMicroProfileSettings;
-
-    return {
-      microprofile: microprofileSettings,
-    };
-  }
-
-  /**
-   * Returns an array of paths to MicroProfileLS extension jars within `microProfileContributions`
-   *
-   * @param microProfileContributions MicroProfile language server contributions from other VS Code extensions
-   */
-  function getMicroProfileJarExtensions(microProfileContributions: MicroProfileContribution[]): string[] {
-    let jarPaths: string[] = [];
-    microProfileContributions.forEach((contribution: MicroProfileContribution) => {
-      if (contribution.jarExtensions && contribution.jarExtensions.length > 0) {
-        jarPaths = jarPaths.concat(contribution.jarExtensions);
-      }
-    });
-    return jarPaths;
-  }
+  return jarPaths;
 }
 
 async function getJavaExtensionAPI(): Promise<JavaExtensionAPI> {
