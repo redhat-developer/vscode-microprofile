@@ -2,7 +2,7 @@ import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
-import { DocumentFilter } from "vscode-languageclient";
+import { TextDocumentFilter } from "vscode-languageclient";
 import * as plugin from "../../../languageServer/plugin";
 import { MicroProfileContribution } from "../../../languageServer/plugin";
 
@@ -56,8 +56,8 @@ describe("Language server plugin", () => {
     expect(result[0].documentSelector).to.have.length(1);
     expect(result[0].documentSelector[0]).has.all.keys(["scheme", "language"]);
 
-    const documentFilter: DocumentFilter = result[0].documentSelector[0] as DocumentFilter;
-    expect(documentFilter.scheme).to.be.a("string").and.equal("file");
-    expect(documentFilter.language).to.be.a("string").and.equal("quarkus-properties");
+    const TextDocumentFilter: TextDocumentFilter = result[0].documentSelector[0] as TextDocumentFilter;
+    expect(TextDocumentFilter.scheme).to.be.a("string").and.equal("file");
+    expect(TextDocumentFilter.language).to.be.a("string").and.equal("quarkus-properties");
   });
 });
