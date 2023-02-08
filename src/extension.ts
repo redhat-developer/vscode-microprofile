@@ -16,7 +16,7 @@
 import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry/lib/interfaces/redhatService';
 import { commands, ExtensionContext, extensions, window, workspace } from 'vscode';
-import { DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions } from 'vscode-languageclient';
+import { CancellationToken, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
 import { LanguageClient } from 'vscode-languageclient/node';
 import * as CommandKind from './definitions/lspCommandKind';
 import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
@@ -100,13 +100,13 @@ async function doActivate(context: ExtensionContext) {
   });
 
   function bindRequest(request: string) {
-    languageClient.onRequest(request, async (params: any) => {
-      return <any>(
-        await commands.executeCommand(
-          "java.execute.workspaceCommand",
-          request,
-          params
-        )
+    const requestType = new RequestType(request);
+    languageClient.onRequest(requestType, (params, token: CancellationToken) => {
+      return commands.executeCommand(
+        "java.execute.workspaceCommand",
+        request,
+        params,
+        token
       );
     });
   }
