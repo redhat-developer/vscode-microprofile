@@ -101,7 +101,8 @@ async function doActivate(context: ExtensionContext) {
 
   function bindRequest(request: string) {
     const requestType = new RequestType(request);
-    languageClient.onRequest(requestType, (params, token: CancellationToken) => {
+    languageClient.onRequest(requestType, async (params, token: CancellationToken) => {
+      await api.serverReady();
       return commands.executeCommand(
         "java.execute.workspaceCommand",
         request,
