@@ -15,9 +15,10 @@
  */
 import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry/lib/interfaces/redhatService';
-import { commands, ExtensionContext, extensions, window, workspace } from 'vscode';
-import { CancellationToken, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
+import { CodeAction as VSCodeAction, Command as VSCommand, commands, ExtensionContext, extensions, window, workspace } from 'vscode';
+import { CancellationToken, CodeActionResolveRequest, Command, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
 import { LanguageClient } from 'vscode-languageclient/node';
+import { APPLY_CODE_ACTION_WITH_TELEMETRY } from './definitions/commands';
 import * as CommandKind from './definitions/lspCommandKind';
 import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
 import { prepareExecutable } from './languageServer/javaServerStarter';
@@ -25,6 +26,7 @@ import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileC
 import { resolveRequirements } from './languageServer/requirements';
 import { registerConfigurationUpdateCommand, registerOpenURICommand } from './lsp-commands';
 import { JAVA_EXTENSION_ID, waitForStandardMode } from './util/javaServerMode';
+import { sendCodeActionTelemetry } from './util/telemetry';
 import { getFilePathsFromWorkspace } from './util/workspaceUtils';
 import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './yaml/YamlSchema';
 
@@ -89,6 +91,50 @@ async function doActivate(context: ExtensionContext) {
         if (cache)
           cache.evict(event);
       });
+    }));
+
+    /**
+     * Registers a command that, given an LSP code action and a cancellation token:
+     *
+     * 1. Resolves the code action if necessary
+     * 2. Runs command/applies workspace edit
+     * 3. Sends telemetry if telemetry is enabled and the code action succeeds or fails
+     */
+    context.subscriptions.push(commands.registerCommand(APPLY_CODE_ACTION_WITH_TELEMETRY, async (codeActionOrCommand: VSCodeAction | VSCommand, token: CancellationToken) => {
+      let codeActionId: string | null = null;
+      try {
+        if (Command.is(codeActionOrCommand)) {
+          const command = codeActionOrCommand as VSCommand;
+          codeActionId = command.command;
+          await commands.executeCommand(command.command, ...command.arguments);
+        } else {
+          let codeAction = await languageClient.code2ProtocolConverter.asCodeAction(codeActionOrCommand as VSCodeAction);
+          if ((!codeAction.edit) && (!codeAction.command)) {
+            // resolve the code action
+            codeAction = await languageClient.sendRequest(CodeActionResolveRequest.type, codeAction, token);
+            if (token.isCancellationRequested) {
+              return;
+            }
+          }
+          if (codeAction.edit) {
+            if (codeAction.data.id) {
+              codeActionId = codeAction.data.id;
+            }
+            const edit = await languageClient.protocol2CodeConverter.asWorkspaceEdit(codeAction.edit);
+            await workspace.applyEdit(edit);
+          }
+          if (codeAction.command) {
+            if (!codeActionId) {
+              codeActionId = codeAction.command.command;
+            }
+            const command = languageClient.protocol2CodeConverter.asCommand(codeAction.command);
+            await commands.executeCommand(command.command, ...command.arguments);
+          }
+        }
+        await sendCodeActionTelemetry(telemetryService, codeActionId || 'unknown', true);
+      } catch (e) {
+        await sendCodeActionTelemetry(telemetryService, codeActionId || 'unknown', false, e);
+      }
     }));
 
   }).catch((error) => {
@@ -162,6 +208,26 @@ async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, doc
         didChangeConfiguration: async () => {
           languageClient.sendNotification(DidChangeConfigurationNotification.type, { settings: getVSCodeMicroProfileSettings() });
         }
+      },
+      provideCodeActions: async (document, range, context, token, next): Promise<VSCodeAction[]> => {
+        // Collect the code actions from the language server,
+        // then rewrite them to execute the command "microprofile.applyCodeAction"
+        // instead of whatever action was specified by the language server.
+        // "microprofile.applyCodeAction" is a command that accepts a code action,
+        // then applies it, then sends a telemetry event indicating which
+        // code action was applied.
+        const codeActions = await next(document, range, context, token);
+        return codeActions //
+          .map((codeAction) => {
+            return {
+              title: codeAction.title,
+              command: {
+                command: APPLY_CODE_ACTION_WITH_TELEMETRY,
+                title: codeAction.title,
+                arguments: [codeAction, token]
+              }
+            } as VSCodeAction;
+          });
       }
     }
   };
