@@ -14,3 +14,5 @@
  * limitations under the License.
  */
 export const RELOAD_WINDOW = 'workbench.action.reloadWindow';
+
+export const APPLY_CODE_ACTION_WITH_TELEMETRY = 'microprofile.applyCodeAction';
