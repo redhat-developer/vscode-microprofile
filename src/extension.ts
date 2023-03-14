@@ -15,8 +15,8 @@
  */
 import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry/lib/interfaces/redhatService';
-import { CodeAction as VSCodeAction, Command as VSCommand, commands, ExtensionContext, extensions, window, workspace } from 'vscode';
-import { CancellationToken, CodeActionResolveRequest, Command, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
+import { CodeAction as VSCodeAction, CodeActionKind, Command as VSCommand, commands, Diagnostic as VSDiagnostic, ExtensionContext, extensions, window, workspace } from 'vscode';
+import { CancellationToken, CodeAction, CodeActionResolveRequest, Command, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
 import { LanguageClient } from 'vscode-languageclient/node';
 import { APPLY_CODE_ACTION_WITH_TELEMETRY } from './definitions/commands';
 import * as CommandKind from './definitions/lspCommandKind';
@@ -39,6 +39,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
   if (await isJavaProject()) {
     await doActivate(context);
   }
+}
+
+interface VSCodeActionWithData extends VSCodeAction {
+  data?: any;
 }
 
 async function doActivate(context: ExtensionContext) {
@@ -97,10 +101,12 @@ async function doActivate(context: ExtensionContext) {
      * Registers a command that, given an LSP code action and a cancellation token:
      *
      * 1. Resolves the code action if necessary
-     * 2. Runs command/applies workspace edit
+     * 2. Runs command/applies workspace edit. If a code action provides
+     *    an edit and a command, first the edit is executed and then the command,
+     *    similar to how code actions are handled in the LSP specification.
      * 3. Sends telemetry if telemetry is enabled and the code action succeeds or fails
      */
-    context.subscriptions.push(commands.registerCommand(APPLY_CODE_ACTION_WITH_TELEMETRY, async (codeActionOrCommand: VSCodeAction | VSCommand, token: CancellationToken) => {
+    context.subscriptions.push(commands.registerCommand(APPLY_CODE_ACTION_WITH_TELEMETRY, async (codeActionOrCommand: VSCodeActionWithData | VSCommand, token: CancellationToken) => {
       let codeActionId: string | null = null;
       try {
         if (Command.is(codeActionOrCommand)) {
@@ -108,26 +114,25 @@ async function doActivate(context: ExtensionContext) {
           codeActionId = command.command;
           await commands.executeCommand(command.command, ...command.arguments);
         } else {
-          let codeAction = await languageClient.code2ProtocolConverter.asCodeAction(codeActionOrCommand as VSCodeAction);
-          if ((!codeAction.edit) && (!codeAction.command)) {
+          let vsCodeAction: VSCodeActionWithData = codeActionOrCommand;
+          codeActionId = vsCodeAction.data?.id;
+          if ((!codeActionOrCommand.edit) && (!codeActionOrCommand.command)) {
+            let codeAction = await languageClient.code2ProtocolConverter.asCodeAction(codeActionOrCommand as VSCodeAction);
             // resolve the code action
             codeAction = await languageClient.sendRequest(CodeActionResolveRequest.type, codeAction, token);
+            vsCodeAction = await languageClient.protocol2CodeConverter.asCodeAction(codeAction);
             if (token.isCancellationRequested) {
               return;
             }
           }
-          if (codeAction.edit) {
-            if (codeAction.data.id) {
-              codeActionId = codeAction.data.id;
-            }
-            const edit = await languageClient.protocol2CodeConverter.asWorkspaceEdit(codeAction.edit);
-            await workspace.applyEdit(edit);
+          if (vsCodeAction.edit) {
+            await workspace.applyEdit(vsCodeAction.edit);
           }
-          if (codeAction.command) {
+          if (vsCodeAction.command) {
             if (!codeActionId) {
-              codeActionId = codeAction.command.command;
+              codeActionId = vsCodeAction.command.command;
             }
-            const command = languageClient.protocol2CodeConverter.asCommand(codeAction.command);
+            const command = languageClient.protocol2CodeConverter.asCommand(vsCodeAction.command);
             await commands.executeCommand(command.command, ...command.arguments);
           }
         }
@@ -219,14 +224,27 @@ async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, doc
         const codeActions = await next(document, range, context, token);
         return codeActions //
           .map((codeAction) => {
+            let diagnostics: VSDiagnostic[] = undefined;
+            let kind: CodeActionKind = undefined;
+            if (!Command.is(codeAction)) {
+              const actualCodeAction = codeAction as VSCodeAction;
+              diagnostics = actualCodeAction.diagnostics;
+              kind = actualCodeAction.kind;
+            }
             return {
               title: codeAction.title,
               command: {
                 command: APPLY_CODE_ACTION_WITH_TELEMETRY,
                 title: codeAction.title,
                 arguments: [codeAction, token]
-              }
-            } as VSCodeAction;
+              },
+              diagnostics: diagnostics,
+              kind: kind,
+              // HACK: the object implements the VS Code CodeAction  interface,
+              // but still contains the `data` field from the LSP CodeAction.
+              // I use a hacky cast in order to access this property.
+              data: (codeAction as unknown as CodeAction).data,
+            } as VSCodeActionWithData;
           });
       }
     }
