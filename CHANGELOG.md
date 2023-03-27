@@ -1,5 +1,33 @@
 # Tools for MicroProfile Changelog
 
+## [0.7.0](https://github.com/redhat-developer/vscode-microprofile/milestone/7?closed=1) (April 4, 2023)
+
+### Enhancements
+ * Validation for GraphQL `@Query` and `@Mutation` methods with `void` return type. See [eclipse/lsp4mp#348](https://github.com/eclipse/lsp4mp/issues/348), [eclipse/lsp4mp#359](https://github.com/eclipse/lsp4mp/issues/359).
+ * Navigate to REST endpoints using workspace symbols. See [eclipse/lsp4mp#87](https://github.com/eclipse/lsp4mp/issues/87).
+ * Show config property documentation when hovering over the key in a properties file. See [eclipse/lsp4mp#321](https://github.com/eclipse/lsp4mp/issues/321).
+ * Validate lists in `@ConfigProperty`'s `defaultValue`. See [#143](https://github.com/redhat-developer/vscode-microprofile/issues/143).
+ * Show config property documentation when hovering over the key in a properties file. See [#135](https://github.com/redhat-developer/vscode-microprofile/pull/135).
+ * Make Java file snippets context-aware. See [eclipse/lsp4mp#108](https://github.com/eclipse/lsp4mp/issues/108).
+ * Upgrade to vscode-languageclient 8.y.z. See [#146](https://github.com/redhat-developer/vscode-microprofile/issues/146).
+ * Migrate from `find-java-home` to `jdk-utils`. See [#140](https://github.com/redhat-developer/vscode-microprofile/issues/140).
+
+### Bug Fixes
+ * Hover fails in properties files when the Java language server is loading. See [eclipse/lsp4mp#375](https://github.com/eclipse/lsp4mp/issues/375).
+ * Definition sometimes fails on property values in a properties file. See [eclipse/lsp4mp#374](https://github.com/eclipse/lsp4mp/issues/374).
+ * Adjust go to definition range for property keys to include the offset between the property key and `=`. See [redhat-developer/quarkus-ls#323](https://github.com/redhat-developer/quarkus-ls/issues/323).
+ * Fix `NullPointerException` during go to definition in properties files. See [eclipse/lsp4mp#372](https://github.com/eclipse/lsp4mp/issues/372).
+ * Fix `NullPointerException` on shutdown when LSP client doesn't define extendedClientCapabilities. See [eclipse/lsp4mp#363](https://github.com/eclipse/lsp4mp/pull/363).
+ * Completion causes Exceptions when typing in a Java file. See [eclipse/lsp4mp#347](https://github.com/eclipse/lsp4mp/issues/347).
+ * Support the `jakarta` namespace (JakartaEE 9+). See [eclipse/lsp4mp#344](https://github.com/eclipse/lsp4mp/issues/344).
+ * Hovering over properties file fails with `NullPointerException` when there are multiple definitions of a property. See [eclipse/lsp4mp#341](https://github.com/eclipse/lsp4mp/issues/341).
+ * `config_ordinal` appears as a property even in non-MicroProfile projects. See [eclipse/lsp4mp#312](https://github.com/eclipse/lsp4mp/issues/312).
+ * Quick fix to assign a value to a property now handles the prefix set by `@ConfigProperties` properly. See [eclipse/lsp4mp#303](https://github.com/eclipse/lsp4mp/issues/303).
+ * Change wording of "Unknown property" error message to "Unrecognized property". See [eclipse/lsp4mp#290](https://github.com/eclipse/lsp4mp/issues/290).
+
+### Build
+ * Use `vsce` from namespace `@vscode`. See [#141](https://github.com/redhat-developer/vscode-microprofile/pull/141).
+
 ## [0.6.0](https://github.com/redhat-developer/vscode-microprofile/milestone/6?closed=1) (December 1, 2022)
 
 ### Enhancements
