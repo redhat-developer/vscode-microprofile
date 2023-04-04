@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
-import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry/lib/interfaces/redhatService';
+import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry';
 import { CodeAction as VSCodeAction, CodeActionKind, Command as VSCommand, commands, Diagnostic as VSDiagnostic, ExtensionContext, extensions, window, workspace } from 'vscode';
 import { CancellationToken, CodeAction, CodeActionResolveRequest, Command, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
 import { LanguageClient } from 'vscode-languageclient/node';

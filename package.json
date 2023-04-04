@@ -290,7 +290,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@redhat-developer/vscode-redhat-telemetry": "^0.5.2",
+    "@redhat-developer/vscode-redhat-telemetry": "^0.6.1",
     "expand-home-dir": "0.0.3",
     "glob": "^7.1.4",
     "jdk-utils": "^0.4.3",
