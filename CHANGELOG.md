@@ -1,11 +1,15 @@
 # Tools for MicroProfile Changelog
 
+## [0.7.1](https://github.com/redhat-developer/vscode-microprofile/milestone/9?closed=1) (April 12, 2023)
+
+### Bug Fixes
+ * Fix context-aware snippets in projects that use Project Lombok. See [#155](https://github.com/redhat-developer/vscode-microprofile/issues/155).
+
 ## [0.7.0](https://github.com/redhat-developer/vscode-microprofile/milestone/7?closed=1) (April 4, 2023)
 
 ### Enhancements
  * Validation for GraphQL `@Query` and `@Mutation` methods with `void` return type. See [eclipse/lsp4mp#348](https://github.com/eclipse/lsp4mp/issues/348), [eclipse/lsp4mp#359](https://github.com/eclipse/lsp4mp/issues/359).
  * Navigate to REST endpoints using workspace symbols. See [eclipse/lsp4mp#87](https://github.com/eclipse/lsp4mp/issues/87).
- * Show config property documentation when hovering over the key in a properties file. See [eclipse/lsp4mp#321](https://github.com/eclipse/lsp4mp/issues/321).
  * Validate lists in `@ConfigProperty`'s `defaultValue`. See [#143](https://github.com/redhat-developer/vscode-microprofile/issues/143).
  * Show config property documentation when hovering over the key in a properties file. See [#135](https://github.com/redhat-developer/vscode-microprofile/pull/135).
  * Make Java file snippets context-aware. See [eclipse/lsp4mp#108](https://github.com/eclipse/lsp4mp/issues/108).
