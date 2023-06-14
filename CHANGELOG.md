@@ -1,13 +1,22 @@
 # Tools for MicroProfile Changelog
 
+## [0.8.0](https://github.com/redhat-developer/vscode-microprofile/milestone/8?closed=1) (June 15, 2023)
+
+### Enhancements
+
+ * Improve completion performance in properties files (resolve support, and item defaults). See [eclipse/lsp4mp#389](https://github.com/eclipse/lsp4mp/issues/389).
+ * Warning for type declarations that are incorrectly annotated while their methods are annotated with `@Query`/`@Mutation`. See [eclipse/lsp4mp#355](https://github.com/eclipse/lsp4mp/issues/355).
+
 ## [0.7.1](https://github.com/redhat-developer/vscode-microprofile/milestone/9?closed=1) (April 12, 2023)
 
 ### Bug Fixes
+
  * Fix context-aware snippets in projects that use Project Lombok. See [#155](https://github.com/redhat-developer/vscode-microprofile/issues/155).
 
 ## [0.7.0](https://github.com/redhat-developer/vscode-microprofile/milestone/7?closed=1) (April 4, 2023)
 
 ### Enhancements
+
  * Validation for GraphQL `@Query` and `@Mutation` methods with `void` return type. See [eclipse/lsp4mp#348](https://github.com/eclipse/lsp4mp/issues/348), [eclipse/lsp4mp#359](https://github.com/eclipse/lsp4mp/issues/359).
  * Navigate to REST endpoints using workspace symbols. See [eclipse/lsp4mp#87](https://github.com/eclipse/lsp4mp/issues/87).
  * Validate lists in `@ConfigProperty`'s `defaultValue`. See [#143](https://github.com/redhat-developer/vscode-microprofile/issues/143).
@@ -17,6 +26,7 @@
  * Migrate from `find-java-home` to `jdk-utils`. See [#140](https://github.com/redhat-developer/vscode-microprofile/issues/140).
 
 ### Bug Fixes
+
  * Hover fails in properties files when the Java language server is loading. See [eclipse/lsp4mp#375](https://github.com/eclipse/lsp4mp/issues/375).
  * Definition sometimes fails on property values in a properties file. See [eclipse/lsp4mp#374](https://github.com/eclipse/lsp4mp/issues/374).
  * Adjust go to definition range for property keys to include the offset between the property key and `=`. See [redhat-developer/quarkus-ls#323](https://github.com/redhat-developer/quarkus-ls/issues/323).
@@ -30,11 +40,13 @@
  * Change wording of "Unknown property" error message to "Unrecognized property". See [eclipse/lsp4mp#290](https://github.com/eclipse/lsp4mp/issues/290).
 
 ### Build
+
  * Use `vsce` from namespace `@vscode`. See [#141](https://github.com/redhat-developer/vscode-microprofile/pull/141).
 
 ## [0.6.0](https://github.com/redhat-developer/vscode-microprofile/milestone/6?closed=1) (December 1, 2022)
 
 ### Enhancements
+
  * Display property value as inlay hint. See [#108](https://github.com/redhat-developer/vscode-microprofile/pull/108).
  * Property evaluation should support the environment variable default value notation. See [eclipse/lsp4mp#241](https://github.com/eclipse/lsp4mp/issues/241).
  * Manage static properties using a `staticProvider` extension point. See [eclipse/lsp4mp#44](https://github.com/eclipse/lsp4mp/issues/44).
@@ -43,6 +55,7 @@
  * Only activate extension if Java project is present. See [#114](https://github.com/redhat-developer/vscode-microprofile/issues/114).
 
 ### Bug Fixes
+
  * Don't throw an error popup when MicroProfile LS cancels the inlay hint process. See [#123](https://github.com/redhat-developer/vscode-microprofile/pull/123).
  * Java source code not validated upon start. See [eclipse/lsp4mp#301](https://github.com/eclipse/lsp4mp/issues/301).
  * `ClassCastException` thrown (and caught) when using invalid `@ConfigProperty` default value. See [eclipse/lsp4mp#295](https://github.com/eclipse/lsp4mp/issues/295).
@@ -60,6 +73,7 @@
  * Fix typo in `mpirc` snippet. See [eclipse/lsp4mp#325](https://github.com/eclipse/lsp4mp/issues/325).
 
 ### Build
+
  * Add support for pre-releases. See [#113](https://github.com/redhat-developer/vscode-microprofile/pull/113).
  * Update node in CI and CD to 14. See [#106](https://github.com/redhat-developer/vscode-microprofile/pull/106).
  * Update Jenkinsfile to use Java 17. See [#111](https://github.com/redhat-developer/vscode-microprofile/pull/111).
