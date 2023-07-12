@@ -108,19 +108,17 @@ export class YamlSchemaCache {
   }
 }
 
-let yamlSchemaCache: YamlSchemaCache;
+const yamlSchemaCache = new YamlSchemaCache();
 let listener: vscode.Disposable|undefined = undefined;
 
-export async function registerYamlSchemaSupport(): Promise<YamlSchemaCache | undefined> {
+export async function registerYamlSchemaSupport(){
   const yamlPlugin: any = await activateYamlExtension();
   if (!yamlPlugin || !yamlPlugin.registerContributor) {
     // activateYamlExtension has already alerted users about errors.
     return undefined;
   }
-  yamlSchemaCache = new YamlSchemaCache();
   // register for microprofile schema provider
   yamlPlugin.registerContributor(MICROPROFILE_SCHEMA, requestYamlSchemaUriCallback, requestYamlSchemaContentCallback);
-  return yamlSchemaCache;
 }
 
 // find redhat.vscode-yaml extension and try to activate it to get the yaml contributor
@@ -222,4 +220,8 @@ async function installVSCodeYaml(): Promise<void> {
   await vscode.window.withProgress<void>({ location: vscode.ProgressLocation.Notification, title: `Installing '${VSCODE_YAML_DISPLAY_NAME}'...`}, () => {
     return vscode.commands.executeCommand<void>('workbench.extensions.installExtension', VSCODE_YAML_EXTENSION_ID);
   });
+}
+
+export async function getYamlSchemaCache(): Promise <YamlSchemaCache>{
+  return yamlSchemaCache;
 }
