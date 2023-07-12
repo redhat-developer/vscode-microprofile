@@ -15,7 +15,7 @@
  */
 import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry';
-import { CodeAction as VSCodeAction, CodeActionKind, Command as VSCommand, commands, Diagnostic as VSDiagnostic, ExtensionContext, extensions, window, workspace } from 'vscode';
+import { CodeAction as VSCodeAction, CodeActionKind, Command as VSCommand, commands, Diagnostic as VSDiagnostic, ExtensionContext, extensions, window, workspace, TextDocument, FileCreateEvent } from 'vscode';
 import { CancellationToken, CodeAction, CodeActionResolveRequest, Command, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
 import { LanguageClient } from 'vscode-languageclient/node';
 import { APPLY_CODE_ACTION_WITH_TELEMETRY } from './definitions/commands';
@@ -28,7 +28,7 @@ import { registerConfigurationUpdateCommand, registerOpenURICommand } from './ls
 import { JAVA_EXTENSION_ID, waitForStandardMode } from './util/javaServerMode';
 import { sendCodeActionTelemetry } from './util/telemetry';
 import { getFilePathsFromWorkspace } from './util/workspaceUtils';
-import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport } from './yaml/YamlSchema';
+import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport, YamlSchemaCache, getYamlSchemaCache } from './yaml/YamlSchema';
 
 let languageClient: LanguageClient;
 
@@ -50,10 +50,30 @@ async function doActivate(context: ExtensionContext) {
   const telemetryService: TelemetryService = await redHatService.getTelemetryService();
   await telemetryService.sendStartupEvent();
 
+  const yamlSchemaCache = getYamlSchemaCache();
+  let yamlRegistered = false;
+
   /**
-   * Register Yaml Schema support to manage application.yaml
+   * Register Yaml Schema support to manage appropriate yaml files if currently open in workspace
    */
-  const yamlSchemaCache = registerYamlSchemaSupport();
+  if(hasOpenedYamlConfig()) {
+    registerYamlSchemaSupport();
+    yamlRegistered = true;
+  }
+
+  /**
+   * Monitor opened files to register Yaml Schema support if appropriate yaml file is opened
+   */
+  workspace.onDidOpenTextDocument((e: TextDocument) => {
+    yamlRegistered = registerYamlSchemaSupportIfNeeded(e.fileName, yamlSchemaCache, yamlRegistered);
+  });
+
+  /**
+   * Monitor created files to register Yaml Schema support if appropriate yaml file is created
+   */
+  workspace.onDidCreateFiles((e: FileCreateEvent) => {
+    yamlRegistered = registerYamlSchemaSupportIfNeeded(e.files[0].fsPath, yamlSchemaCache, yamlRegistered);
+  });
 
   /**
    * Waits for the java language server to launch in standard mode
@@ -345,4 +365,41 @@ async function isJavaProject(): Promise<boolean> {
     }
   }
   return false;
+}
+
+/**
+ * Returns if the given file name matches YAML config source file pattern.
+ *
+ * See https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#_on_config_source_level for an understanding of this pattern.
+ *
+ * @param fileName name of the file to be checked
+ * @returns true if the file name is a match
+ */
+function isYamlConfigSource(fileName : string) : boolean {
+  return /application(-.*)?\.(yml|yaml)/.test(fileName);
+}
+
+/**
+ * Returns if any of the open files in the workspace are YAML config sources
+ *
+ * @returns true if the above is true
+ */
+function hasOpenedYamlConfig(): boolean {
+  return workspace.textDocuments.some(file => isYamlConfigSource(file.fileName));
+}
+
+/**
+ * Registers YAML schema support if not already registered and if fileName is a config source.
+ *
+ * @param fileName the recently opened or created file to be checked
+ * @param yamlSchemaCache
+ * @param yamlRegistered indicates whether or not YAML support has already been registered
+ * @returns true if YAML schema support was registered
+ */
+function registerYamlSchemaSupportIfNeeded(fileName : string, yamlSchemaCache : Promise <YamlSchemaCache>, yamlRegistered : boolean) {
+  if (yamlRegistered == false && isYamlConfigSource(fileName)) {
+    registerYamlSchemaSupport();
+    return true;
+  }
+  return yamlRegistered;
 }
