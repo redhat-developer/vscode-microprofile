@@ -1,5 +1,21 @@
 # Tools for MicroProfile Changelog
 
+## [0.9.0](https://github.com/redhat-developer/vscode-microprofile/milestone/10?closed=1) (August 8, 2023)
+
+### Enhancements
+
+ * Improve completion performance of `microprofile-config.properties` (remove unnecessary parameters in response). See [eclipse/lsp4mp#410](https://github.com/eclipse/lsp4mp/issues/410).
+ * YAML support activation trigger should be more selective. See [#160](https://github.com/redhat-developer/vscode-microprofile/issues/160).
+
+### Bug Fixes
+
+ * Exception on "class extends XXX" autocompletion. See [#161](https://github.com/redhat-developer/vscode-microprofile/issues/161).
+
+### Build
+
+ * Bump semver from `5.7.1` to `5.7.2`. See [#162](https://github.com/redhat-developer/vscode-microprofile/pull/162).
+ * Bump word-wrap from `1.2.3` to `1.2.4`. See [#164](https://github.com/redhat-developer/vscode-microprofile/pull/164).
+
 ## [0.8.0](https://github.com/redhat-developer/vscode-microprofile/milestone/8?closed=1) (June 15, 2023)
 
 ### Enhancements
