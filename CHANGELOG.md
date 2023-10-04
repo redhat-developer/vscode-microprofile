@@ -1,5 +1,13 @@
 # Tools for MicroProfile Changelog
 
+## [0.10.0](https://github.com/redhat-developer/vscode-microprofile/milestone/11?closed=1) (October 5, 2023)
+
+### Bug Fixes
+
+ * Properly handle `StackOverflowError` in `MicroProfileDelegateCommandHandler.getMicroProfileProjectInfo`. See [eclipse/lsp4mp#418](https://github.com/eclipse/lsp4mp/issues/418).
+ * Fix `NullPointerException` in `TestJaxRsInfoProvider.canProvideJaxRsMethodInfoForClass`. See [eclipse/lsp4mp#424](https://github.com/eclipse/lsp4mp/issues/424).
+ * Fix `canProvideJaxRsMethodInfoForClass` for default JAX-RS. See [eclipse/lsp4mp#420](https://github.com/eclipse/lsp4mp/pull/420).
+
 ## [0.9.0](https://github.com/redhat-developer/vscode-microprofile/milestone/10?closed=1) (August 8, 2023)
 
 ### Enhancements
