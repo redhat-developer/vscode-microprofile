@@ -41,10 +41,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 }
 
-interface VSCodeActionWithData extends VSCodeAction {
-  data?: any;
-}
-
 async function doActivate(context: ExtensionContext) {
   const redHatService: RedHatService = await getRedHatService(context);
   const telemetryService: TelemetryService = await redHatService.getTelemetryService();
@@ -56,7 +52,7 @@ async function doActivate(context: ExtensionContext) {
   /**
    * Register Yaml Schema support to manage appropriate yaml files if currently open in workspace
    */
-  if(hasOpenedYamlConfig()) {
+  if (hasOpenedYamlConfig()) {
     registerYamlSchemaSupport();
     yamlRegistered = true;
   }
@@ -126,34 +122,31 @@ async function doActivate(context: ExtensionContext) {
      *    similar to how code actions are handled in the LSP specification.
      * 3. Sends telemetry if telemetry is enabled and the code action succeeds or fails
      */
-    context.subscriptions.push(commands.registerCommand(APPLY_CODE_ACTION_WITH_TELEMETRY, async (codeActionOrCommand: VSCodeActionWithData | VSCommand, token: CancellationToken) => {
+    context.subscriptions.push(commands.registerCommand(APPLY_CODE_ACTION_WITH_TELEMETRY, async (lsCodeActionOrCommand: CodeAction | Command, resolvedEdit: boolean) => {
       let codeActionId: string | null = null;
       try {
-        if (Command.is(codeActionOrCommand)) {
-          const command = codeActionOrCommand as VSCommand;
+        if (Command.is(lsCodeActionOrCommand)) {
+          const command = lsCodeActionOrCommand as Command;
           codeActionId = command.command;
           await commands.executeCommand(command.command, ...command.arguments);
         } else {
-          let vsCodeAction: VSCodeActionWithData = codeActionOrCommand;
-          codeActionId = vsCodeAction.data?.id;
-          if ((!codeActionOrCommand.edit) && (!codeActionOrCommand.command)) {
-            let codeAction = await languageClient.code2ProtocolConverter.asCodeAction(codeActionOrCommand as VSCodeAction);
+          let lsCodeAction = lsCodeActionOrCommand as CodeAction;
+          codeActionId = lsCodeAction.data?.id;
+          if ((!resolvedEdit) && (!lsCodeAction.command)) {
             // resolve the code action
-            codeAction = await languageClient.sendRequest(CodeActionResolveRequest.type, codeAction, token);
-            vsCodeAction = await languageClient.protocol2CodeConverter.asCodeAction(codeAction);
-            if (token.isCancellationRequested) {
-              return;
-            }
+            lsCodeAction = await languageClient.sendRequest(CodeActionResolveRequest.type, lsCodeAction);
           }
-          if (vsCodeAction.edit) {
+
+          if (lsCodeAction.edit) {
+            const vsCodeAction = await languageClient.protocol2CodeConverter.asCodeAction(lsCodeAction);
             await workspace.applyEdit(vsCodeAction.edit);
           }
-          if (vsCodeAction.command) {
+          if (lsCodeAction.command) {
             if (!codeActionId) {
-              codeActionId = vsCodeAction.command.command;
+              codeActionId = lsCodeAction.command.command;
             }
-            const command = languageClient.protocol2CodeConverter.asCommand(vsCodeAction.command);
-            await commands.executeCommand(command.command, ...command.arguments);
+            const vsCommand = languageClient.protocol2CodeConverter.asCommand(lsCodeAction.command);
+            await commands.executeCommand(vsCommand.command, ...vsCommand.arguments);
           }
         }
         await sendCodeActionTelemetry(telemetryService, codeActionId || 'unknown', true);
@@ -241,30 +234,47 @@ async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, doc
         // "microprofile.applyCodeAction" is a command that accepts a code action,
         // then applies it, then sends a telemetry event indicating which
         // code action was applied.
-        const codeActions = await next(document, range, context, token);
-        return codeActions //
-          .map((codeAction) => {
-            let diagnostics: VSDiagnostic[] = undefined;
+        return (await next(document, range, context, token))
+          .map((vsCodeActionOrCommand) => {
             let kind: CodeActionKind = undefined;
-            if (!Command.is(codeAction)) {
-              const actualCodeAction = codeAction as VSCodeAction;
-              diagnostics = actualCodeAction.diagnostics;
-              kind = actualCodeAction.kind;
+            let diagnostics: VSDiagnostic[] = undefined;
+            let edit = undefined;
+            // As command arguments are JSON object,  code action / command from vscode
+            // cannot be used as "microprofile.applyCodeAction" arguments because
+            // it cannot be serialized as JSON correctly (some information are loosen like data, range, etc)
+            // That's why "microprofile.applyCodeAction" arguments is filled with LSP code action /command.
+            let lsCodeActionOrCommand: CodeAction | Command = undefined;
+            if (Command.is(vsCodeActionOrCommand)) {
+              // Get LSP command from the vscode command
+              const vsCodeCommand: VSCommand = vsCodeActionOrCommand;
+              lsCodeActionOrCommand = languageClient.code2ProtocolConverter.asCommand(vsCodeCommand);
+            } else {
+              // Get LSP code action from the vscode code action
+              const vsCodeAction: VSCodeAction = vsCodeActionOrCommand;
+              kind = vsCodeAction.kind;
+              diagnostics = vsCodeAction.diagnostics;
+              if (vsCodeAction.edit) {
+                // When code action defines the edit, we return a code action with this vscode edit.
+                // The apply workspace edit will be done by vscode himself and not by the command
+                // "microprofile.applyCodeAction". In other words "microprofile.applyCodeAction" apply the
+                // workspace edit only if edit must be resolved by the resolve code action.
+                edit = vsCodeAction.edit;
+                vsCodeAction.edit = undefined; // to avoid throwing error from https://github.com/microsoft/vscode-languageserver-node/blob/277e4564193c4ed258fe4d8d405d3379665bbab9/client/src/common/codeConverter.ts#L740
+              }
+              lsCodeActionOrCommand = languageClient.code2ProtocolConverter.asCodeActionSync(vsCodeAction);
             }
+            const title = vsCodeActionOrCommand.title;
             return {
-              title: codeAction.title,
+              title: title,
               command: {
                 command: APPLY_CODE_ACTION_WITH_TELEMETRY,
-                title: codeAction.title,
-                arguments: [codeAction, token]
+                title: title,
+                arguments: [lsCodeActionOrCommand, edit != undefined]
               },
-              diagnostics: diagnostics,
               kind: kind,
-              // HACK: the object implements the VS Code CodeAction  interface,
-              // but still contains the `data` field from the LSP CodeAction.
-              // I use a hacky cast in order to access this property.
-              data: (codeAction as unknown as CodeAction).data,
-            } as VSCodeActionWithData;
+              diagnostics: diagnostics,
+              edit: edit
+            }
           });
       }
     }
@@ -375,7 +385,7 @@ async function isJavaProject(): Promise<boolean> {
  * @param fileName name of the file to be checked
  * @returns true if the file name is a match
  */
-function isYamlConfigSource(fileName : string) : boolean {
+function isYamlConfigSource(fileName: string): boolean {
   return /application(-.*)?\.(yml|yaml)/.test(fileName);
 }
 
@@ -396,7 +406,7 @@ function hasOpenedYamlConfig(): boolean {
  * @param yamlRegistered indicates whether or not YAML support has already been registered
  * @returns true if YAML schema support was registered
  */
-function registerYamlSchemaSupportIfNeeded(fileName : string, yamlSchemaCache : Promise <YamlSchemaCache>, yamlRegistered : boolean) {
+function registerYamlSchemaSupportIfNeeded(fileName: string, yamlSchemaCache: Promise<YamlSchemaCache>, yamlRegistered: boolean) {
   if (yamlRegistered == false && isYamlConfigSource(fileName)) {
     registerYamlSchemaSupport();
     return true;
