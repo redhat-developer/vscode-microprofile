@@ -249,7 +249,6 @@
     ]
   },
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "vscode:prepublish": "webpack --mode production",
     "compile": "webpack --mode none",
     "watch": "webpack --mode development --watch",
@@ -257,19 +256,16 @@
     "pretest": "npm run test-compile",
     "test": "node ./out/test/runTest.js",
     "eslint": "npx eslint --fix src/**/*.ts",
-    "build": "./node_modules/.bin/gulp build",
-    "build-server": "./node_modules/.bin/gulp buildServer",
-    "build-ext": "./node_modules/.bin/gulp buildExtension"
-  },
-  "resolutions": {
-    "minimist": "1.2.6"
+    "build": "npx gulp build",
+    "build-server": "npx gulp buildServer",
+    "build-ext": "npx gulp buildExtension"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",
     "@types/chai-fs": "^2.0.2",
     "@types/fs-extra": "^7.0.0",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^10.14.16",
+    "@types/node": "18.15",
     "@types/semver": "^6.2.0",
     "@types/vscode": "^1.65.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
@@ -281,7 +277,6 @@
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-rename": "^1.4.0",
-    "minimist": ">=1.2.6",
     "mocha": "^9.2.2",
     "ts-loader": "^9.3.1",
     "typescript": "^4.7.4",
