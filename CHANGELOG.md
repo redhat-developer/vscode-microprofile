@@ -1,5 +1,13 @@
 # Tools for MicroProfile Changelog
 
+## [0.11.0](https://github.com/redhat-developer/vscode-microprofile/milestone/12?closed=1) (February 1, 2024)
+
+### Bug Fixes
+
+ * Fixed `textDocument/documentSymbol` request failures when properties start with `.`. See [178](https://github.com/redhat-developer/vscode-microprofile/issues/178).
+ * Fixed quick fixes not being applied. See [#171](https://github.com/redhat-developer/vscode-microprofile/issues/171).
+ * Fixed broken properties completion. See [eclipse/lsp4mp#432](https://github.com/eclipse/lsp4mp/pull/432).
+
 ## [0.10.0](https://github.com/redhat-developer/vscode-microprofile/milestone/11?closed=1) (October 5, 2023)
 
 ### Bug Fixes
