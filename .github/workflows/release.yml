@@ -103,11 +103,9 @@ jobs:
           npm run build
           npm run vscode:prepublish
       - name: Test vscode-microprofile
-        env:
-          SKIP_COMMANDS_TEST: true
-          SKIP_CLASSPATH_TEST: true
         run: |
-          $(echo "xvfb-run --auto-servernum") npm run test --silent
+          pushd vscode-microprofile
+          xvfb-run --auto-servernum npm run test --silent
         continue-on-error: true
       - name: Prepare Pre-Release
         if: ${{ github.event_name == 'schedule' || inputs.publishPreRelease == 'true' }}
@@ -157,4 +155,4 @@ jobs:
       - name: Publish to OpenVSX Registry
         if: ${{ github.event_name == 'schedule' || inputs.publishToOVSX == 'true' || inputs.publishPreRelease == 'true' }}
         run: |
-          ovsx publish --skip-duplicate -p ${{ secrets.OVSX_MARKETPLACE_TOKEN }}  --packagePath vscode-microprofile/vscode-microprofile-*-${GITHUB_RUN_NUMBER}.vsix
+          ovsx publish -p ${{ secrets.OVSX_MARKETPLACE_TOKEN }}  --packagePath vscode-microprofile/vscode-microprofile-*-${GITHUB_RUN_NUMBER}.vsix
