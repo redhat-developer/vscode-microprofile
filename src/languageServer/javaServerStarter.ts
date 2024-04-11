@@ -1,9 +1,9 @@
+import { globSync } from 'glob';
 import * as os from 'os';
 import * as path from 'path';
 import { workspace } from 'vscode';
 import { Executable, ExecutableOptions } from 'vscode-languageclient/node';
 import { RequirementsData } from './requirements';
-import * as glob from 'glob';
 
 const DEBUG = startedInDebugMode();
 const DEBUG_PORT = 1064;
@@ -45,7 +45,7 @@ function prepareParams(microprofileJavaExtensions: string[]): string[] {
   }
   parseVMargs(params, vmargs);
   const serverHome: string = path.resolve(__dirname, '../server');
-  const microprofileServerFound: Array<string> = glob.sync(`**/${MICROPROFILE_SERVER_NAME}`, { cwd: serverHome });
+  const microprofileServerFound: Array<string> = globSync(`**/${MICROPROFILE_SERVER_NAME}`, { cwd: serverHome });
   if (microprofileServerFound.length) {
     let mpJavaExtensionsClasspath = '';
     if (microprofileJavaExtensions.length > 0) {
