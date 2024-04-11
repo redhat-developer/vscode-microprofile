@@ -266,7 +266,7 @@
     "@types/fs-extra": "^7.0.0",
     "@types/mocha": "^5.2.6",
     "@types/node": "18.15",
-    "@types/semver": "^6.2.0",
+    "@types/semver": "^7.5.8",
     "@types/vscode": "^1.65.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
@@ -289,6 +289,7 @@
     "expand-home-dir": "0.0.3",
     "glob": "^7.1.4",
     "jdk-utils": "^0.4.3",
+    "semver": "^7.6.0",
     "vscode-languageclient": "^9.0.1"
   }
 }
