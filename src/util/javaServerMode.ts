@@ -1,13 +1,7 @@
-import { window, commands } from "vscode";
-import { JavaExtensionAPI } from "../extension";
+import { commands, window } from "vscode";
+import { JavaExtensionAPI, ServerMode } from "../definitions/vscodeJavaApi";
 
 export const JAVA_EXTENSION_ID = "redhat.java";
-
-export enum ServerMode {
-  STANDARD = "Standard",
-  LIGHTWEIGHT = "LightWeight",
-  HYBRID = "Hybrid",
-}
 
 /**
  * Waits for the java language server to launch in standard mode

@@ -77,7 +77,7 @@ function addToPreferenceArray<T>(key: string, value: T): void {
 
 interface ConfigurationItemEdit {
   section: string;
-  value: any;
+  value;
   editType: ConfigurationItemEditType;
 }
 

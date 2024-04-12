@@ -6,17 +6,10 @@ import * as path from 'path';
 import { Uri, workspace } from 'vscode';
 
 import * as expandHomeDir from 'expand-home-dir';
-import { findRuntimes, IJavaRuntime, getSources } from 'jdk-utils';
-import { JavaExtensionAPI } from '../extension';
+import { IJavaRuntime, findRuntimes, getSources } from 'jdk-utils';
+import { JavaExtensionAPI, RequirementsData } from '../definitions/vscodeJavaApi';
 const isWindows = process.platform.indexOf('win') === 0;
 const JAVA_FILENAME = 'java' + (isWindows ? '.exe' : '');
-
-export interface RequirementsData {
-    tooling_jre: string;
-    tooling_jre_version: number;
-    java_home: string;
-    java_version: number;
-}
 
 /**
  * Resolves the requirements needed to run the extension.

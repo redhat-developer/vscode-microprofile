@@ -1,8 +1,8 @@
-import * as vscode from 'vscode';
 import * as path from 'path';
-import * as Commands from '../definitions/commands';
-import { DocumentFilter, DocumentSelector } from 'vscode-languageclient';
 import { isDeepStrictEqual } from 'util';
+import * as vscode from 'vscode';
+import { DocumentFilter, DocumentSelector, TextDocumentFilter } from 'vscode-languageclient';
+import * as Commands from '../definitions/commands';
 
 let existingExtensions: MicroProfileContribution[];
 
@@ -19,7 +19,7 @@ export interface MicroProfileContribution {
  *
  * @param extensions array of extensions to search contributions from
  */
-export function collectMicroProfileJavaExtensions(extensions: readonly vscode.Extension<any>[]): MicroProfileContribution[] {
+export function collectMicroProfileJavaExtensions(extensions: readonly vscode.Extension<unknown>[]): MicroProfileContribution[] {
   const result: MicroProfileContribution[] = [];
   if (extensions && extensions.length) {
     for (const extension of extensions) {
@@ -42,7 +42,7 @@ export function collectMicroProfileJavaExtensions(extensions: readonly vscode.Ex
   return result;
 }
 
-export function handleExtensionChange(extensions: readonly vscode.Extension<any>[]): void  {
+export function handleExtensionChange(extensions: readonly vscode.Extension<unknown>[]): void  {
   if (!existingExtensions) {
     return;
   }
@@ -78,7 +78,7 @@ export function handleExtensionChange(extensions: readonly vscode.Extension<any>
   }
 }
 
-function setJarExtensionsIfExists(obj: MicroProfileContribution, section: any, extensionPath: string): void {
+function setJarExtensionsIfExists(obj: MicroProfileContribution, section: { jarExtensions: string[]; }, extensionPath: string): void {
   if (Array.isArray(section.jarExtensions)) {
     for (const microprofileJavaExtensionPath of section.jarExtensions) {
       obj.jarExtensions.push(path.resolve(extensionPath, microprofileJavaExtensionPath));
@@ -86,12 +86,12 @@ function setJarExtensionsIfExists(obj: MicroProfileContribution, section: any, e
   }
 }
 
-function setDocumentSelectorIfExists(obj: MicroProfileContribution, section: any): void {
-  if (!Array.isArray(section.documentSelector)) {
+function setDocumentSelectorIfExists(obj: MicroProfileContribution, section: { documentSelector: (string | TextDocumentFilter)[]; }): void {
+  if (!section.documentSelector || !Array.isArray(section.documentSelector)) {
     return;
   }
   const documentSelector: DocumentSelector = [];
-  section.documentSelector.forEach((selector: any) => {
+  section.documentSelector.forEach((selector) => {
     if (typeof selector === 'string') {
       documentSelector.push(selector);
     } else if (selector) {

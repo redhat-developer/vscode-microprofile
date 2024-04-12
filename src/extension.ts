@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry';
-import { CodeAction as VSCodeAction, CodeActionKind, Command as VSCommand, commands, Diagnostic as VSDiagnostic, ExtensionContext, extensions, window, workspace, TextDocument, FileCreateEvent } from 'vscode';
+import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
+import { CodeActionKind, commands, ExtensionContext, extensions, FileCreateEvent, TextDocument, CodeAction as VSCodeAction, Command as VSCommand, Diagnostic as VSDiagnostic, window, workspace } from 'vscode';
 import { CancellationToken, CodeAction, CodeActionResolveRequest, Command, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
 import { LanguageClient } from 'vscode-languageclient/node';
 import { APPLY_CODE_ACTION_WITH_TELEMETRY } from './definitions/commands';
 import * as CommandKind from './definitions/lspCommandKind';
 import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
+import { JavaExtensionAPI } from './definitions/vscodeJavaApi';
 import { prepareExecutable } from './languageServer/javaServerStarter';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
 import { resolveRequirements } from './languageServer/requirements';
@@ -28,12 +29,9 @@ import { registerConfigurationUpdateCommand, registerOpenURICommand } from './ls
 import { JAVA_EXTENSION_ID, waitForStandardMode } from './util/javaServerMode';
 import { sendCodeActionTelemetry } from './util/telemetry';
 import { getFilePathsFromWorkspace } from './util/workspaceUtils';
-import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport, YamlSchemaCache, getYamlSchemaCache } from './yaml/YamlSchema';
+import { getYamlSchemaCache, MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport, YamlSchemaCache } from './yaml/YamlSchema';
 
 let languageClient: LanguageClient;
-
-// alias for vscode-java's ExtensionAPI
-export type JavaExtensionAPI = any;
 
 export async function activate(context: ExtensionContext): Promise<void> {
   if (await isJavaProject()) {
@@ -296,7 +294,7 @@ async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, doc
    * Returns a json object with key 'microprofile' and a json object value that
    * holds all microprofile settings.
    */
-  function getVSCodeMicroProfileSettings(): { microprofile: any } {
+  function getVSCodeMicroProfileSettings(): { microprofile } {
     const defaultMicroProfileSettings = {};
     const configMicroProfile = workspace.getConfiguration().get('microprofile');
     const microprofileSettings = configMicroProfile ? configMicroProfile : defaultMicroProfileSettings;
