@@ -255,7 +255,7 @@
     "test-compile": "tsc -p ./",
     "pretest": "npm run test-compile",
     "test": "node ./out/test/runTest.js",
-    "eslint": "npx eslint --fix src/**/*.ts",
+    "eslint": "npx eslint --fix src",
     "build": "npx gulp build",
     "build-server": "npx gulp buildServer",
     "build-ext": "npx gulp buildExtension"

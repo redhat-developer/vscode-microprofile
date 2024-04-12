@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as vscode from 'vscode';
 import * as path from 'path';
 import * as semver from 'semver';
+import * as vscode from 'vscode';
 
 import {
-  VSCODE_YAML_EXTENSION_ID,
-  VSCODE_YAML_DISPLAY_NAME,
-  VSCODE_YAML_NOT_INSTALLED_MESSAGE,
-  VSCODE_YAML_LOW_VERSION_MESSAGE,
-  VSCODE_YAML_NO_REGISTRATION_MESSAGE,
-  VSCODE_YAML_INSTALL_SUCCESS,
   MICROPROFILE_SCHEMA,
-  MICROPROFILE_SCHEMA_PREFIX
+  MICROPROFILE_SCHEMA_PREFIX,
+  VSCODE_YAML_DISPLAY_NAME,
+  VSCODE_YAML_EXTENSION_ID,
+  VSCODE_YAML_INSTALL_SUCCESS,
+  VSCODE_YAML_LOW_VERSION_MESSAGE,
+  VSCODE_YAML_NOT_INSTALLED_MESSAGE,
+  VSCODE_YAML_NO_REGISTRATION_MESSAGE
 } from "./YamlConstants";
 
 import { Uri } from 'vscode';
@@ -112,7 +112,7 @@ const yamlSchemaCache = new YamlSchemaCache();
 let listener: vscode.Disposable|undefined = undefined;
 
 export async function registerYamlSchemaSupport(){
-  const yamlPlugin: any = await activateYamlExtension();
+  const yamlPlugin = await activateYamlExtension();
   if (!yamlPlugin || !yamlPlugin.registerContributor) {
     // activateYamlExtension has already alerted users about errors.
     return undefined;
@@ -123,7 +123,7 @@ export async function registerYamlSchemaSupport(){
 
 // find redhat.vscode-yaml extension and try to activate it to get the yaml contributor
 // this function should only be called once when vscode-microprofile activates
-async function activateYamlExtension(): Promise<{ registerContributor: YamlSchemaContributor } | undefined> {
+async function activateYamlExtension(): Promise<{ registerContributor?: YamlSchemaContributor } | undefined> {
   const ext = vscode.extensions.getExtension(VSCODE_YAML_EXTENSION_ID);
   const isApplicationYamlOpened: boolean = isEditorApplicationYaml(vscode.window.activeTextEditor);
 
