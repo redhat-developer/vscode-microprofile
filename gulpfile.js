@@ -25,24 +25,24 @@ const microprofileSite = 'org.eclipse.lsp4mp.jdt.site';
 
 gulp.task('buildServer', (done) => {
   cp.execSync(mvnw() + ' clean install -B -DskipTests', { cwd: microprofileServerDir , stdio: 'inherit' });
-  gulp.src(microprofileServerDir + '/target/' + microprofileServerName)
+  gulp.src(microprofileServerDir + '/target/' + microprofileServerName, { encoding: false })
     .pipe(gulp.dest('./server'));
   done();
 });
 
 gulp.task('buildExtension', (done) => {
   cp.execSync(mvnw() + ' clean verify -B -DskipTests', { cwd: microprofileExtensionDir, stdio: 'inherit' });
-  gulp.src(microprofileExtensionDir + '/' + microprofileExtension + '/target/' + microprofileExtension + '-!(*sources).jar')
+  gulp.src(microprofileExtensionDir + '/' + microprofileExtension + '/target/' + microprofileExtension + '-!(*sources).jar', { encoding: false })
     .pipe(rename(microprofileExtension + '.jar'))
     .pipe(gulp.dest('./jars'));
-  gulp.src(microprofileExtensionDir + '/' + microprofileSite + '/target/repository/plugins/wrapped*.jar')
+  gulp.src(microprofileExtensionDir + '/' + microprofileSite + '/target/repository/plugins/wrapped*.jar', { encoding: false })
     .pipe(rename(function (path, _file) {
       const patt = /wrapped\.([^_]+).*/;
       const result = path.basename.match(patt);
       path.basename = result[1];
     }))
     .pipe(gulp.dest('./jars'));
-  gulp.src(microprofileExtensionDir + '/' + microprofileSite + '/target/repository/plugins/org.jboss.logging*.jar')
+  gulp.src(microprofileExtensionDir + '/' + microprofileSite + '/target/repository/plugins/org.jboss.logging*.jar', { encoding: false })
     .pipe(rename(function (path, _file) {
       const patt = /([^_]+).*/;
       const result = path.basename.match(patt);
