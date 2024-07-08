@@ -15,7 +15,7 @@
  */
 import { getRedHatService, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { RedHatService } from '@redhat-developer/vscode-redhat-telemetry';
-import { CodeAction as VSCodeAction, CodeActionKind, Command as VSCommand, commands, Diagnostic as VSDiagnostic, ExtensionContext, extensions, window, workspace, TextDocument, FileCreateEvent } from 'vscode';
+import { CodeAction as VSCodeAction, Hover as VSHover, CodeActionKind, Command as VSCommand, CompletionItem as VSCompletionItem, commands, Diagnostic as VSDiagnostic, ExtensionContext, extensions, window, workspace, TextDocument, FileCreateEvent, MarkedString, MarkdownString } from 'vscode';
 import { CancellationToken, CodeAction, CodeActionResolveRequest, Command, DidChangeConfigurationNotification, DocumentSelector, LanguageClientOptions, RequestType } from 'vscode-languageclient';
 import { LanguageClient } from 'vscode-languageclient/node';
 import { APPLY_CODE_ACTION_WITH_TELEMETRY } from './definitions/commands';
@@ -195,6 +195,27 @@ function registerVSCodeCommands(context: ExtensionContext) {
   context.subscriptions.push(registerOpenURICommand());
 }
 
+const REPLACE_JDT_LINKS_PATTERN = /(\[(?:[^\]])+\]\()(jdt:\/\/(?:(?:(?:\\\))|([^)]))+))\)/g;
+const VSCODE_JAVA_OPEN_FILE_COMMAND_ID = "java.open.file";
+
+/**
+ * Replace `jdt://` links in the documentation with links that execute the VS Code command required to open the referenced file.
+ *
+ * Adapted from vscode-java.
+ *
+ * @param oldDocumentation the documentation to fix the links in
+ * @returns the documentation with fixed links
+ */
+function fixJdtLinksInDocumentation(oldDocumentation: MarkdownString): MarkdownString {
+  const newContent: string = oldDocumentation.value.replace(REPLACE_JDT_LINKS_PATTERN, (_substring, group1, group2) => {
+    const uri = `command:${VSCODE_JAVA_OPEN_FILE_COMMAND_ID}?${encodeURI(JSON.stringify([encodeURIComponent(group2)]))}`;
+    return `${group1}${uri})`;
+  });
+  const mdString = new MarkdownString(newContent);
+  mdString.isTrusted = true;
+  return mdString;
+}
+
 async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, documentSelector: DocumentSelector, microprofileContributions: MicroProfileContribution[]) {
   const requirements = await resolveRequirements(api);
   const clientOptions: LanguageClientOptions = {
@@ -226,6 +247,29 @@ async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, doc
         didChangeConfiguration: async () => {
           languageClient.sendNotification(DidChangeConfigurationNotification.type, { settings: getVSCodeMicroProfileSettings() });
         }
+      },
+      provideHover: async (document, position, token, next): Promise<VSHover> => {
+        const hover = await next(document, position, token);
+        if (hover === null || hover === undefined) {
+          return hover;
+        }
+        const newContents: (MarkedString | MarkdownString)[] = [];
+        for (const content of hover.contents) {
+          if (content instanceof MarkdownString) {
+            newContents.push(fixJdtLinksInDocumentation(content));
+          } else {
+            newContents.push(content);
+          }
+        }
+        hover.contents = newContents;
+        return hover;
+      },
+      resolveCompletionItem: async (item, token, next): Promise<VSCompletionItem> => {
+        const completionItem = await next(item, token);
+        if (completionItem !== undefined && completionItem !== null && completionItem.documentation instanceof MarkdownString) {
+          completionItem.documentation = fixJdtLinksInDocumentation(completionItem.documentation);
+        }
+        return completionItem;
       },
       provideCodeActions: async (document, range, context, token, next): Promise<VSCodeAction[]> => {
         // Collect the code actions from the language server,
