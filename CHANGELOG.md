@@ -1,5 +1,25 @@
 # Tools for MicroProfile Changelog
 
+## [0.12.0](https://github.com/redhat-developer/vscode-microprofile/milestone/13?closed=1) (August 26, 2024)
+
+### Enhancements
+
+- Resolve system properties/environment variables while browsing the application.properties values. See [eclipse/lsp4mp#448](https://github.com/eclipse/lsp4mp/issues/448).
+- Add support for @Startup healthcheck diagnostic. See [eclipse/lsp4mp#443](https://github.com/eclipse/lsp4mp/issues/443).
+
+### Bug Fixes
+
+- NPE with Workspace Symbol when LSP client return null as SymbolInformation List. See [eclipse/lsp4mp#457](https://github.com/eclipse/lsp4mp/pull/457).
+- Unrecognized property mp.messaging.* when Channel annotation is used along with Multi. See [eclipse/lsp4mp#451](https://github.com/eclipse/lsp4mp/pull/451).
+- fix: synchronized projectLabels + collect codeLens when project is loaded. See [eclipse/lsp4mp#444](https://github.com/eclipse/lsp4mp/pull/444).
+
+### Build
+
+- Set encoding as false for gulp.src to treat content as binary.. See [#209](https://github.com/redhat-developer/vscode-microprofile/pull/209).
+- Update eclipse.jdt.ls to 1.39.0-SNAPSHOT. See [eclipse/lsp4mp#454](https://github.com/eclipse/lsp4mp/pull/454).
+- Add About files to JDT extension bundles & Maven artifacts. See [eclipse/lsp4mp#437](https://github.com/eclipse/lsp4mp/pull/437).
+- Fix tests for release workflow. See [#185](https://github.com/redhat-developer/vscode-microprofile/pull/185).
+
 ## [0.11.0](https://github.com/redhat-developer/vscode-microprofile/milestone/12?closed=1) (February 1, 2024)
 
 ### Bug Fixes
