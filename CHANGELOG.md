@@ -1,5 +1,19 @@
 # Tools for MicroProfile Changelog
 
+## [0.13.0](https://github.com/redhat-developer/vscode-microprofile/milestone/14?closed=1) (October 17, 2024)
+
+### Bug Fixes
+
+- Cannot publish to OpenVSX due to out of date NodeJS. See [#303](https://github.com/redhat-developer/vscode-microprofile/issues/303).
+- REST endpoint codelens is not resolving a `public static final` parameter. See [lsp4mp#467](https://github.com/eclipse/lsp4mp/pull/467).
+- fix: prevent from duplicate properties. See [lsp4mp#465](https://github.com/eclipse/lsp4mp/pull/465).
+- fix : prevent from empty name symbol. See [lsp4mp#462](https://github.com/eclipse/lsp4mp/pull/462).
+
+### Other
+
+- Bump webpack from 5.94.0 to 5.95.0. See [#296](https://github.com/redhat-developer/vscode-microprofile/pull/296).
+- Update vscode-redhat-telemetry to 0.9.0. See [#293](https://github.com/redhat-developer/vscode-microprofile/pull/293).
+
 ## [0.12.0](https://github.com/redhat-developer/vscode-microprofile/milestone/13?closed=1) (August 26, 2024)
 
 ### Enhancements
