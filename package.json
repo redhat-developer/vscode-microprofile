@@ -261,7 +261,7 @@
     "build-ext": "npx gulp buildExtension"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.16",
+    "@types/chai": "^5.0.0",
     "@types/chai-fs": "^2.0.5",
     "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.7",
@@ -270,7 +270,7 @@
     "@types/vscode": "^1.65.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "chai": "^4.5.0",
+    "chai": "^5.1.2",
     "chai-fs": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-webpack-plugin": "^3.2.0",
