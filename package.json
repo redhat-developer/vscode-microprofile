@@ -264,7 +264,7 @@
     "@types/chai": "^4.3.16",
     "@types/chai-fs": "^2.0.5",
     "@types/fs-extra": "^11.0.4",
-    "@types/mocha": "^10.0.9",
+    "@types/mocha": "^10.0.10",
     "@types/node": "18.19",
     "@types/semver": "^7.5.8",
     "@types/vscode": "^1.65.0",
