@@ -161,7 +161,7 @@ Similar to properties files, the microprofile.jdt Java feature participants can 
   * [Visual Studio Code](https://code.visualstudio.com/)
   * [Language Support for Java](https://marketplace.visualstudio.com/items?itemName=redhat.java)
   * [Node.js](https://nodejs.org/en/)
-  * [JDK 11+](https://adoptopenjdk.net/)
+  * [JDK 21+](https://adoptopenjdk.net/)
 
 ### Setup
 **Step 1.** Fork and clone this repository
@@ -177,22 +177,16 @@ YOUR_FOLDER/
          ├──── lsp4mp/
 ```
 
-**Step 3.** Open `lsp4mp/microprofile.jdt/org.eclipse.lsp4mp.jdt.tp/org.eclipse.lsp4mp.jdt.target` in an text editor or IDE and uncomment the following line:
-```xml
-<!--<location·type="Target"·uri="https://raw.githubusercontent.com/eclipse/eclipse.jdt.ls/master/org.eclipse.jdt.ls.target/org.eclipse.jdt.ls.tp.target"/>-->
-```
-Avoid committing this change to the repo.
-
-**Step 4.** Navigate into `vscode-microprofile/`
+**Step 3.** Navigate into `vscode-microprofile/`
 ```bash
 $ cd vscode-microprofile/
 ```
-**Step 5.** Install npm dependencies
+**Step 4.** Install npm dependencies
 ```bash
 $ npm install
 ```
 
-**Step 6.** Build the MicroProfile language server and MicroProfile jdt.ls extension
+**Step 5.** Build the MicroProfile language server and MicroProfile jdt.ls extension
 ```bash
 $ npm run build
 ```
