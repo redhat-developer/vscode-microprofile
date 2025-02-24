@@ -86,8 +86,8 @@ function checkJavaVersion(javaHome: string): Promise<number> {
     return new Promise((resolve, reject) => {
         cp.execFile(javaHome + '/bin/java', ['-version'], {}, (error, stdout, stderr) => {
             const javaVersion = parseMajorVersion(stderr);
-            if (javaVersion < 11) {
-                reject(openJDKDownload(`Java 11 or more recent is required to run 'Tools for MicroProfile'. Please download and install a recent JDK.`));
+            if (javaVersion < 21) {
+                reject(openJDKDownload(`Java 21 or more recent is required to run 'Tools for MicroProfile'. Please download and install a recent JDK.`));
             } else {
                 resolve(javaVersion);
             }
