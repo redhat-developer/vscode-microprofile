@@ -40,7 +40,7 @@ In `Java` files, you will benefit with:
 ## Requirements
 
   * [Language Support for Java(TM) by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java)
-  * Java JDK (or JRE) 11 or more recent is required **except** on the following platforms : `win32-x64`, `linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`. See [JDK Tooling](https://github.com/redhat-developer/vscode-java/#java-tooling-jdk) for details.
+  * Java JDK (or JRE) 21 or more recent is required **except** on the following platforms : `win32-x64`, `linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`. See [JDK Tooling](https://github.com/redhat-developer/vscode-java/#java-tooling-jdk) for details.
 
 ## Supported VS Code settings
 
