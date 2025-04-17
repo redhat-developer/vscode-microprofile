@@ -1,5 +1,15 @@
 # Tools for MicroProfile Changelog
 
+## [0.14.0](https://github.com/redhat-developer/vscode-microprofile/milestone/15?closed=1) (April 22, 2025)
+
+### Performance
+ * Skip making a fake project if only sources are being scanned. See [eclipse-lsp4mp/lsp4mp#494](https://github.com/eclipse-lsp4mp/lsp4mp/pull/494).
+
+### Bug Fixes
+ * Do not suggest method or field snippets when the cursor is outside the top level type declaration. See [eclipse-lsp4mp/lsp4mp#476](https://github.com/eclipse-lsp4mp/lsp4mp/pull/476).
+ * Guard against annotation binding failing to resolve. See [eclipse-lsp4mp/lsp4mp#492](https://github.com/eclipse-lsp4mp/lsp4mp/pull/492).
+ * Fix cases where the JDT component would sometimes fail to find an inner class. See [eclipse-lsp4mp/lsp4mp#479](https://github.com/eclipse-lsp4mp/lsp4mp/pull/479), [#480](https://github.com/eclipse-lsp4mp/lsp4mp/pull/480).
+
 ## [0.13.0](https://github.com/redhat-developer/vscode-microprofile/milestone/14?closed=1) (October 22, 2024)
 
 ### Bug Fixes
