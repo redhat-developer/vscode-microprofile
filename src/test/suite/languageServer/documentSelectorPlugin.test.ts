@@ -167,8 +167,8 @@ describe("Document selector collection from language server plugins", () => {
    *
    * @param pluginDocumentSelector array of objects to create a DocumentSelector from.
    */
-  function collectDocumentSelectors(pluginDocumentSelector: any[]): DocumentSelector {
-    const fakePlugin: vscode.Extension<any> = {
+  function collectDocumentSelectors(pluginDocumentSelector: unknown[]): DocumentSelector {
+    const fakePlugin: vscode.Extension<unknown> = {
       id: "fake-no-plugin-extension",
       extensionUri: vscode.Uri.parse("https://example.org"),
       extensionPath: "",
@@ -188,7 +188,6 @@ describe("Document selector collection from language server plugins", () => {
     const contribution: MicroProfileContribution[] = plugin.collectMicroProfileJavaExtensions([ fakePlugin ]);
     expect(contribution).to.have.length(1);
 
-    const selector: DocumentSelector = contribution[0].documentSelector;
     return contribution[0].documentSelector;
   }
 });

@@ -23,9 +23,9 @@ import * as CommandKind from './definitions/lspCommandKind';
 import * as MicroProfileLS from './definitions/microProfileLSRequestNames';
 import { prepareExecutable } from './languageServer/javaServerStarter';
 import { collectMicroProfileJavaExtensions, handleExtensionChange, MicroProfileContribution } from './languageServer/plugin';
-import { resolveRequirements } from './languageServer/requirements';
+import { RequirementsData, resolveRequirements } from './languageServer/requirements';
 import { registerConfigurationUpdateCommand, registerOpenURICommand } from './lsp-commands';
-import { JAVA_EXTENSION_ID, waitForStandardMode } from './util/javaServerMode';
+import { JAVA_EXTENSION_ID, ServerMode, waitForStandardMode } from './util/javaServerMode';
 import { sendCodeActionTelemetry } from './util/telemetry';
 import { getFilePathsFromWorkspace } from './util/workspaceUtils';
 import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport, YamlSchemaCache, getYamlSchemaCache } from './yaml/YamlSchema';
@@ -33,7 +33,12 @@ import { MicroProfilePropertiesChangeEvent, registerYamlSchemaSupport, YamlSchem
 let languageClient: LanguageClient;
 
 // alias for vscode-java's ExtensionAPI
-export type JavaExtensionAPI = any;
+export type JavaExtensionAPI = {
+  serverReady(): Promise<void>,
+  javaRequirement: Promise<RequirementsData>,
+  serverMode: ServerMode,
+  onDidServerModeChange(callback: (mode: string) => void);
+};
 
 export async function activate(context: ExtensionContext): Promise<void> {
   if (await isJavaProject()) {
@@ -296,7 +301,7 @@ async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, doc
    * Returns a json object with key 'microprofile' and a json object value that
    * holds all microprofile settings.
    */
-  function getVSCodeMicroProfileSettings(): { microprofile: any } {
+  function getVSCodeMicroProfileSettings(): { microprofile: unknown } {
     const defaultMicroProfileSettings = {};
     const configMicroProfile = workspace.getConfiguration().get('microprofile');
     const microprofileSettings = configMicroProfile ? configMicroProfile : defaultMicroProfileSettings;
