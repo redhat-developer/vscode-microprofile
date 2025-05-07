@@ -112,7 +112,7 @@ const yamlSchemaCache = new YamlSchemaCache();
 let listener: vscode.Disposable|undefined = undefined;
 
 export async function registerYamlSchemaSupport(){
-  const yamlPlugin: any = await activateYamlExtension();
+  const yamlPlugin = await activateYamlExtension();
   if (!yamlPlugin || !yamlPlugin.registerContributor) {
     // activateYamlExtension has already alerted users about errors.
     return undefined;
