@@ -269,6 +269,7 @@
     "@types/node": "18.19",
     "@types/semver": "^7.7.0",
     "@types/vscode": "^1.65.0",
+    "@vscode/test-electron": "^2.5.2",
     "chai": "^4.5.0",
     "chai-fs": "^2.0.0",
     "eslint": "^9.28.0",
@@ -280,7 +281,6 @@
     "ts-loader": "^9.5.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.1",
-    "vscode-test": "^1.6.1",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1"
   },
