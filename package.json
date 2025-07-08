@@ -288,7 +288,7 @@
     "@redhat-developer/vscode-redhat-telemetry": "^0.9.1",
     "expand-home-dir": "0.0.3",
     "glob": "^10.3.12",
-    "jdk-utils": "^0.5.1",
+    "jdk-utils": "^0.6.0",
     "semver": "^7.7.2",
     "vscode-languageclient": "^9.0.1"
   }
