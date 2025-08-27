@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import * as assert from 'assert/strict';
 import { parseMajorVersion } from "../../../languageServer/requirements";
 
 describe("Language server java requirements", () => {
@@ -7,7 +7,7 @@ describe("Language server java requirements", () => {
     OpenJDK Runtime Environment (AdoptOpenJDK)(build 1.8.0_212-b03)
     OpenJDK 64-Bit Server VM (AdoptOpenJDK)(build 25.212-b03, mixed mode)`;
 
-    expect(parseMajorVersion(openJDK8)).to.equal(8);
+    assert.equal(parseMajorVersion(openJDK8), 8)
   });
 
   it("Should parse the correct java version from AdoptOpenJDK with OpenJ9", () => {
@@ -18,7 +18,7 @@ describe("Language server java requirements", () => {
     OMR      - 7a1b0239a
     JCL      - da35e0c380 based on jdk-11.0.6+10)`;
 
-    expect(parseMajorVersion(adoptOpenJ9)).to.equal(11);
+    assert.equal(parseMajorVersion(adoptOpenJ9), 11);
   });
 
   it("Should parse the correct java version from Java SE 12", () => {
@@ -26,12 +26,12 @@ describe("Language server java requirements", () => {
     Java(TM) SE Runtime Environment (build 12.0.1+12)
     Java HotSpot(TM) 64-Bit Server VM (build 12.0.1+12, mixed mode, sharing)`;
 
-    expect(parseMajorVersion(javaSE12)).to.equal(12);
+    assert.equal(parseMajorVersion(javaSE12), 12);
   });
 
   it("Should return 0 if it cannot find a java version", () => {
     const javaNotFound = "bash: java: command not found";
 
-    expect(parseMajorVersion(javaNotFound)).to.equal(0);
+    assert.equal(parseMajorVersion(javaNotFound), 0)
   });
 });

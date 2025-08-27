@@ -1,10 +1,10 @@
-import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
 import { TextDocumentFilter } from "vscode-languageclient";
 import * as plugin from "../../../languageServer/plugin";
 import { MicroProfileContribution } from "../../../languageServer/plugin";
+import * as assert from 'assert/strict';
 
 describe("Language server plugin", () => {
   it('Should collect lsp4mp extensions', () => {
@@ -46,18 +46,23 @@ describe("Language server plugin", () => {
 
     const extensions = [fakeVscodeQuarkus, fakeNoPluginExtension];
     const result: MicroProfileContribution[] = plugin.collectMicroProfileJavaExtensions(extensions);
-    expect(result).to.have.length(1);
+    assert.equal(result.length, 1);
 
-    expect(result[0].jarExtensions).to.have.length(1);
+    assert.equal(result[0].jarExtensions.length, 1);
 
     const expectedPath: string = path.join('server', 'com.redhat.quarkus.ls.jar').replace("\\", "\\\\");
-    expect(result[0].jarExtensions[0]).to.be.a("string").and.match(new RegExp(`${expectedPath}$`), `String should end with "${expectedPath}".`);
+    assert.equal(typeof result[0].jarExtensions[0], "string");
+    assert.ok(new RegExp(`${expectedPath}$`).test(result[0].jarExtensions[0]), `String should end with "${expectedPath}".`);
 
-    expect(result[0].documentSelector).to.have.length(1);
-    expect(result[0].documentSelector[0]).has.all.keys(["scheme", "language"]);
+    assert.equal(result[0].documentSelector.length, 1);
+    Object.keys(result[0].documentSelector[0]);
+    assert.ok(Object.keys(result[0].documentSelector[0]).includes("scheme"));
+    assert.ok(Object.keys(result[0].documentSelector[0]).includes("language"));
 
     const TextDocumentFilter: TextDocumentFilter = result[0].documentSelector[0] as TextDocumentFilter;
-    expect(TextDocumentFilter.scheme).to.be.a("string").and.equal("file");
-    expect(TextDocumentFilter.language).to.be.a("string").and.equal("quarkus-properties");
+    assert.equal(typeof TextDocumentFilter.scheme, "string");
+    assert.equal(TextDocumentFilter.scheme, "file");
+    assert.equal(typeof TextDocumentFilter.language, "string");
+    assert.equal(TextDocumentFilter.language, "quarkus-properties");
   });
 });
