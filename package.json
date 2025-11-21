@@ -115,6 +115,16 @@
           "description": "Show MicroProfile properties as tree.",
           "scope": "window"
         },
+        "microprofile.tools.execution.mode": {
+          "type": "string",
+          "enum": [
+            "safe",
+            "full"
+          ],
+          "default": "safe",
+          "markdownDescription": "## Safe vs. Full Selection\n\nWhen choosing how configuration values are resolved, two modes are available:\n\n### **Safe Selection**\n- Uses only the MicroProfile Config implementation embedded in the extension (SmallRye Config).\n- Ignores the project’s classpath entirely.\n- Prevents the execution of any project-specific converters or reflection-based logic.\n- Ensures predictable, sandboxed, and secure evaluation of configuration values.\n\n### **Full Selection**\n- Uses the project’s actual classpath and therefore executes the real converters defined by the project or by any of its dependencies.\n- Offers complete behavior identical to the runtime environment.\n- Allows custom converters, reflection, and any other configuration logic present in the project to run normally.",
+          "scope": "window"
+        },
         "microprofile.tools.validation.enabled": {
           "type": "boolean",
           "default": true,
