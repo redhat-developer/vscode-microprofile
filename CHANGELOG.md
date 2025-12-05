@@ -1,5 +1,18 @@
 # Tools for MicroProfile Changelog
 
+## [0.15.0](https://github.com/redhat-developer/vscode-microprofile/milestone/16?closed=1) (December 8, 2025)
+
+### Enhancements
+ * Validate config property values using the microprofile-config runtime used by the project. See [eclipse-lsp4mp/lsp4mp#511](https://github.com/eclipse-lsp4mp/lsp4mp/issues/511), [#518](https://github.com/eclipse-lsp4mp/lsp4mp/pull/518), [#517](https://github.com/eclipse-lsp4mp/lsp4mp/pull/517).
+ * Improve validation of @ConfigProperty/defaultValue for lists and arrays. See [eclipse-lsp4mp/lsp4mp#409](https://github.com/eclipse-lsp4mp/lsp4mp/issues/409).
+ * Add "microprofile.tools.execution.mode" setting to control how properties are validated. See [#546](https://github.com/redhat-developer/vscode-microprofile/pull/546).
+
+### Bug Fixes
+ * Recognise some mapped properties that weren't recognised before. See [eclipse-lsp4mp/lsp4mp#513](https://github.com/eclipse-lsp4mp/lsp4mp/pull/513).
+ * Address `IllegalArgumentException` thrown in JavaCursorContextKind. See [eclipse-lsp4mp/lsp4mp#502](https://github.com/eclipse-lsp4mp/lsp4mp/pull/502).
+ * Properly validate property values for properties of type `jakarta.inject.Provider`. See [eclipse-lsp4mp/lsp4mp#459](https://github.com/eclipse-lsp4mp/lsp4mp/issues/459).
+ * Do not define title in package.json schema as it is shown in tooltip for all package.json files. See [#547](https://github.com/redhat-developer/vscode-microprofile/issues/547).
+
 ## [0.14.0](https://github.com/redhat-developer/vscode-microprofile/milestone/15?closed=1) (April 22, 2025)
 
 ### Performance
