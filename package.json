@@ -237,7 +237,31 @@
         },
         "microprofile.tools.inlayHint.enabled": {
           "type": "boolean",
+          "default": true,
+          "description": "Enable/disable the inlay hint support.",
+          "scope": "window"
+        },
+        "microprofile.tools.inlayHint.converters.enabled": {
+          "type": "boolean",
           "default": false,
+          "description": "Enable/disable the inlay hint support.",
+          "scope": "window"
+        },
+        "microprofile.tools.inlayHint.defaultValues.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable the inlay hint support.",
+          "scope": "window"
+        },
+        "microprofile.tools.inlayHint.types.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/disable the inlay hint support.",
+          "scope": "window"
+        },
+        "microprofile.tools.inlayHint.resolveExpressions.enabled": {
+          "type": "boolean",
+          "default": true,
           "description": "Enable/disable the inlay hint support.",
           "scope": "window"
         }
