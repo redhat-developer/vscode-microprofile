@@ -276,7 +276,7 @@
     "@types/chai-fs": "^2.0.5",
     "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.10",
-    "@types/node": "18.19",
+    "@types/node": "25.0",
     "@types/semver": "^7.7.0",
     "@types/vscode": "^1.65.0",
     "@vscode/test-electron": "^2.5.2",
