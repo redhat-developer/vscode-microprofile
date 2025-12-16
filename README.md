@@ -61,10 +61,14 @@ Default is `error`.
 * `microprofile.tools.validation.unknown.severity` : Validation severity for unknown properties for MicroProfile `*.properties` files. Default is `warning`.
 * `microprofile.tools.validation.unknown.excluded` : Array of properties to ignore for unknown properties validation. Patterns can be used ('\*' = any string, '?' = any character).
 Default is `["*/mp-rest/providers/*/priority", "mp.openapi.schema.*", "kafka-streams.*", "camel.*"]`.
-* `microprofile.tools.codeLens.urlCodeLensEnabled` : Enable/disable the URL code lenses for REST services. Default is`true`.
+* `microprofile.tools.codeLens.urlCodeLensEnabled` : Enable or disable the URL code lenses for REST services. Default is`true`.
 * `microprofile.tools.validation.value.severity`: Validation severity for property values for MicroProfile `*.properties` files. Default is `error`.
 * `microprofile.tools.validation.unassigned.excluded`: Array of properties to ignore for unassigned properties validation in Java files. Patterns can be used ('\*' = any string, '?' = any character).
-* `microprofile.tools.inlayHint.enabled`: Enable/disable the inlay hint support. Default is `false`.
+* `microprofile.tools.inlayHint.enabled`: Enable or disable all MicroProfile Config inlay hints. Default is `true`.
+* `microprofile.tools.inlayHint.converters.enabled`: Show inlay hints indicating the MicroProfile Config converter used to convert configuration values from strings. Default is `false`.
+* `microprofile.tools.inlayHint.defaultValues.enabled`: Show inlay hints displaying the default value of configuration properties. Default is `true`.
+* `microprofile.tools.inlayHint.types.enabled`: Show inlay hints displaying the Java type of configuration properties. Default is `false`.
+* `microprofile.tools.inlayHint.resolveExpressions.enabled`: Show inlay hints displaying the resolved expressions of configuration properties. Default is `true`.
 
 ### **Note for MicroProfile Rest Client properties**:
 
