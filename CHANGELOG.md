@@ -1,5 +1,13 @@
 # Tools for MicroProfile Changelog
 
+## [0.16.0](https://github.com/redhat-developer/vscode-microprofile/milestone/17?closed=1) (December 16, 2025)
+
+### Enhancements
+ * Add inlay hints for property type and property value converter used to properties files, and add inlay hint for default value in Java files. See [lsp4mp#529](https://github.com/eclipse-lsp4mp/lsp4mp/issues/529).
+
+### Bug Fixes
+ * Fix validating property values using user-provided custom converters. See [lsp4mp#532](https://github.com/eclipse-lsp4mp/lsp4mp/issues/532).
+
 ## [0.15.0](https://github.com/redhat-developer/vscode-microprofile/milestone/16?closed=1) (December 8, 2025)
 
 ### Enhancements
