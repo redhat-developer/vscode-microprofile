@@ -304,7 +304,7 @@
     "@types/semver": "^7.7.0",
     "@types/vscode": "^1.65.0",
     "@vscode/test-electron": "^2.5.2",
-    "chai": "^4.5.0",
+    "chai": "^6.2.2",
     "chai-fs": "^2.0.0",
     "eslint": "^9.39.2",
     "eslint-webpack-plugin": "^5.0.2",
