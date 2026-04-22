@@ -1,5 +1,18 @@
 # Tools for MicroProfile Changelog
 
+## [0.17.0]https://github.com/redhat-developer/vscode-microprofile/milestone/18?closed=1) (22 April, 2026)
+
+### Enhancements
+ * Show default value in completion item. See [#538](https://github.com/eclipse-lsp4mp/lsp4mp/pull/538).
+
+### Bug Fixes
+ * Feature request: extend "microprofile(unknown)" to detect references from property files. See [#600](https://github.com/redhat-developer/vscode-microprofile/issues/600).
+ * No properties suggestions when there is a profile in the property name. See [#539](https://github.com/eclipse-lsp4mp/lsp4mp/pull/539).
+
+### Performance
+ * Send 'microprofile/propertiesChanged' notification with debounce mode. See [#541](https://github.com/eclipse-lsp4mp/lsp4mp/pull/541).
+ * Don't re-trigger twice Java validation when a Java file is saved. See [#546](https://github.com/eclipse-lsp4mp/lsp4mp/pull/546).
+
 ## [0.16.0](https://github.com/redhat-developer/vscode-microprofile/milestone/17?closed=1) (December 16, 2025)
 
 ### Enhancements
