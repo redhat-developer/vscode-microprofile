@@ -1,19 +1,26 @@
 {
-	"compilerOptions": {
-		"target": "es6",
-		"lib": [
-            "es6"
-        ],
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"outDir": "out",
-		"sourceMap": true,
-		"plugins": []
-	},
-	"exclude": [
-		"node_modules",
-		"server",
-		"test-resources",
-		".vscode-test"
-	]
+  "compilerOptions": {
+
+    "alwaysStrict": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "skipLibCheck": true,
+    "strictFunctionTypes": false,
+    "strictNullChecks": false,
+    "useUnknownInCatchVariables": false,
+
+    "target": "es2020",
+    "module": "nodenext",
+    "types": ["mocha", "node"],
+    "lib": [ "es2020" ],
+    "rootDir": "src",
+    "outDir": "out",
+    "sourceMap": true,
+  },
+  "exclude": [
+    "node_modules",
+    "server",
+    "test-resources",
+    ".vscode-test"
+  ]
 }
