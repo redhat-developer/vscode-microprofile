@@ -293,7 +293,7 @@ async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, doc
             // cannot be used as "microprofile.applyCodeAction" arguments because
             // it cannot be serialized as JSON correctly (some information are loosen like data, range, etc)
             // That's why "microprofile.applyCodeAction" arguments is filled with LSP code action /command.
-            let lsCodeActionOrCommand: CodeAction | Command = undefined;
+            let lsCodeActionOrCommand: CodeAction | Command;
             if (Command.is(vsCodeActionOrCommand)) {
               // Get LSP command from the vscode command
               const vsCodeCommand: VSCommand = vsCodeActionOrCommand;
