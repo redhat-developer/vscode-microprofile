@@ -15,13 +15,11 @@
  */
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as semver from 'semver';
 
 import {
   VSCODE_YAML_EXTENSION_ID,
   VSCODE_YAML_DISPLAY_NAME,
   VSCODE_YAML_NOT_INSTALLED_MESSAGE,
-  VSCODE_YAML_LOW_VERSION_MESSAGE,
   VSCODE_YAML_NO_REGISTRATION_MESSAGE,
   VSCODE_YAML_INSTALL_SUCCESS,
   MICROPROFILE_SCHEMA,
@@ -136,14 +134,6 @@ async function activateYamlExtension(): Promise<{ registerContributor: YamlSchem
     return undefined;
   }
 
-  if (ext.packageJSON.version && !semver.gte(ext.packageJSON.version, '0.0.15')) {
-    if (isApplicationYamlOpened) {
-      await askInstallVSCodeYaml(VSCODE_YAML_LOW_VERSION_MESSAGE);
-    } else {
-      listener = createInstallListener(VSCODE_YAML_LOW_VERSION_MESSAGE);
-    }
-    return undefined;
-  }
   const yamlPlugin = await ext.activate();
 
   if (!yamlPlugin || !yamlPlugin.registerContributor) {
