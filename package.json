@@ -301,7 +301,6 @@
     "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.10",
     "@types/node": "18.19",
-    "@types/semver": "^7.7.0",
     "@types/vscode": "^1.65.0",
     "@vscode/test-electron": "^3.1.0",
     "chai": "^4.5.0",
@@ -323,7 +322,6 @@
     "expand-home-dir": "0.0.3",
     "glob": "^13.0.0",
     "jdk-utils": "^0.5.1",
-    "semver": "^7.7.2",
     "vscode-languageclient": "^9.0.1"
   }
 }
