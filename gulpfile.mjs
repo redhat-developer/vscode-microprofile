@@ -11,10 +11,10 @@
  * limitations under the License.
  */
 
-const gulp = require('gulp');
-const rename = require('gulp-rename');
-const cp = require('child_process');
-const fse = require('fs-extra');
+import { task, src, dest, series } from 'gulp';
+import rename from 'gulp-rename';
+import { execSync } from 'child_process';
+import { readFileSync, writeFileSync } from 'fs';
 
 const microprofileServerName = 'org.eclipse.lsp4mp.ls-uber.jar';
 const microprofileServerDir = '../lsp4mp/microprofile.ls/org.eclipse.lsp4mp.ls';
@@ -23,39 +23,39 @@ const microprofileExtensionDir = '../lsp4mp/microprofile.jdt';
 const microprofileExtension = 'org.eclipse.lsp4mp.jdt.core';
 const microprofileSite = 'org.eclipse.lsp4mp.jdt.site';
 
-gulp.task('buildServer', (done) => {
-  cp.execSync(mvnw() + ' clean install -B -DskipTests', { cwd: microprofileServerDir , stdio: 'inherit' });
-  gulp.src(microprofileServerDir + '/target/' + microprofileServerName, { encoding: false })
-    .pipe(gulp.dest('./server'));
+task('buildServer', (done) => {
+  execSync(mvnw() + ' clean install -B -DskipTests', { cwd: microprofileServerDir , stdio: 'inherit' });
+  src(microprofileServerDir + '/target/' + microprofileServerName, { encoding: false })
+    .pipe(dest('./server'));
   done();
 });
 
-gulp.task('buildExtension', (done) => {
-  cp.execSync(mvnw() + ' clean verify -B -DskipTests', { cwd: microprofileExtensionDir, stdio: 'inherit' });
-  gulp.src(microprofileExtensionDir + '/' + microprofileExtension + '/target/' + microprofileExtension + '-!(*sources).jar', { encoding: false })
+task('buildExtension', (done) => {
+  execSync(mvnw() + ' clean verify -B -DskipTests', { cwd: microprofileExtensionDir, stdio: 'inherit' });
+  src(microprofileExtensionDir + '/' + microprofileExtension + '/target/' + microprofileExtension + '-!(*sources).jar', { encoding: false })
     .pipe(rename(microprofileExtension + '.jar'))
-    .pipe(gulp.dest('./jars'));
-  gulp.src(microprofileExtensionDir + '/' + microprofileSite + '/target/repository/plugins/wrapped*.jar', { encoding: false })
-    .pipe(rename(function (path, _file) {
+    .pipe(dest('./jars'));
+  src(microprofileExtensionDir + '/' + microprofileSite + '/target/repository/plugins/wrapped*.jar', { encoding: false })
+    .pipe(rename(function (path) {
       const patt = /wrapped\.([^_]+).*/;
       const result = path.basename.match(patt);
       path.basename = result[1];
     }))
-    .pipe(gulp.dest('./jars'));
-  gulp.src(microprofileExtensionDir + '/' + microprofileSite + '/target/repository/plugins/org.jboss.logging*.jar', { encoding: false })
-    .pipe(rename(function (path, _file) {
+    .pipe(dest('./jars'));
+  src(microprofileExtensionDir + '/' + microprofileSite + '/target/repository/plugins/org.jboss.logging*.jar', { encoding: false })
+    .pipe(rename(function (path) {
       const patt = /([^_]+).*/;
       const result = path.basename.match(patt);
       path.basename = result[1];
     }))
-    .pipe(gulp.dest('./jars'));
+    .pipe(dest('./jars'));
   done();
 });
 
-gulp.task('build', gulp.series('buildServer', 'buildExtension'));
+task('build', series('buildServer', 'buildExtension'));
 
-gulp.task('prepare_pre_release', function (done) {
-  const json = JSON.parse(fse.readFileSync("./package.json").toString());
+task('prepare_pre_release', function (done) {
+  const json = JSON.parse(readFileSync("./package.json").toString());
   const stableVersion = json.version.match(/(\d+)\.(\d+)\.(\d+)/);
   const major = stableVersion[1];
   const minor = stableVersion[2];
@@ -67,7 +67,7 @@ gulp.task('prepare_pre_release', function (done) {
   const insiderPackageJson = Object.assign(json, {
     version: `${major}.${minor}.${patch}`,
   });
-  fse.writeFileSync("./package.json", JSON.stringify(insiderPackageJson, null, 2));
+  writeFileSync("./package.json", JSON.stringify(insiderPackageJson, null, 2));
   done();
 });
 
