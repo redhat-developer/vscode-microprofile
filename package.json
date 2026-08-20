@@ -300,7 +300,7 @@
     "@types/chai-fs": "^2.0.5",
     "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.10",
-    "@types/node": "18.19",
+    "@types/node": "22.x",
     "@types/vscode": "^1.65.0",
     "@vscode/test-electron": "^3.1.0",
     "chai": "^4.5.0",
