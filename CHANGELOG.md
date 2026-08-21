@@ -1,6 +1,17 @@
 # Tools for MicroProfile Changelog
 
-## [0.17.0]https://github.com/redhat-developer/vscode-microprofile/milestone/18?closed=1) (22 April, 2026)
+## [0.18.0](https://github.com/redhat-developer/vscode-microprofile/milestone/19?closed=1) (24 August, 2026)
+
+### Bug Fixes
+ * Don't bother checking if the installed vscode-yaml is new enough and drop `semver` as a runtime dependency. See [#428](https://github.com/redhat-developer/vscode-microprofile/issues/428).
+
+### Build
+ * Migrate to node 22 (node 20 is end of life). See [#621](https://github.com/redhat-developer/vscode-microprofile/issues/621).
+ * Remove chai. See [#503](https://github.com/redhat-developer/vscode-microprofile/pull/503).
+ * Remove fs-extra and tidy up gulpfile. See [#623](https://github.com/redhat-developer/vscode-microprofile/pull/623).
+ * Many dependency version bumps
+
+## [0.17.0](https://github.com/redhat-developer/vscode-microprofile/milestone/18?closed=1) (22 April, 2026)
 
 ### Enhancements
  * Show default value in completion item. See [#538](https://github.com/eclipse-lsp4mp/lsp4mp/pull/538).
