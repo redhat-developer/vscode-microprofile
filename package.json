@@ -317,6 +317,6 @@
     "expand-home-dir": "0.0.3",
     "glob": "^13.0.6",
     "jdk-utils": "^0.7.0",
-    "vscode-languageclient": "^9.0.1"
+    "vscode-languageclient": "^10.1.0"
   }
 }
