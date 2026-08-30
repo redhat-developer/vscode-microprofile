@@ -270,6 +270,22 @@ async function connectToLS(context: ExtensionContext, api: JavaExtensionAPI, doc
         hover.contents = newContents;
         return hover;
       },
+      provideCompletionItem: async (document, position, context, token, next): Promise<VSCompletionItem[] | import("vscode").CompletionList> => {
+        const result = await next(document, position, context, token);
+        const items: VSCompletionItem[] = Array.isArray(result) ? result : (result?.items ?? []);
+        for (const item of items) {
+          // Rewrite filterText to item.detail (e.g. "MicroProfile Health liveness check")
+          // so VS Code's fuzzyScore has real word boundaries to match against.
+          // Both label and filterText are the short lowercase token ("mpliveness") — detail
+          // carries the human-readable description that gives fuzzy matching real boundaries.
+          // This mirrors what LSP4IJ achieves via getAllLookupStrings() and what LSP4E
+          // achieves via ordered subsequence matching on filterText.
+          if (item.filterText && item.detail && item.filterText !== item.detail) {
+            item.filterText = item.detail;
+          }
+        }
+        return result;
+      },
       resolveCompletionItem: async (item, token, next): Promise<VSCompletionItem> => {
         const completionItem = await next(item, token);
         if (completionItem !== undefined && completionItem !== null && completionItem.documentation instanceof MarkdownString) {
