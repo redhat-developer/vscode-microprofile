@@ -161,7 +161,7 @@ Similar to properties files, the microprofile.jdt Java feature participants can 
   * [Visual Studio Code](https://code.visualstudio.com/)
   * [Language Support for Java](https://marketplace.visualstudio.com/items?itemName=redhat.java)
   * [Node.js](https://nodejs.org/en/)
-  * [JDK 21+](https://adoptopenjdk.net/)
+  * [JDK 25+](https://adoptium.net/)
 
 ### Setup
 **Step 1.** Fork and clone this repository
